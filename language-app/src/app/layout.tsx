@@ -1,6 +1,16 @@
 import type { Metadata } from "next";
+import {
+  ClerkProvider,
+  // SignInButton,
+  // SignedIn,
+  // SignedOut,
+  // UserButton,
+} from "@clerk/nextjs";
+
 import localFont from "next/font/local";
 import "./globals.css";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar, SidebarToggle } from "@/components/organisms/AppSidebar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,11 +35,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <ClerkProvider>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <SidebarProvider>
+            <AppSidebar />
+            <div className="flex flex-col bg-background min-h-screen">
+              <main className="flex flex-col w-full bg-background text-white">
+                <header className="h-16">
+                  <SidebarToggle />
+                </header>
+                <div className="flex flex-1">{children}</div>
+              </main>
+            </div>
+          </SidebarProvider>
+        </body>
+      </ClerkProvider>
     </html>
   );
 }

@@ -21,7 +21,7 @@ import {
   SidebarMenuButton,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { SignedOut, SignInButton } from "@clerk/nextjs";
+import { SignOutButton } from "@clerk/nextjs";
 
 const menuItems = [
   { icon: Home, label: "Dashboard", href: "/" },
@@ -74,18 +74,14 @@ export function AppSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <button
-                onClick={() => console.log("Logout clicked")}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-white transition-all hover:text-[#FECF00]"
-              >
-                <LogOut className="h-4 w-4" />
-                <span>Logout</span>
-                <SignedOut>
-                  <SignInButton forceRedirectUrl="/dashboard" mode="modal" />
-                </SignedOut>
-              </button>
-            </SidebarMenuButton>
+            <SignOutButton>
+              <SidebarMenuButton asChild>
+                <button className="flex items-center gap-3 rounded-lg px-3 py-2 text-white transition-all hover:text-[#FECF00]">
+                  <LogOut className="h-4 w-4" />
+                  <span>Logout</span>
+                </button>
+              </SidebarMenuButton>
+            </SignOutButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

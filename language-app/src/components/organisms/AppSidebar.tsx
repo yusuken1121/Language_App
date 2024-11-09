@@ -35,11 +35,9 @@ export function AppSidebar() {
   console.log(pathname);
 
   return (
-    <Sidebar className="bg-background/90 shadow-lg">
+    <Sidebar className="shadow-lg h-full">
       <SidebarHeader>
-        <h2 className="text-xl font-bold text-white px-4 py-2">
-          English Learning
-        </h2>
+        <h2 className="text-xl font-bold px-4 py-2">English Learning</h2>
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
@@ -49,9 +47,9 @@ export function AppSidebar() {
                 <Link
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all text-white hover:bg-accent/70 hover:text-white hover:font-bold",
+                    "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-sidebar-accent/70 hover:text-sidebar-primary-foreground hover:font-bold",
                     pathname === item.href &&
-                      "bg-accent hover:bg-accent/90 text-accent-foreground hover:text-accent-foreground font-bold"
+                      "bg-sidebar-accent hover:bg-sidebar-accent/90 text-sidebar-primary-foreground hover:text-sidebar-primary-foreground font-bold"
                   )}
                 >
                   <item.icon className="h-4 w-4" />

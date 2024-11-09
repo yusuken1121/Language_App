@@ -37,16 +37,19 @@ export default function RootLayout({
     <html lang="en">
       <ClerkProvider>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex bg-background`}
         >
           <SidebarProvider>
+            {/* AppSidebarが画面の高さ全体を使用するように修正 */}
             <AppSidebar />
-            <div className="flex flex-col bg-background min-h-screen">
-              <main className="flex flex-col w-full bg-background text-white">
-                <header className="h-16">
-                  <SidebarToggle />
-                </header>
-                <div className="flex flex-1">{children}</div>
+
+            {/* メインコンテンツのラッパー */}
+            <div className="flex flex-col flex-1 min-h-screen">
+              <header className="h-16 flex items-center bg-background">
+                <SidebarToggle />
+              </header>
+              <main className="flex-1 flex flex-col bg-background text-white">
+                <div className="flex-1">{children}</div>
               </main>
             </div>
           </SidebarProvider>

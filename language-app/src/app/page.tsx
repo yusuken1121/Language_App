@@ -16,8 +16,8 @@ export default async function Dashboard() {
     streak: 7,
   };
   const { userId, redirectToSignIn } = await auth();
+  console.log("userId⭐️", userId);
 
-  console.log("userId⭐️", await auth());
   return (
     <div className="min-h-screen bg-[#181059] text-white p-6">
       <header className="flex justify-between items-center mb-6">

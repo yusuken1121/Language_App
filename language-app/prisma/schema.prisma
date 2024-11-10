@@ -33,9 +33,11 @@ model Word {
   exampleSentence String?
   contextLearning String?
   pronunciation   String?
-  usageLevel      Int
+  usageArea       String?
+  formalityLevel  String?
   learningSource  Int
   learningStatus  Int
+  isExist         Boolean   @default(true)
   memo            String?
   correctCount    Int       @default(0)
   lastCorrectAt   DateTime?

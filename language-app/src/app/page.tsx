@@ -15,7 +15,7 @@ export default async function Dashboard() {
     quizScore: 85,
     streak: 7,
   };
-  const { userId, redirectToSignIn } = await auth();
+  const { userId } = await auth();
   console.log("userId⭐️", userId);
 
   return (

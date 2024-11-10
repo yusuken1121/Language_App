@@ -2,8 +2,8 @@
 erDiagram
     USER {
         int id PK
+        string clerkId
         string email
-        string password
         string name
         string profilePicture
         datetime createdAt
@@ -17,7 +17,8 @@ erDiagram
         string exampleSentence
         string contextLearning
         string pronunciation
-        int usageLevel
+        string usageArea
+        string formalityLevel
         int learningSource
         int learningStatus
         string memo

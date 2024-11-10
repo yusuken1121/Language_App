@@ -5,7 +5,9 @@ import { Progress } from "@/components/ui/progress";
 import { BookOpen, Search, Settings, TrendingUp } from "lucide-react";
 import Link from "next/link";
 
-export default function Dashboard() {
+import { auth } from "@clerk/nextjs/server";
+
+export default async function Dashboard() {
   // In a real app, these would be fetched from an API or state management system
   const userStats = {
     wordsLearned: 150,
@@ -13,7 +15,9 @@ export default function Dashboard() {
     quizScore: 85,
     streak: 7,
   };
+  const { userId, redirectToSignIn } = await auth();
 
+  console.log("userId⭐️", await auth());
   return (
     <div className="min-h-screen bg-[#181059] text-white p-6">
       <header className="flex justify-between items-center mb-6">

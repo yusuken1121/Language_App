@@ -16,6 +16,7 @@ CREATE TABLE "Word" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "wordName" TEXT NOT NULL,
+    "meaning" TEXT,
     "etymology" TEXT,
     "exampleSentence" TEXT,
     "contextLearning" TEXT,

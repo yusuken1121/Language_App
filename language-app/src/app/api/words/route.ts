@@ -7,6 +7,7 @@ import { NextResponse } from "next/server"; // Next.jsの場合に使用
 const prompt = `JSON形式で単語「{word}」に関する情報を提供してください。以下の項目を厳密なJSON形式で出力してください。
 
 * **etymology:** 語源（日本語）: 単語の由来
+* **meaning:** 意味（日本語）: 単語の意味
 * **exampleSentence:** 例文（英語）: 単語を使った例文
 * **contextLearning:** 使用状況（日本語）: 単語が使用される文脈
 * **pronunciation:** 発音
@@ -19,6 +20,7 @@ const prompt = `JSON形式で単語「{word}」に関する情報を提供して
 **出力例:**
 {
   "etymology": "ギリシャ語の～から派生", // 語源（日本語）
+  "meaning": "語源", // 意味（日本語）
   "exampleSentence": "The etymology...", // 例文
   "contextLearning": "Etymologyは何かを説明するときによく使われます。~", // 使用状況
   "pronunciation": {
@@ -79,6 +81,7 @@ export async function POST(request: Request) {
     const text = await run();
     const {
       etymology,
+      meaning,
       exampleSentence,
       contextLearning,
       pronunciation,
@@ -98,6 +101,7 @@ export async function POST(request: Request) {
         userId,
         wordName: searchTerm,
         etymology,
+        meaning,
         exampleSentence,
         contextLearning,
         pronunciation: JSON.stringify(pronunciation), // JSON文字列に変換

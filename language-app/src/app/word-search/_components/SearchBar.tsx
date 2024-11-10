@@ -4,11 +4,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import { toast } from "sonner";
-
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 const SearchBar = () => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const formSchema = z.object({
+    word: z
+      .string()
+      .min(1, { message: "word is required" })
+      .regex(/^[A-Za-z\s.,?!'";:-]+$/, {
+        message: "Only English letters and common punctuation are allowed",
+      })
+      .refine((value) => value.trim() !== "", {
+        message: "word is required",
+      }),
+  });
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(formSchema),
+  });
+  const searchTerm = watch("word");
   const searchWord = async (searchTerm: string) => {
     const response = await fetch(`/api/words`, {
       method: "POST",
@@ -38,16 +58,21 @@ const SearchBar = () => {
     <div>
       <h1 className="text-2xl font-bold mb-6">Word Search</h1>
 
-      <form className="flex gap-4 mb-6">
-        <Input
-          type="text"
-          placeholder="Search for a word"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="flex-grow"
-        />
+      <form onSubmit={handleSubmit(handleSearch)} className="flex gap-4 mb-6">
+        <div className="flex flex-col gap-2 w-full">
+          <Input
+            {...register("word")}
+            placeholder="Search for a word"
+            type="text"
+            value={searchTerm}
+            // onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full"
+          />
+          {errors.word && (
+            <p className="text-accent">{errors.word.message as string}</p>
+          )}
+        </div>
         <Button
-          onClick={handleSearch}
           className="bg-accent text-accent-foreground hover:bg-accent/80"
           disabled={isLoading}
         >

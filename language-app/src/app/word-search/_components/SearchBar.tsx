@@ -7,7 +7,11 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-const SearchBar = () => {
+interface SearchBarProps {
+  setIsWordAdded: (value: boolean) => void;
+}
+
+const SearchBar = ({ setIsWordAdded }: SearchBarProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const formSchema = z.object({
     word: z
@@ -46,6 +50,7 @@ const SearchBar = () => {
     try {
       setIsLoading(true);
       await searchWord(searchTerm);
+      setIsWordAdded(true);
     } catch (error) {
       console.error("Error during search:", error);
       toast("検索中にエラーが発生しました", { className: "text-white" }); // Display the error in toast

@@ -35,6 +35,33 @@ const prompt = `JSON形式で単語「{word}」に関する情報を提供して
 
 const prisma = new PrismaClient();
 
+export async function GET() {
+  console.log("⭐️");
+
+  try {
+    console.log("⭐️");
+    const userId = await getUserId();
+    if (!userId) {
+      return NextResponse.json(
+        { error: "User not authenticated" },
+        { status: 401 }
+      );
+    }
+
+    const words = await prisma.word.findMany({
+      where: { userId },
+    });
+    console.log("⭐️", words);
+    return NextResponse.json({ data: words });
+  } catch (error) {
+    console.error("Error fetching words:", error);
+    return NextResponse.json(
+      { error: error || "An error occurred" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: Request) {
   const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 

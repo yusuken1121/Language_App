@@ -54,7 +54,7 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
           {wordList.map((word) => (
             <li key={word.id} className="py-4">
               <Link
-                href={`/word/${word.id}`}
+                href={`/word-search/${word.id}`}
                 className="block hover:bg-gray-50"
               >
                 <div className="flex justify-between">

@@ -50,10 +50,11 @@ const SearchBar = ({ setIsWordAdded }: SearchBarProps) => {
     try {
       setIsLoading(true);
       await searchWord(searchTerm);
+      toast.success("単語を追加しました", { position: "top-right" });
       setIsWordAdded(true);
     } catch (error) {
       console.error("Error during search:", error);
-      toast("検索中にエラーが発生しました", { className: "text-white" }); // Display the error in toast
+      toast.error("検索中にエラーが発生しました", { position: "top-right" });
     } finally {
       setIsLoading(false);
     }

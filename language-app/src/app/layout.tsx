@@ -11,7 +11,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar, SidebarToggle } from "@/components/organisms/AppSidebar";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -52,9 +52,13 @@ export default function RootLayout({
               <main className="flex-1 flex flex-col bg-background text-white">
                 <div className="flex-1">{children}</div>
               </main>
+              <Toaster
+                toastOptions={{
+                  duration: 5000,
+                }}
+              />
             </div>
           </SidebarProvider>
-          <Toaster />
         </body>
       </ClerkProvider>
     </html>

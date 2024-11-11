@@ -56,3 +56,29 @@ export async function PUT(
     );
   }
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const prisma = new PrismaClient();
+  const id = params.id;
+  const userId = await getUserId();
+  if (!userId) {
+    return NextResponse.json(
+      { error: "User not authenticated" },
+      { status: 401 }
+    );
+  }
+  try {
+    const word = await prisma.word.delete({
+      where: { id: Number(id), userId },
+    });
+    return NextResponse.json({ data: word });
+  } catch (error) {
+    return NextResponse.json(
+      { error: `Internal server error: ${error}` },
+      { status: 500 }
+    );
+  }
+}

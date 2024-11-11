@@ -3,13 +3,21 @@
 import { Word } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Book, BookOpen, Clock, GraduationCap, Volume2 } from "lucide-react";
+import {
+  Book,
+  BookOpen,
+  Clock,
+  GraduationCap,
+  Trash,
+  Volume2,
+} from "lucide-react";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { CardHeader } from "@/components/ui/card";
 import ReactQuillComponent from "./_components/ReactQuill";
+import { toast } from "sonner";
 
 export default function WordSearchPage() {
   const [word, setWord] = useState<Word>();
@@ -49,6 +57,16 @@ export default function WordSearchPage() {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      await fetch(`/api/words/${params.id}`, { method: "DELETE" });
+      toast.success("Word deleted");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete word");
+    }
+  };
+
   return (
     <div className="h-full p-6">
       <div className="max-w-7xl mx-auto">
@@ -59,9 +77,16 @@ export default function WordSearchPage() {
             </Button>
           </Link>
         </div>
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold">{word?.wordName}</h1>
 
-        <h1 className="text-3xl font-bold mb-8">{word?.wordName}</h1>
-
+          <Button variant="destructive" onClick={handleDelete} asChild>
+            <Link href={`/word-search/`}>
+              <Trash className="mr-2 h-4 w-4" />
+              Delete
+            </Link>
+          </Button>
+        </div>
         <div className="grid gap-6 md:grid-cols-2">
           {/* Basic Information Card */}
           <Card className="bg-card text-card-foreground">

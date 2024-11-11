@@ -2,9 +2,10 @@
 
 import { Word } from "@prisma/client";
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import {
   Book,
+  Bookmark,
   BookOpen,
   Clock,
   GraduationCap,
@@ -22,17 +23,18 @@ import { toast } from "sonner";
 export default function WordSearchPage() {
   const [word, setWord] = useState<Word>();
   const params = useParams();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchWord = async () => {
       try {
         const data = await fetch(`/api/words/${params.id}`);
-        const word = await data.json();
+        const wordData = await data.json();
 
-        setWord(word.data);
+        setWord(wordData.data);
       } catch (error) {
-        console.log(error);
-        <div>Error</div>;
+        console.error(error);
+        toast.error("Failed to fetch word details");
       }
     };
     fetchWord();
@@ -51,7 +53,6 @@ export default function WordSearchPage() {
         return "学習中";
       case 3:
         return "学習済";
-
       default:
         return "未学習";
     }
@@ -61,9 +62,30 @@ export default function WordSearchPage() {
     try {
       await fetch(`/api/words/${params.id}`, { method: "DELETE" });
       toast.success("Word deleted");
+      router.push("/word-search");
     } catch (error) {
       console.error(error);
       toast.error("Failed to delete word");
+    }
+  };
+
+  const handleFavorite = async () => {
+    try {
+      const updatedFavoriteStatus = !word?.favorite;
+      await fetch(`/api/words/${params.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ favorite: updatedFavoriteStatus }),
+      });
+      setWord((prev) => prev && { ...prev, favorite: updatedFavoriteStatus });
+      toast.success(
+        updatedFavoriteStatus ? "Added to favorites" : "Removed from favorites"
+      );
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update favorite status");
     }
   };
 
@@ -79,13 +101,22 @@ export default function WordSearchPage() {
         </div>
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold">{word?.wordName}</h1>
-
-          <Button variant="destructive" onClick={handleDelete} asChild>
-            <Link href={`/word-search/`}>
+          <div className="flex items-center space-x-2">
+            <Button variant="destructive" onClick={handleDelete}>
               <Trash className="mr-2 h-4 w-4" />
               Delete
-            </Link>
-          </Button>
+            </Button>
+            <Button
+              variant="outline"
+              className={`${
+                word?.favorite ? "bg-accent" : "bg-accent"
+              } text-accent-foreground hover:bg-accent/80`}
+              onClick={handleFavorite}
+            >
+              <Bookmark className="mr-2 h-4 w-4" />
+              {word?.favorite ? "Unfavorite" : "Favorite"}
+            </Button>
+          </div>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
           {/* Basic Information Card */}
@@ -124,6 +155,10 @@ export default function WordSearchPage() {
               <div>
                 <h3 className="font-semibold">Formality Level</h3>
                 <p>{word?.formalityLevel || "No formality level specified"}</p>
+              </div>
+              <div>
+                <h3 className="font-semibold">Synonym</h3>
+                <p>{word?.synonym || "No synonym provided"}</p>
               </div>
             </CardContent>
           </Card>

@@ -38,6 +38,8 @@ model Word {
   formalityLevel  String?
   learningSource  Int
   learningStatus  Int
+  synonym         String?
+  favorite        Boolean   @default(false)
   isExist         Boolean   @default(true)
   memo            String?
   correctCount    Int       @default(0)

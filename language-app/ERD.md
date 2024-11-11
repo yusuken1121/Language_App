@@ -13,6 +13,7 @@ erDiagram
         int id PK
         int userId FK
         string wordName
+        string meaning
         string etymology
         string exampleSentence
         string contextLearning
@@ -21,6 +22,9 @@ erDiagram
         string formalityLevel
         int learningSource
         int learningStatus
+        string synonym
+        boolean favorite
+        boolean isExist
         string memo
         int correctCount
         datetime lastCorrectAt

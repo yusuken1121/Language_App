@@ -25,6 +25,8 @@ CREATE TABLE "Word" (
     "formalityLevel" TEXT,
     "learningSource" INTEGER NOT NULL,
     "learningStatus" INTEGER NOT NULL,
+    "synonym" TEXT,
+    "favorite" BOOLEAN NOT NULL DEFAULT false,
     "isExist" BOOLEAN NOT NULL DEFAULT true,
     "memo" TEXT,
     "correctCount" INTEGER NOT NULL DEFAULT 0,

@@ -42,11 +42,12 @@ export async function PUT(
       { status: 401 }
     );
   }
-  const { memo } = await request.json();
+  const { memo, favorite } = await request.json();
+
   try {
     const word = await prisma.word.update({
       where: { id: Number(id), userId },
-      data: { memo },
+      data: { memo, favorite },
     });
     return NextResponse.json({ data: word });
   } catch (error) {

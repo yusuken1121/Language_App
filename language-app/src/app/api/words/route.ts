@@ -13,6 +13,7 @@ const prompt = `JSON形式で単語「{word}」に関する情報を提供して
 * **pronunciation:** 発音
   * **american:** アメリカ英語の発音（国際音声記号）
   * **british:** イギリス英語の発音（国際音声記号）
+* **synonym:** 同義語（英語）: 単語の同義語
 * **formalityLevel:** 使用レベル (フォーマル, 普通, カジュアル)
 * **usageArea:** 使用場所（英語）: 単語が使用される場所 (アメリカ、イギリス、オーストラリア、カナダ、世界共通、その他)
 * **isExist:** 単語が存在するかどうか (true, false)
@@ -27,6 +28,7 @@ const prompt = `JSON形式で単語「{word}」に関する情報を提供して
     "american": "/ˌɛtɪˈmɑːlədʒi/", // アメリカ英語の発音
     "british": "/ˌɛtɪˈmɒlədʒi/"  // イギリス英語の発音
   },
+  "synonym": "derivation", // 同義語
   "formalityLevel": "フォーマル", // 使用レベル 
   "usageArea": "アメリカ" // 使用場所
   "isExist": true // 単語が存在するかどうか
@@ -110,6 +112,7 @@ export async function POST(request: Request) {
       contextLearning,
       pronunciation,
       formalityLevel,
+      synonym,
       usageArea,
       isExist,
     } = JSON.parse(text);
@@ -134,6 +137,8 @@ export async function POST(request: Request) {
         learningSource: 1,
         learningStatus: 1,
         isExist,
+        synonym,
+        favorite: false,
         memo: "",
         correctCount: 0,
         lastCorrectAt: new Date(),

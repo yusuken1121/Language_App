@@ -32,7 +32,6 @@ const menuItems = [
 
 export function AppSidebar() {
   const pathname = usePathname();
-  console.log(pathname);
 
   return (
     <Sidebar className="shadow-lg h-full">

@@ -36,10 +36,7 @@ const prompt = `JSON形式で単語「{word}」に関する情報を提供して
 const prisma = new PrismaClient();
 
 export async function GET() {
-  console.log("⭐️");
-
   try {
-    console.log("⭐️");
     const userId = await getUserId();
     if (!userId) {
       return NextResponse.json(
@@ -51,7 +48,7 @@ export async function GET() {
     const words = await prisma.word.findMany({
       where: { userId },
     });
-    console.log("⭐️", words);
+
     return NextResponse.json({ data: words });
   } catch (error) {
     console.error("Error fetching words:", error);

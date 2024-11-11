@@ -72,14 +72,16 @@ const SearchBar = ({ setIsWordAdded }: SearchBarProps) => {
             type="text"
             value={searchTerm}
             // onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full"
+            className="w-full bg-accent text-background"
           />
-          {errors.word && (
-            <p className="text-accent">{errors.word.message as string}</p>
-          )}
+          <div className="h-4">
+            {errors.word && (
+              <p className="text-accent">{errors.word.message as string}</p>
+            )}
+          </div>
         </div>
         <Button
-          className="bg-accent text-accent-foreground hover:bg-accent/80"
+          className="bg-primary text-accent-foreground hover:bg-accent/80"
           disabled={isLoading}
         >
           {isLoading ? (

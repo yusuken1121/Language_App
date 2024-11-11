@@ -102,7 +102,11 @@ export default function WordSearchPage() {
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold">{word?.wordName}</h1>
           <div className="flex items-center space-x-2">
-            <Button variant="destructive" onClick={handleDelete}>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              className="bg-secondary text-accent-foreground hover:bg-accent/80"
+            >
               <Trash className="mr-2 h-4 w-4" />
               Delete
             </Button>

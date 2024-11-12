@@ -7,7 +7,8 @@ import { NextResponse } from "next/server"; // Next.jsの場合に使用
 const prompt = `JSON形式で単語「{word}」に関する情報を提供してください。以下の項目を厳密なJSON形式で出力してください。
 
 * **etymology:** 語源（日本語）: 単語の由来
-* **meaning:** 意味（日本語）: 単語の意味
+* **meaning:** 意味（日本語）: 単語を別の言葉で言い換え、その単語自体を含めないで説明
+  * **例:** "etymology" の場合、"単語の由来" や "語源学" のように説明する
 * **exampleSentence:** 例文（英語）: 単語を使った例文
 * **contextLearning:** 使用状況（日本語）: 単語が使用される文脈
 * **pronunciation:** 発音
@@ -20,18 +21,18 @@ const prompt = `JSON形式で単語「{word}」に関する情報を提供して
 
 **出力例:**
 {
-  "etymology": "ギリシャ語の～から派生", // 語源（日本語）
-  "meaning": "語源", // 意味（日本語）
-  "exampleSentence": "The etymology...", // 例文
-  "contextLearning": "Etymologyは何かを説明するときによく使われます。~", // 使用状況
+  "etymology": "ギリシャ語の～から派生",
+  "meaning": "単語の起源や由来を研究する学問",
+  "exampleSentence": "The etymology...",
+  "contextLearning": "Etymologyは何かを説明するときによく使われます。~",
   "pronunciation": {
-    "american": "/ˌɛtɪˈmɑːlədʒi/", // アメリカ英語の発音
-    "british": "/ˌɛtɪˈmɒlədʒi/"  // イギリス英語の発音
+    "american": "/ˌɛtɪˈmɑːlədʒi/",
+    "british": "/ˌɛtɪˈmɒlədʒi/"
   },
-  "synonym": "derivation", // 同義語
-  "formalityLevel": "フォーマル", // 使用レベル 
-  "usageArea": "アメリカ" // 使用場所
-  "isExist": true // 単語が存在するかどうか
+  "synonym": "derivation",
+  "formalityLevel": "フォーマル",
+  "usageArea": "アメリカ",
+  "isExist": true
 }
 `;
 
@@ -120,8 +121,6 @@ export async function POST(request: Request) {
     if (isExist === false) {
       throw new Error("Invalid word");
     }
-    const nextReviewAt = new Date();
-    nextReviewAt.setDate(nextReviewAt.getDate() + 1);
 
     const word = await prisma.word.create({
       data: {
@@ -142,7 +141,7 @@ export async function POST(request: Request) {
         memo: "",
         correctCount: 0,
         lastCorrectAt: new Date(),
-        nextReviewAt: nextReviewAt,
+        nextReviewAt: new Date(),
       },
     });
 

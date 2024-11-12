@@ -21,6 +21,7 @@ export type QuizWord = Pick<
   | "formalityLevel"
   | "pronunciation"
   | "usageArea"
+  | "learningStatus"
 >;
 // type QuizWord = Word;
 
@@ -56,13 +57,24 @@ export default function Quiz() {
   };
 
   // Handle quiz answer
-  const handleCheck = () => {
+  const handleCheck = async () => {
     if (currentWord) {
       setLearnedWords(new Set(learnedWords).add(currentWord.id)); // Add current word to learned words
       setRemainingWords(
         remainingWords.filter((word) => word.id !== currentWord.id)
       ); // Remove current word from remaining words
     }
+
+    // Update learning status
+    try {
+      await fetch(`/api/quiz`, {
+        method: "PUT",
+        body: JSON.stringify({ id: currentWord?.id }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+
     setShowExplanation(true); // Show explanation
   };
 
@@ -172,14 +184,14 @@ export default function Quiz() {
           <div className="flex justify-center space-x-4">
             <Button
               onClick={handleCross}
-              className="bg-secondary text-background hover:bg-secondary/80 font-bold"
+              className="bg-accent text-background hover:bg-accent/80 font-bold"
               size="lg"
             >
               <X className="mr-2 h-4 w-4" /> 忘れた
             </Button>
             <Button
               onClick={handleCheck}
-              className="bg-accent hover:bg-accent/80 text-background font-bold"
+              className="bg-secondary hover:bg-secondary/80 text-background font-bold"
               size="lg"
             >
               <Check className="mr-2 h-4 w-4" /> 覚えた

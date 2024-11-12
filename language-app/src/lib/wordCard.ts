@@ -3,9 +3,13 @@ export const getLearningStatusText = (status: number) => {
     case 1:
       return "未学習";
     case 2:
-      return "学習中";
+      return "1回目";
     case 3:
-      return "学習済";
+      return "2回目";
+    case 4:
+      return "3回目";
+    case 99:
+      return "習得済";
     default:
       return "未学習";
   }

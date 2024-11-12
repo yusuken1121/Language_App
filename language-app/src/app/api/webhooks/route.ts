@@ -1,7 +1,7 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
@@ -37,8 +37,6 @@ export async function POST(req: Request) {
     console.error("Webhook verification failed:", err);
     return new Response("Unauthorized request", { status: 400 });
   }
-
-  const prisma = new PrismaClient();
 
   const eventType = evt.type;
   if (eventType === "user.created") {

@@ -1,4 +1,5 @@
 import { getUserId } from "@/lib/auth";
+import prisma from "@/lib/prisma";
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
@@ -7,7 +8,6 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const prisma = new PrismaClient();
   const id = params.id;
   try {
     const userId = await getUserId();
@@ -33,7 +33,6 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const prisma = new PrismaClient();
   const id = params.id;
   const userId = await getUserId();
   if (!userId) {
@@ -62,7 +61,6 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const prisma = new PrismaClient();
   const id = params.id;
   const userId = await getUserId();
   if (!userId) {

@@ -1,9 +1,8 @@
 import { getUserId } from "@/lib/auth";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { addDays } from "date-fns";
 import { NextResponse } from "next/server";
 
-const prisma = new PrismaClient();
 export async function GET() {
   const userId = await getUserId();
   if (!userId) {
@@ -44,7 +43,7 @@ export async function GET() {
     const randomQuiz = words
       .sort(() => Math.random() - 0.5) // ランダムな順序に並び替え
       .slice(0, 10);
-    console.log("randomQuiz", randomQuiz);
+
     return NextResponse.json(randomQuiz);
   } catch (error) {
     console.error(error);

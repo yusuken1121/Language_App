@@ -1,7 +1,8 @@
 import { GEMINI_API_KEY } from "@/config/ENV";
 import { getUserId } from "@/lib/auth";
+import prisma from "@/lib/prisma";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { PrismaClient } from "@prisma/client";
+
 import { NextResponse } from "next/server"; // Next.jsの場合に使用
 
 const prompt = `JSON形式で単語「{word}」に関する情報を提供してください。以下の項目を厳密なJSON形式で出力してください。
@@ -35,8 +36,6 @@ const prompt = `JSON形式で単語「{word}」に関する情報を提供して
   "isExist": true
 }
 `;
-
-const prisma = new PrismaClient();
 
 export async function GET() {
   try {

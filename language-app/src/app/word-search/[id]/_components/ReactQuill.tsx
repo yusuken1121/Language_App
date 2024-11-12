@@ -29,7 +29,7 @@ export default function ReactQuillComponent({
       });
       toast.success("Notes saved");
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Failed to save notes");
     } finally {
       setIsLoading(false);

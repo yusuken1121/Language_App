@@ -40,7 +40,6 @@ export default function Quiz() {
       try {
         const response = await fetch("/api/quiz");
         const data: QuizWord[] = await response.json();
-        console.log("data⭐️", data);
 
         setRemainingWords(data);
       } catch (error) {

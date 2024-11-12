@@ -155,7 +155,7 @@ export default function Quiz() {
   }
 
   return (
-    <div className="h-full bg-background flex items-center justify-center p-4">
+    <div className="h-full bg-background flex items-center justify-center px-2">
       <Card className="w-full max-w-2xl bg-white">
         <CardHeader>
           <CardTitle className="text-xl text-background">
@@ -181,7 +181,7 @@ export default function Quiz() {
             </CardContent>
           </Card>
 
-          <div className="flex justify-center space-x-4">
+          <div className="flex flex-col lg:flex-row justify-center gap-4">
             <Button
               onClick={handleCross}
               className="bg-accent text-background hover:bg-accent/80 font-bold"

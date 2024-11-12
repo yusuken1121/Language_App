@@ -3,7 +3,7 @@
 import { Word } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { Bookmark, Trash } from "lucide-react";
+import { Bookmark, Star, StarOff, Trash } from "lucide-react";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -15,6 +15,7 @@ import { ProgressCard } from "./_components/ProgressCard";
 import { MemoCard } from "./_components/MemoCard";
 import { formatDate } from "@/lib/wordCard";
 import LottieLoading from "@/components/LottieLoading";
+import { cn } from "@/lib/utils";
 
 export default function WordSearchPage() {
   const [word, setWord] = useState<Word>();
@@ -65,11 +66,13 @@ export default function WordSearchPage() {
       });
       setWord((prev) => prev && { ...prev, favorite: updatedFavoriteStatus });
       toast.success(
-        updatedFavoriteStatus ? "Added to favorites" : "Removed from favorites"
+        updatedFavoriteStatus
+          ? "お気に入りに登録しました。"
+          : "お気に入りから削除しました。"
       );
     } catch (error) {
       console.error(error);
-      toast.error("Failed to update favorite status");
+      toast.error("お気に入り登録に失敗しました。");
     }
   };
 
@@ -81,8 +84,11 @@ export default function WordSearchPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center mb-6">
             <Link href="/word-search">
-              <Button variant="ghost" className="hover:text-accent-foreground">
-                <ArrowLeft className="mr-2 h-4 w-4" /> Back to Word List
+              <Button
+                variant="ghost"
+                className="hover:text-accent-foreground px-1"
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" /> 一覧に戻る
               </Button>
             </Link>
           </div>
@@ -94,8 +100,7 @@ export default function WordSearchPage() {
                 onClick={handleDelete}
                 className="bg-secondary text-accent-foreground hover:bg-accent/80"
               >
-                <Trash className="mr-2 h-4 w-4" />
-                Delete
+                <Trash className="h-4 w-4" />
               </Button>
               <Button
                 variant="outline"
@@ -104,8 +109,11 @@ export default function WordSearchPage() {
                 } text-accent-foreground hover:bg-accent/80`}
                 onClick={handleFavorite}
               >
-                <Bookmark className="mr-2 h-4 w-4" />
-                {word?.favorite ? "Unfavorite" : "Favorite"}
+                {word?.favorite ? (
+                  <StarOff className="h-4 w-4" />
+                ) : (
+                  <Star className="h-4 w-4" />
+                )}
               </Button>
             </div>
           </div>

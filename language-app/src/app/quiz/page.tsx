@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Word } from "@prisma/client";
-import { Check, X } from "lucide-react";
+import { Check, X, Clock } from "lucide-react";
 
 import QuizAnswer from "./_components/QuizAnswer";
 
@@ -23,12 +23,10 @@ export type QuizWord = Pick<
   | "usageArea"
   | "learningStatus"
 >;
-// type QuizWord = Word;
 
 export default function Quiz() {
   const [quizStarted, setQuizStarted] = useState(false);
   const [currentWord, setCurrentWord] = useState<QuizWord | null>(null);
-
   const [learnedWords, setLearnedWords] = useState<Set<number>>(new Set());
   const [remainingWords, setRemainingWords] = useState<QuizWord[]>([]);
   const [showExplanation, setShowExplanation] = useState(false);
@@ -40,7 +38,6 @@ export default function Quiz() {
       try {
         const response = await fetch("/api/quiz");
         const data: QuizWord[] = await response.json();
-
         setRemainingWords(data);
       } catch (error) {
         console.error(error);
@@ -55,16 +52,14 @@ export default function Quiz() {
     nextWord();
   };
 
-  // Handle quiz answer
+  // Handle "覚えた" button
   const handleCheck = async () => {
     if (currentWord) {
-      setLearnedWords(new Set(learnedWords).add(currentWord.id)); // Add current word to learned words
+      setLearnedWords(new Set(learnedWords).add(currentWord.id));
       setRemainingWords(
         remainingWords.filter((word) => word.id !== currentWord.id)
-      ); // Remove current word from remaining words
+      );
     }
-
-    // Update learning status
     try {
       await fetch(`/api/quiz`, {
         method: "PUT",
@@ -73,14 +68,26 @@ export default function Quiz() {
     } catch (error) {
       console.error(error);
     }
-
-    setShowExplanation(true); // Show explanation
+    setShowExplanation(true);
   };
 
+  // Handle "忘れた" button
   const handleCross = () => {
-    setShowExplanation(true); // Show explanation
+    setShowExplanation(true);
   };
 
+  // Handle "後で復習" button
+  const handleReviewLater = () => {
+    if (currentWord) {
+      setLearnedWords(new Set(learnedWords).add(currentWord.id));
+      setRemainingWords(
+        remainingWords.filter((word) => word.id !== currentWord.id)
+      );
+    }
+    setShowExplanation(true);
+  };
+
+  // Show next word
   const nextWord = () => {
     setShowExplanation(false);
     if (remainingWords.length > 0) {
@@ -91,10 +98,9 @@ export default function Quiz() {
     }
   };
 
-  // Show quiz start
   if (!quizStarted) {
     return (
-      <div className="h-screen bg-background flex items-center justify-center p-4">
+      <div className="h-full bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md text-center bg-white">
           <CardHeader>
             <CardTitle className="text-2xl text-background">
@@ -114,10 +120,9 @@ export default function Quiz() {
     );
   }
 
-  // Show quiz end
   if (quizEnded) {
     return (
-      <div className="h-screen bg-background flex items-center justify-center p-4">
+      <div className="h-full bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md text-center bg-white">
           <CardHeader>
             <CardTitle className="text-2xl text-background">
@@ -145,14 +150,12 @@ export default function Quiz() {
     );
   }
 
-  // Show quiz answer
   if (showExplanation) {
     return <QuizAnswer currentWord={currentWord} nextWord={nextWord} />;
   }
 
-  // Show quiz progress
   return (
-    <div className="h-screen bg-background flex items-center justify-center p-4">
+    <div className="h-full bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl bg-white">
         <CardHeader>
           <CardTitle className="text-xl text-background">
@@ -169,7 +172,6 @@ export default function Quiz() {
           />
         </CardHeader>
 
-        {/* Show question */}
         <CardContent className="flex flex-col items-center">
           <Card className="w-full mb-6">
             <CardContent className="p-6">
@@ -179,7 +181,6 @@ export default function Quiz() {
             </CardContent>
           </Card>
 
-          {/* Show answer buttons */}
           <div className="flex justify-center space-x-4">
             <Button
               onClick={handleCross}
@@ -187,6 +188,13 @@ export default function Quiz() {
               size="lg"
             >
               <X className="mr-2 h-4 w-4" /> 忘れた
+            </Button>
+            <Button
+              onClick={handleReviewLater}
+              className="bg-primary hover:bg-primary/90 text-background font-bold"
+              size="lg"
+            >
+              <Clock className="mr-2 h-4 w-4" /> 後で復習
             </Button>
             <Button
               onClick={handleCheck}

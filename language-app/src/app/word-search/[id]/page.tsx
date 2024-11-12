@@ -117,7 +117,7 @@ export default function WordSearchPage() {
               </Button>
             </div>
           </div>
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-6 lg:grid-cols-2">
             {/* Basic Information Card */}
             <BasicInfoCard
               meaning={word?.meaning || ""}

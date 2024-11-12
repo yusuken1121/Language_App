@@ -27,24 +27,25 @@ export default function ReactQuillComponent({
         method: "PUT",
         body: JSON.stringify({ memo: value }),
       });
-      toast.success("Notes saved");
+      toast.success("メモを更新しました。");
     } catch (error) {
       console.error(error);
-      toast.error("Failed to save notes");
+      toast.error("メモの更新に失敗しました。");
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
-    <div className="min-h-48 flex flex-col gap-4">
+    <div className="max-h-[300px] flex flex-col gap-6">
       <ReactQuill
         theme="snow"
         value={value}
         onChange={setValue}
-        className="h-48 mb-8"
+        className="h-48"
       />
       <Button
-        className="bg-accent text-accent-foreground hover:bg-accent/70"
+        className="bg-accent text-accent-foreground hover:bg-accent/70 self-end mt-16"
         onClick={handleSave}
         disabled={isLoading}
       >

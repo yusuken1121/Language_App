@@ -46,7 +46,7 @@ export default function RootLayout({
 
             {/* メインコンテンツのラッパー */}
             <div className="flex flex-col flex-1 min-h-screen">
-              <header className="h-16 flex items-center bg-background">
+              <header className="w-full h-6 flex items-center bg-background mx-auto">
                 <SidebarToggle />
               </header>
               <main className="flex-1 flex flex-col bg-background text-white">

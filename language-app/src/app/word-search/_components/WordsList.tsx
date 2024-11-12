@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { Word } from "@prisma/client";
+import LottieLoading from "@/components/LottieLoading";
 
 interface WordsListProps {
   isWordAdded: boolean;
@@ -12,6 +13,7 @@ interface WordsListProps {
 const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
   const [wordList, setWordList] = useState<Word[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchWords = async () => {
@@ -21,7 +23,7 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
           headers: {
             "Content-Type": "application/json",
           },
-          cache: "no-store",
+          cache: "no-cache",
         });
 
         if (!response.ok) {
@@ -30,9 +32,12 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
 
         const words = await response.json();
         setWordList(words.data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching words:", error);
         setError("単語の取得に失敗しました");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -47,27 +52,37 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
     return <div>{error}</div>;
   }
 
+  if (isLoading) {
+    return <LottieLoading />;
+  }
+
   return (
     <Card className="bg-white text-[#181059]">
       <CardContent>
-        <ul className="divide-y divide-gray-200">
-          {wordList.map((word) => (
-            <li key={word.id} className="py-4">
-              <Link
-                href={`/word-search/${word.id}`}
-                className="block hover:bg-gray-50"
-              >
-                <div className="flex justify-between">
-                  <span className="font-bold">{word.wordName}</span>
-                  <span className="text-sm text-gray-500">
-                    {word.formalityLevel}
-                  </span>
-                </div>
-                <p className="mt-1 text-sm text-gray-600">{word.meaning}</p>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {wordList.length === 0 ? (
+          <div className="text-center text-primary">
+            単語がまだ追加されていません。
+          </div>
+        ) : (
+          <ul className="divide-y divide-gray-200">
+            {wordList.map((word) => (
+              <li key={word.id} className="py-4">
+                <Link
+                  href={`/word-search/${word.id}`}
+                  className="block hover:bg-gray-50"
+                >
+                  <div className="flex justify-between">
+                    <span className="font-bold">{word.wordName}</span>
+                    <span className="text-sm text-gray-500">
+                      {word.formalityLevel}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm text-gray-600">{word.meaning}</p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </CardContent>
     </Card>
   );

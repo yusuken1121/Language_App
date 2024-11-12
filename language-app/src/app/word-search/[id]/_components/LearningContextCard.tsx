@@ -9,7 +9,7 @@ export function LearningContextCard({
   contextLearning: string;
 }) {
   return (
-    <Card className="bg-card text-card-foreground">
+    <Card className="bg-card text-card-foreground w-full">
       <CardHeader className="flex flex-row items-center space-x-2">
         <GraduationCap className="h-6 w-6" />
         <CardTitle>Learning Context</CardTitle>

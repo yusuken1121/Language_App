@@ -27,6 +27,13 @@ export async function GET() {
         id: true,
         wordName: true,
         meaning: true,
+        etymology: true,
+        exampleSentence: true,
+        contextLearning: true,
+        synonym: true,
+        formalityLevel: true,
+        pronunciation: true,
+        usageArea: true,
       },
     });
     if (words.length === 0) {

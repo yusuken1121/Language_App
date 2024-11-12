@@ -1,54 +1,47 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Word } from "@prisma/client";
-import { cn } from "@/lib/utils";
+import { Check, X } from "lucide-react";
 
-type QuizWord = Pick<Word, "id" | "wordName" | "meaning">;
-type Quiz = {
-  answer: QuizWord;
-  options: QuizWord[];
-};
+import QuizAnswer from "./_components/QuizAnswer";
 
-// Function to select a random quiz question
-const chooseRandomQuiz = (quizWords: QuizWord[]): Quiz => {
-  const answerIndex = Math.floor(Math.random() * quizWords.length);
-  const answer = quizWords[answerIndex];
-
-  const optionsSet = new Set<QuizWord>();
-  optionsSet.add(answer);
-
-  while (optionsSet.size < 4) {
-    const randomOption =
-      quizWords[Math.floor(Math.random() * quizWords.length)];
-    optionsSet.add(randomOption);
-  }
-
-  const options = Array.from(optionsSet);
-  options.sort(() => Math.random() - 0.5);
-  console.log("options🚀", options);
-
-  return { answer, options };
-};
+export type QuizWord = Pick<
+  Word,
+  | "id"
+  | "wordName"
+  | "meaning"
+  | "exampleSentence"
+  | "contextLearning"
+  | "etymology"
+  | "synonym"
+  | "formalityLevel"
+  | "pronunciation"
+  | "usageArea"
+>;
+// type QuizWord = Word;
 
 export default function Quiz() {
   const [quizStarted, setQuizStarted] = useState(false);
-  const [currentQuiz, setCurrentQuiz] = useState<Quiz | null>(null);
-  const [score, setScore] = useState(0);
-  const [showResult, setShowResult] = useState(false);
-  const [selectedAnswer, setSelectedAnswer] = useState("");
-  const [quizWords, setQuizWords] = useState<QuizWord[]>([]);
+  const [currentWord, setCurrentWord] = useState<QuizWord | null>(null);
 
-  // Fetch quiz words from the API
+  const [learnedWords, setLearnedWords] = useState<Set<number>>(new Set());
+  const [remainingWords, setRemainingWords] = useState<QuizWord[]>([]);
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [quizEnded, setQuizEnded] = useState(false);
+
+  // Fetch quiz words
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
         const response = await fetch("/api/quiz");
-        const data = await response.json();
-        setQuizWords(data);
+        const data: QuizWord[] = await response.json();
+        console.log("data⭐️", data);
+
+        setRemainingWords(data);
       } catch (error) {
         console.error(error);
       }
@@ -56,53 +49,53 @@ export default function Quiz() {
     fetchQuiz();
   }, []);
 
-  // Start the quiz
+  // Start quiz
   const startQuiz = () => {
     setQuizStarted(true);
-    setScore(0);
-    setShowResult(false);
-    setCurrentQuiz(chooseRandomQuiz(quizWords));
+    nextWord();
   };
 
-  // Handle the answer
-  const handleAnswer = (answer: string) => {
-    setSelectedAnswer(answer);
-    if (currentQuiz && answer === currentQuiz.answer.wordName) {
-      setScore((prevScore) => prevScore + 1);
+  // Handle quiz answer
+  const handleCheck = () => {
+    if (currentWord) {
+      setLearnedWords(new Set(learnedWords).add(currentWord.id)); // Add current word to learned words
+      setRemainingWords(
+        remainingWords.filter((word) => word.id !== currentWord.id)
+      ); // Remove current word from remaining words
+    }
+    setShowExplanation(true); // Show explanation
+  };
+
+  const handleCross = () => {
+    setShowExplanation(true); // Show explanation
+  };
+
+  const nextWord = () => {
+    setShowExplanation(false);
+    if (remainingWords.length > 0) {
+      const nextWordIndex = Math.floor(Math.random() * remainingWords.length);
+      setCurrentWord(remainingWords[nextWordIndex]);
+    } else {
+      setQuizEnded(true);
     }
   };
 
-  const nextQuestion = useCallback(() => {
-    setSelectedAnswer("");
-    setCurrentQuiz(chooseRandomQuiz(quizWords));
-  }, [quizWords]);
-
-  useEffect(() => {
-    if (selectedAnswer) {
-      const timer = setTimeout(() => {
-        if (quizWords.length > 0) {
-          nextQuestion();
-        } else {
-          setShowResult(true);
-        }
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
-  }, [selectedAnswer, nextQuestion, quizWords.length]);
-
+  // Show quiz start
   if (!quizStarted) {
     return (
-      <div className="h-full bg-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-md text-center bg-card">
+      <div className="h-screen bg-background flex items-center justify-center p-4">
+        <Card className="w-full max-w-md text-center bg-white">
           <CardHeader>
-            <CardTitle className="text-2xl">English Vocabulary Quiz</CardTitle>
+            <CardTitle className="text-2xl text-background">
+              英単語学習クイズ
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <Button
               onClick={startQuiz}
-              className="bg-accent text-accent-foreground hover:bg-accent/80"
+              className="bg-accent text-background hover:bg-accent/80"
             >
-              Start Quiz
+              クイズを開始
             </Button>
           </CardContent>
         </Card>
@@ -110,22 +103,30 @@ export default function Quiz() {
     );
   }
 
-  if (showResult) {
+  // Show quiz end
+  if (quizEnded) {
     return (
-      <div className="h-full bg-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-md text-center bg-card">
+      <div className="h-screen bg-background flex items-center justify-center p-4">
+        <Card className="w-full max-w-md text-center bg-white">
           <CardHeader>
-            <CardTitle className="text-2xl">Quiz Results</CardTitle>
+            <CardTitle className="text-2xl text-background">
+              クイズ終了
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-4xl font-bold mb-4">
-              {score} / {quizWords.length}
+            <p className="text-xl mb-4">
+              今日覚えた単語の数: {learnedWords.size}
             </p>
             <Button
-              onClick={startQuiz}
-              className="bg-accent text-accent-foreground hover:bg-accent/80"
+              onClick={() => {
+                setQuizStarted(false);
+                setQuizEnded(false);
+                setLearnedWords(new Set());
+                setRemainingWords([]);
+              }}
+              className="bg-accent text-background hover:bg-accent/80"
             >
-              Retry Quiz
+              もう一度挑戦する
             </Button>
           </CardContent>
         </Card>
@@ -133,47 +134,57 @@ export default function Quiz() {
     );
   }
 
+  // Show quiz answer
+  if (showExplanation) {
+    return <QuizAnswer currentWord={currentWord} nextWord={nextWord} />;
+  }
+
+  // Show quiz progress
   return (
-    <div className="h-full bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-2xl bg-card">
+    <div className="h-screen bg-background flex items-center justify-center p-4">
+      <Card className="w-full max-w-2xl bg-white">
         <CardHeader>
-          <CardTitle className="text-xl">
-            Question {score + 1} of {quizWords.length}
+          <CardTitle className="text-xl text-background">
+            進捗: {learnedWords.size} /{" "}
+            {learnedWords.size + remainingWords.length}
           </CardTitle>
           <Progress
-            value={(score / quizWords.length) * 100}
+            value={
+              (learnedWords.size /
+                (learnedWords.size + remainingWords.length)) *
+              100
+            }
             className="w-full"
           />
         </CardHeader>
-        <CardContent>
-          <h2 className="text-2xl my-10 text-center">
-            {currentQuiz?.answer.meaning}
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
-            {currentQuiz?.options.map((option, index) => (
-              <Button
-                key={index}
-                onClick={() => handleAnswer(option.wordName)}
-                className={cn(
-                  "hover:opacity-80 h-[150px] break-words whitespace-normal text-background text-2xl",
-                  selectedAnswer &&
-                    option.wordName === currentQuiz.answer.wordName
-                    ? "bg-primary"
-                    : "bg-accent"
-                )}
-                disabled={!!selectedAnswer}
-              >
-                {option.wordName}
-              </Button>
-            ))}
+
+        {/* Show question */}
+        <CardContent className="flex flex-col items-center">
+          <Card className="w-full mb-6">
+            <CardContent className="p-6">
+              <h2 className="text-2xl text-center text-background font-bold">
+                {currentWord?.meaning}
+              </h2>
+            </CardContent>
+          </Card>
+
+          {/* Show answer buttons */}
+          <div className="flex justify-center space-x-4">
+            <Button
+              onClick={handleCross}
+              className="bg-secondary text-background hover:bg-secondary/80 font-bold"
+              size="lg"
+            >
+              <X className="mr-2 h-4 w-4" /> 忘れた
+            </Button>
+            <Button
+              onClick={handleCheck}
+              className="bg-accent hover:bg-accent/80 text-background font-bold"
+              size="lg"
+            >
+              <Check className="mr-2 h-4 w-4" /> 覚えた
+            </Button>
           </div>
-          {selectedAnswer && (
-            <p className="mt-4 text-center">
-              {selectedAnswer === currentQuiz?.answer.wordName
-                ? "Correct!"
-                : `Incorrect. The correct answer is "${currentQuiz?.answer.wordName}".`}
-            </p>
-          )}
         </CardContent>
       </Card>
     </div>

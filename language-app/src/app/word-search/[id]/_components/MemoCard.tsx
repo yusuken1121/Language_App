@@ -4,7 +4,7 @@ import ReactQuillComponent from "./ReactQuill";
 
 export function MemoCard({ memo, id }: { memo: string; id: string }) {
   return (
-    <Card className="bg-white text-card-foreground">
+    <Card className="bg-white text-card-foreground w-full">
       <CardHeader className="flex flex-row items-center space-x-2">
         <Book className="h-6 w-6" />
         <CardTitle>Memo</CardTitle>

@@ -14,7 +14,7 @@ export function ProgressCard({
   nextReviewAt: string;
 }) {
   return (
-    <Card className="bg-card text-card-foreground">
+    <Card className="bg-card text-card-foreground w-full">
       <CardHeader className="flex flex-row items-center space-x-2">
         <Clock className="h-6 w-6" />
         <CardTitle>Learning Progress</CardTitle>

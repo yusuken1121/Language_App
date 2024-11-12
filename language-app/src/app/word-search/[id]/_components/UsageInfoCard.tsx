@@ -13,7 +13,7 @@ export function UsageInfoCard({
   synonym: string;
 }) {
   return (
-    <Card className="bg-card text-card-foreground">
+    <Card className="bg-card text-card-foreground w-full">
       <CardHeader className="flex flex-row items-center space-x-2">
         <Volume2 className="h-6 w-6" />
         <CardTitle>Usage Information</CardTitle>

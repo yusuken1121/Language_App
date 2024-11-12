@@ -27,7 +27,7 @@ const menuItems = [
   { icon: Home, label: "Dashboard", href: "/" },
   { icon: Search, label: "Word Search", href: "/word-search" },
   { icon: BookOpen, label: "Quiz", href: "/quiz" },
-  { icon: BarChart, label: "Progress", href: "/progress" },
+  // { icon: BarChart, label: "Progress", href: "/progress" },
 ];
 
 export function AppSidebar() {

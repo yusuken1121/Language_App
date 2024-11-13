@@ -87,9 +87,8 @@ const SearchBar = ({ setIsWordAdded }: SearchBarProps) => {
           {isLoading ? (
             <Loader2 className="animate-spin" />
           ) : (
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="h-4 w-4" />
           )}
-          フレーズを追加
         </Button>
       </form>
     </div>

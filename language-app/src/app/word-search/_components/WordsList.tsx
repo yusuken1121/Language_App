@@ -6,23 +6,28 @@ import { Word } from "@prisma/client";
 import LottieLoading from "@/components/LottieLoading";
 import { cn } from "@/lib/utils";
 import PaginationList from "./WordsListPagnination"; // PaginationList コンポーネントをインポート
+import SortBox from "./SortBox";
 
-interface WordsListProps {
+type WordsListProps = {
   isWordAdded: boolean;
   setIsWordAdded: (value: boolean) => void;
-}
+};
+export type SortType = "latest" | "oldest" | "asc" | "desc";
 
 const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
   const [wordList, setWordList] = useState<Word[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  // pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
+  // sort
+  const [sort, setSort] = useState<SortType>("latest");
 
   useEffect(() => {
     const fetchWords = async (page: number) => {
       try {
-        const response = await fetch(`/api/words?page=${page}`, {
+        const response = await fetch(`/api/words?page=${page}&sort=${sort}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -50,7 +55,7 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
       setIsWordAdded(false);
     }
     fetchWords(currentPage);
-  }, [isWordAdded, setIsWordAdded, currentPage]);
+  }, [isWordAdded, setIsWordAdded, currentPage, sort]);
 
   if (error) {
     return <div>{error}</div>;
@@ -62,6 +67,7 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
 
   return (
     <div className="flex flex-col gap-4">
+      <SortBox setSort={setSort} />
       <Card className="bg-white text-background">
         <CardContent>
           {wordList.length === 0 ? (

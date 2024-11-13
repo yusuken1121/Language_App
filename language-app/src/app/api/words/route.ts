@@ -2,6 +2,7 @@ import { GEMINI_API_KEY } from "@/config/ENV";
 import { getUserId } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Prisma } from "@prisma/client";
 
 import { NextRequest, NextResponse } from "next/server"; // Next.jsの場合に使用
 
@@ -43,6 +44,9 @@ export async function GET(request: NextRequest) {
   const page = Number(searchParams.get("page"));
   const pageSize = 10;
 
+  // sort query
+  const sort = searchParams.get("sort");
+
   try {
     const userId = await getUserId();
     if (!userId) {
@@ -52,17 +56,37 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // pagination
     // count of words
     const totalWords = await prisma.word.count({
       where: { userId },
     });
 
+    // sort
+    let sortOrder: Prisma.WordOrderByWithRelationInput;
+    switch (sort) {
+      case "latest":
+        sortOrder = { createdAt: "desc" };
+        break;
+      case "oldest":
+        sortOrder = { createdAt: "asc" };
+        break;
+      case "asc":
+        sortOrder = { wordName: "asc" };
+        break;
+      case "desc":
+        sortOrder = { wordName: "desc" };
+        break;
+      default:
+        sortOrder = { createdAt: "desc" };
+    }
+
     const words = await prisma.word.findMany({
       where: { userId },
       skip: (page - 1) * pageSize,
       take: pageSize,
+      orderBy: sortOrder,
     });
-
     return NextResponse.json({
       data: words,
       totalPages: Math.ceil(totalWords / pageSize),

@@ -1,5 +1,5 @@
 "use client";
-import { Loader2, Search } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
@@ -87,7 +87,7 @@ const SearchBar = ({ setIsWordAdded }: SearchBarProps) => {
           {isLoading ? (
             <Loader2 className="animate-spin" />
           ) : (
-            <Search className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 h-4 w-4" />
           )}
           フレーズを追加
         </Button>

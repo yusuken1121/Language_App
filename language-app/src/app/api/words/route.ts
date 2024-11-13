@@ -3,7 +3,7 @@ import { getUserId } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-import { NextResponse } from "next/server"; // Next.jsの場合に使用
+import { NextRequest, NextResponse } from "next/server"; // Next.jsの場合に使用
 
 const prompt = `JSON形式で単語「{word}」に関する情報を提供してください。以下の項目を厳密なJSON形式で出力してください。
 
@@ -37,7 +37,12 @@ const prompt = `JSON形式で単語「{word}」に関する情報を提供して
 }
 `;
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // pagination query
+  const searchParams = request.nextUrl.searchParams;
+  const page = Number(searchParams.get("page"));
+  const pageSize = 10;
+
   try {
     const userId = await getUserId();
     if (!userId) {
@@ -47,11 +52,21 @@ export async function GET() {
       );
     }
 
-    const words = await prisma.word.findMany({
+    // count of words
+    const totalWords = await prisma.word.count({
       where: { userId },
     });
 
-    return NextResponse.json({ data: words });
+    const words = await prisma.word.findMany({
+      where: { userId },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    });
+
+    return NextResponse.json({
+      data: words,
+      totalPages: Math.ceil(totalWords / pageSize),
+    });
   } catch (error) {
     console.error("Error fetching words:", error);
     return NextResponse.json(

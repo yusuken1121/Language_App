@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { Word } from "@prisma/client";
 import LottieLoading from "@/components/LottieLoading";
+import { cn } from "@/lib/utils";
 
 interface WordsListProps {
   isWordAdded: boolean;
@@ -57,7 +58,7 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
   }
 
   return (
-    <Card className="bg-white text-[#181059]">
+    <Card className="bg-white text-background">
       <CardContent>
         {wordList.length === 0 ? (
           <div className="text-center text-primary">
@@ -73,7 +74,17 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
                 >
                   <div className="flex justify-between">
                     <span className="font-bold">{word.wordName}</span>
-                    <span className="text-sm text-gray-500">
+                    <span
+                      className={cn(
+                        "text-sm px-2 py-1 rounded-md font-semibold border border-gray-200",
+                        word.formalityLevel === "フォーマル" &&
+                          "bg-secondary text-background",
+                        word.formalityLevel === "普通" &&
+                          "bg-primary text-background",
+                        word.formalityLevel === "カジュアル" &&
+                          "bg-accent text-background"
+                      )}
+                    >
                       {word.formalityLevel}
                     </span>
                   </div>

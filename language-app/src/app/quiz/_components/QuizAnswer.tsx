@@ -31,6 +31,7 @@ const QuizAnswer = ({
         <BasicInfoCard
           meaning={currentWord?.meaning || ""}
           etymology={currentWord?.etymology || ""}
+          pronunciation={currentWord?.pronunciation || ""}
         />
         <LearningContextCard
           exampleSentence={currentWord?.exampleSentence || ""}
@@ -39,7 +40,6 @@ const QuizAnswer = ({
         <UsageInfoCard
           synonym={currentWord?.synonym || ""}
           formalityLevel={currentWord?.formalityLevel || ""}
-          pronunciation={currentWord?.pronunciation || ""}
           usageArea={currentWord?.usageArea || ""}
         />
       </div>

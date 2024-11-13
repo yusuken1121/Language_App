@@ -109,11 +109,11 @@ export default function WordSearchPage() {
             <BasicInfoCard
               meaning={word?.meaning || ""}
               etymology={word?.etymology || ""}
+              pronunciation={word?.pronunciation || ""}
             />
 
             {/* Usage Information Card */}
             <UsageInfoCard
-              pronunciation={word?.pronunciation || ""}
               usageArea={word?.usageArea || ""}
               formalityLevel={word?.formalityLevel || ""}
               synonym={word?.synonym || ""}

@@ -15,13 +15,13 @@ import { ProgressCard } from "./_components/ProgressCard";
 import { MemoCard } from "./_components/MemoCard";
 import { formatDate } from "@/lib/wordCard";
 import LottieLoading from "@/components/LottieLoading";
-import { cn } from "@/lib/utils";
+
+import { DeleteDialog } from "./_components/DeleteDialog";
 
 export default function WordSearchPage() {
   const [word, setWord] = useState<Word>();
   const [isLoading, setIsLoading] = useState(true);
   const params = useParams();
-  const router = useRouter();
 
   useEffect(() => {
     const fetchWord = async () => {
@@ -43,17 +43,6 @@ export default function WordSearchPage() {
     fetchWord();
   }, [params.id]);
 
-  const handleDelete = async () => {
-    try {
-      await fetch(`/api/words/${params.id}`, { method: "DELETE" });
-      toast.success("Word deleted");
-      router.push("/word-search");
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to delete word");
-    }
-  };
-
   const handleFavorite = async () => {
     try {
       const updatedFavoriteStatus = !word?.favorite;
@@ -68,11 +57,12 @@ export default function WordSearchPage() {
       toast.success(
         updatedFavoriteStatus
           ? "お気に入りに登録しました。"
-          : "お気に入りから削除しました。"
+          : "お気に入りから削除しました。",
+        { position: "top-center" }
       );
     } catch (error) {
       console.error(error);
-      toast.error("お気に入り登録に失敗しました。");
+      toast.error("お気に入り登録に失敗しました。", { position: "top-center" });
     }
   };
 
@@ -95,13 +85,10 @@ export default function WordSearchPage() {
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-3xl font-bold">{word?.wordName}</h1>
             <div className="flex items-center space-x-2">
-              <Button
-                variant="destructive"
-                onClick={handleDelete}
-                className="bg-secondary text-accent-foreground hover:bg-accent/80"
-              >
-                <Trash className="h-4 w-4" />
-              </Button>
+              {/* 削除ボタン */}
+              <DeleteDialog />
+
+              {/* お気に入りボタン */}
               <Button
                 variant="outline"
                 className={`${

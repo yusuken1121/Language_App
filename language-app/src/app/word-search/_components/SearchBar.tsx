@@ -68,7 +68,7 @@ const SearchBar = ({ setIsWordAdded }: SearchBarProps) => {
         <div className="flex flex-col gap-2 w-full">
           <Input
             {...register("word")}
-            placeholder="Search for a word"
+            placeholder="単語を追加"
             type="text"
             value={searchTerm}
             // onChange={(e) => setSearchTerm(e.target.value)}
@@ -89,7 +89,7 @@ const SearchBar = ({ setIsWordAdded }: SearchBarProps) => {
           ) : (
             <Search className="mr-2 h-4 w-4" />
           )}
-          単語を検索
+          単語を追加
         </Button>
       </form>
     </div>

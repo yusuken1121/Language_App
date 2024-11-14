@@ -31,6 +31,7 @@ export default function Quiz() {
   const [showExplanation, setShowExplanation] = useState(false);
   const [quizEnded, setQuizEnded] = useState(false);
   const [triggerNextWord, setTriggerNextWord] = useState(false); // 新しいトリガーステート
+  const [isLoading, setIsLoading] = useState(false);
 
   // Fetch quiz words
   useEffect(() => {
@@ -61,6 +62,7 @@ export default function Quiz() {
 
   // Handle "覚えた" button
   const handleCheck = async () => {
+    setIsLoading(true);
     if (currentWord) {
       setLearnedWords(new Set(learnedWords).add(currentWord.id));
       setRemainingWords(
@@ -74,6 +76,8 @@ export default function Quiz() {
       });
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
     setTriggerNextWord(true); // trigger nextWord
   };
@@ -171,6 +175,7 @@ export default function Quiz() {
         handleCross={handleCross}
         handleReviewLater={handleReviewLater}
         handleCheck={handleCheck}
+        isLoading={isLoading}
       />
     );
   }

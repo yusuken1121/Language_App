@@ -3,7 +3,7 @@ import { BasicInfoCard } from "../../word-search/[id]/_components/BasicInfoCard"
 import { LearningContextCard } from "../../word-search/[id]/_components/LearningContextCard";
 import { UsageInfoCard } from "../../word-search/[id]/_components/UsageInfoCard";
 import { QuizWord } from "../page";
-import { Check } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import { Clock } from "lucide-react";
 import { X } from "lucide-react";
 
@@ -13,12 +13,14 @@ const QuizAnswer = ({
   handleCross,
   handleReviewLater,
   handleCheck,
+  isLoading,
 }: {
   currentWord: QuizWord | null;
   nextWord: () => void;
   handleCross: () => void;
   handleReviewLater: () => void;
   handleCheck: () => void;
+  isLoading: boolean;
 }) => (
   <>
     {currentWord && (
@@ -63,7 +65,12 @@ const QuizAnswer = ({
             onClick={handleCheck}
             className="bg-secondary hover:bg-secondary/80 text-background font-bold flex-1"
           >
-            <Check className="mr-2 h-4 w-4" /> 覚えた
+            {isLoading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Check className="mr-2 h-4 w-4" />
+            )}
+            覚えた
           </Button>
         </div>
       </div>

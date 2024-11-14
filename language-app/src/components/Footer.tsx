@@ -4,6 +4,7 @@ import { Book, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { motion } from "motion/react";
 
 const Footer = () => {
   const pathname = usePathname();
@@ -12,12 +13,19 @@ const Footer = () => {
       <Link
         href="/word-search"
         className={cn(
-          "flex flex-col items-center text-muted-foreground flex-1",
+          "text-muted-foreground flex-1",
           pathname === "/word-search" && "text-background font-bold"
         )}
       >
-        <Book className="w-6 h-6" />
-        <span className="text-xs">フレーズ登録</span>
+        <motion.div
+          className="flex flex-col items-center justify-center"
+          whileHover={{ scale: 1.2 }}
+          onHoverStart={(event) => {}}
+          onHoverEnd={(event) => {}}
+        >
+          <Book className="w-6 h-6" />
+          <span className="text-xs">フレーズ登録</span>
+        </motion.div>
       </Link>
       <Link
         href="/quiz"
@@ -26,8 +34,15 @@ const Footer = () => {
           pathname === "/quiz" && "text-background font-bold"
         )}
       >
-        <CheckCircle className="w-6 h-6" />
-        <span className="text-xs">クイズ</span>
+        <motion.div
+          className="flex flex-col items-center justify-center"
+          whileHover={{ scale: 1.2 }}
+          onHoverStart={(event) => {}}
+          onHoverEnd={(event) => {}}
+        >
+          <CheckCircle className="w-6 h-6" />
+          <span className="text-xs">クイズ</span>
+        </motion.div>
       </Link>
     </footer>
   );

@@ -64,6 +64,9 @@ const SearchBar = ({ setIsWordAdded }: SearchBarProps) => {
     <div>
       <h1 className="text-2xl font-bold mb-6">Word Search</h1>
 
+      <p className="text-sm text-accent mb-2">
+        フレーズを入力し、ボタンを押してください。AIが自動的に意味や関連情報を調べ、リストに追加します。
+      </p>
       <form onSubmit={handleSubmit(handleSearch)} className="flex gap-4 mb-6">
         <div className="flex flex-col gap-2 w-full">
           <Input
@@ -76,7 +79,7 @@ const SearchBar = ({ setIsWordAdded }: SearchBarProps) => {
           />
           <div className="h-4">
             {errors.word && (
-              <p className="text-accent">{errors.word.message as string}</p>
+              <p className="text-red-500">{errors.word.message as string}</p>
             )}
           </div>
         </div>

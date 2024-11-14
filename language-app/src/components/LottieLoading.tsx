@@ -2,7 +2,7 @@
 import React from "react";
 import Lottie from "react-lottie";
 import animationData from "../public/assets/loading.json";
-const NotFound = () => {
+const LottieLoading = () => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -19,4 +19,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default LottieLoading;

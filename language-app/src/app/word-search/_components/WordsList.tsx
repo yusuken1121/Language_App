@@ -62,7 +62,11 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
   }
 
   if (isLoading) {
-    return <LottieLoading />;
+    return (
+      <div className="h-4/5">
+        <LottieLoading />
+      </div>
+    );
   }
 
   return (

@@ -30,12 +30,6 @@ const QuizAnswer = ({
               {currentWord?.wordName}
             </span>
           </p>
-          <Button
-            onClick={nextWord}
-            className="bg-accent text-background hover:bg-accent/80"
-          >
-            次の問題へ
-          </Button>
         </div>
         <BasicInfoCard
           meaning={currentWord?.meaning || ""}

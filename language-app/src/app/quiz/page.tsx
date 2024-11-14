@@ -30,6 +30,7 @@ export default function Quiz() {
   const [remainingWords, setRemainingWords] = useState<QuizWord[]>([]);
   const [showExplanation, setShowExplanation] = useState(false);
   const [quizEnded, setQuizEnded] = useState(false);
+  const [triggerNextWord, setTriggerNextWord] = useState(false); // 新しいトリガーステート
 
   // Fetch quiz words
   useEffect(() => {
@@ -44,6 +45,13 @@ export default function Quiz() {
     };
     fetchQuiz();
   }, []);
+
+  useEffect(() => {
+    if (triggerNextWord) {
+      nextWord();
+      setTriggerNextWord(false);
+    }
+  }, [remainingWords, triggerNextWord]);
 
   // Start quiz
   const startQuiz = () => {
@@ -67,23 +75,28 @@ export default function Quiz() {
     } catch (error) {
       console.error(error);
     }
+    setTriggerNextWord(true); // trigger nextWord
+  };
+
+  // Handle "答えを見る" button
+  const handleExplanation = () => {
     setShowExplanation(true);
   };
 
   // Handle "忘れた" button
   const handleCross = () => {
-    setShowExplanation(true);
+    nextWord();
   };
 
   // Handle "後で復習" button
   const handleReviewLater = () => {
     if (currentWord) {
       setLearnedWords(new Set(learnedWords).add(currentWord.id));
-      setRemainingWords(
-        remainingWords.filter((word) => word.id !== currentWord.id)
+      setRemainingWords((prevWords) =>
+        prevWords.filter((word) => word.id !== currentWord.id)
       );
     }
-    setShowExplanation(true);
+    setTriggerNextWord(true); // trigger nextWord
   };
 
   // Show next word
@@ -97,6 +110,7 @@ export default function Quiz() {
     }
   };
 
+  // Render quiz start page
   if (!quizStarted) {
     return (
       <div className="h-full bg-background flex items-center justify-center p-4">
@@ -190,7 +204,7 @@ export default function Quiz() {
 
           <div className="flex flex-col w-full lg:flex-row justify-center gap-4">
             <Button
-              onClick={handleCross}
+              onClick={handleExplanation}
               className="w-full bg-secondary text-background hover:bg-secondary/80 font-bold"
             >
               答えを見る

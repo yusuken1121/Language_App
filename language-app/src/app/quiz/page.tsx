@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Word } from "@prisma/client";
-import { Check, X, Clock } from "lucide-react";
 
 import QuizAnswer from "./_components/QuizAnswer";
 
@@ -151,7 +150,15 @@ export default function Quiz() {
   }
 
   if (showExplanation) {
-    return <QuizAnswer currentWord={currentWord} nextWord={nextWord} />;
+    return (
+      <QuizAnswer
+        currentWord={currentWord}
+        nextWord={nextWord}
+        handleCross={handleCross}
+        handleReviewLater={handleReviewLater}
+        handleCheck={handleCheck}
+      />
+    );
   }
 
   return (
@@ -184,24 +191,9 @@ export default function Quiz() {
           <div className="flex flex-col lg:flex-row justify-center gap-4">
             <Button
               onClick={handleCross}
-              className="bg-accent text-background hover:bg-accent/80 font-bold"
-              size="lg"
+              className="bg-secondary text-background hover:bg-secondary/80 font-bold"
             >
-              <X className="mr-2 h-4 w-4" /> 忘れた
-            </Button>
-            <Button
-              onClick={handleReviewLater}
-              className="bg-primary hover:bg-primary/90 text-background font-bold"
-              size="lg"
-            >
-              <Clock className="mr-2 h-4 w-4" /> 後で復習
-            </Button>
-            <Button
-              onClick={handleCheck}
-              className="bg-secondary hover:bg-secondary/80 text-background font-bold"
-              size="lg"
-            >
-              <Check className="mr-2 h-4 w-4" /> 覚えた
+              答えを見る
             </Button>
           </div>
         </CardContent>

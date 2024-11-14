@@ -123,7 +123,10 @@ export async function POST(request: Request) {
     const existingWord = await prisma.word.findFirst({
       where: {
         userId,
-        wordName: searchTerm,
+        wordName: {
+          equals: searchTerm.trim(),
+          mode: "insensitive",
+        },
       },
     });
     if (existingWord) {

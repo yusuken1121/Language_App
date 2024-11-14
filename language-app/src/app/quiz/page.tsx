@@ -1,12 +1,19 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Word } from "@prisma/client";
 
 import QuizAnswer from "./_components/QuizAnswer";
+import Link from "next/link";
 
 export type QuizWord = Pick<
   Word,
@@ -116,7 +123,7 @@ export default function Quiz() {
 
   // Render quiz start page
   if (!quizStarted) {
-    return (
+    return remainingWords.length > 0 ? (
       <div className="h-full bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md text-center bg-white">
           <CardHeader>
@@ -132,6 +139,24 @@ export default function Quiz() {
               クイズを開始
             </Button>
           </CardContent>
+        </Card>
+      </div>
+    ) : (
+      <div className="h-full bg-background flex items-center justify-center p-4">
+        <Card className="w-full max-w-md text-center bg-white">
+          <CardHeader>
+            <CardTitle className="text-2xl text-background">
+              英単語学習クイズ
+            </CardTitle>
+          </CardHeader>
+          <CardContent>今日学習する単語はありません！</CardContent>
+          <CardFooter className="flex justify-center">
+            <Link href="/word-search">
+              <Button className="bg-accent text-background hover:bg-accent/80">
+                今日の学習を追加する
+              </Button>
+            </Link>
+          </CardFooter>
         </Card>
       </div>
     );

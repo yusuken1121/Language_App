@@ -125,7 +125,7 @@ export async function POST(request: Request) {
         userId,
         wordName: {
           equals: searchTerm.trim(),
-          mode: "insensitive",
+          mode: "insensitive", // 大文字小文字を区別しない
         },
       },
     });

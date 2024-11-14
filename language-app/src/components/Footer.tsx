@@ -19,7 +19,9 @@ const Footer = () => {
       >
         <motion.div
           className="flex flex-col items-center justify-center"
+          whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 1.2 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
           <Book className="w-6 h-6" />
           <span className="text-xs">フレーズ登録</span>
@@ -34,7 +36,9 @@ const Footer = () => {
       >
         <motion.div
           className="flex flex-col items-center justify-center"
+          whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 1.2 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
           <CheckCircle className="w-6 h-6" />
           <span className="text-xs">クイズ</span>

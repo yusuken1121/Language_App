@@ -7,6 +7,7 @@ import LottieLoading from "@/components/LottieLoading";
 import { cn } from "@/lib/utils";
 import PaginationList from "./WordsListPagnination"; // PaginationList コンポーネントをインポート
 import SortBox from "./SortBox";
+import { motion } from "motion/react";
 
 type WordsListProps = {
   isWordAdded: boolean;
@@ -82,7 +83,13 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
             <>
               <ul className="divide-y divide-gray-200">
                 {wordList.map((word) => (
-                  <li key={word.id} className="py-4">
+                  <motion.li
+                    key={word.id}
+                    className="py-4"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
                     <Link
                       href={`/word-search/${word.id}`}
                       className="block hover:bg-gray-50"
@@ -107,7 +114,7 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
                         {word.meaning}
                       </p>
                     </Link>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
             </>

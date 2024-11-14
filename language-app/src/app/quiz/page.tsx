@@ -188,10 +188,10 @@ export default function Quiz() {
             </CardContent>
           </Card>
 
-          <div className="flex flex-col lg:flex-row justify-center gap-4">
+          <div className="flex flex-col w-full lg:flex-row justify-center gap-4">
             <Button
               onClick={handleCross}
-              className="bg-secondary text-background hover:bg-secondary/80 font-bold"
+              className="w-full bg-secondary text-background hover:bg-secondary/80 font-bold"
             >
               答えを見る
             </Button>

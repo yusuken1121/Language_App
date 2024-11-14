@@ -12,6 +12,10 @@ import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar, SidebarToggle } from "@/components/organisms/AppSidebar";
 import { Toaster } from "@/components/ui/sonner";
+import Link from "next/link";
+import { Book, CheckCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Footer from "@/components/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -46,12 +50,13 @@ export default function RootLayout({
 
             {/* メインコンテンツのラッパー */}
             <div className="flex flex-col flex-1 min-h-screen">
-              <header className="w-full h-6 flex items-center bg-background mx-auto">
+              <header className="hidden md:flex w-full h-6 items-center bg-background mx-auto">
                 <SidebarToggle />
               </header>
               <main className="flex-1 flex flex-col bg-background text-white">
                 <div className="flex-1">{children}</div>
               </main>
+              <Footer />
               <Toaster
                 toastOptions={{
                   duration: 5000,

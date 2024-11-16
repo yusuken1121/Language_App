@@ -9,6 +9,7 @@ import PaginationList from "./WordsListPagnination"; // PaginationList コンポ
 import SortBox from "./SortBox";
 import { motion } from "motion/react";
 import LottieNotFound from "@/components/LottieNotFound";
+import LottieError from "@/components/LottieError";
 
 type WordsListProps = {
   isWordAdded: boolean;
@@ -60,7 +61,14 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
   }, [isWordAdded, setIsWordAdded, currentPage, sort]);
 
   if (error) {
-    return <div>{error}</div>;
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <div>
+          {error}
+          <LottieError />
+        </div>
+      </div>
+    );
   }
 
   if (isLoading) {

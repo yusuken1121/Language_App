@@ -16,7 +16,7 @@ const prompt = `JSON形式で単語「{word}」に関する情報を提供して
 * **pronunciation:** 発音
   * **american:** アメリカ英語の発音（国際音声記号）
   * **british:** イギリス英語の発音（国際音声記号）
-* **synonym:** 同義語（英語）: 単語の同義語
+* **synonym:** 同義語（英語）: 単語の同義語 (カンマ区切りで指定)
 * **formalityLevel:** 使用レベル (フォーマル, 普通, カジュアル)
 * **usageArea:** 使用場所（英語）: 単語が使用される場所 (アメリカ、イギリス、オーストラリア、カナダ、世界共通、その他)
 * **isExist:** 単語が存在するかどうか (true, false)
@@ -31,7 +31,7 @@ const prompt = `JSON形式で単語「{word}」に関する情報を提供して
     "american": "/ˌɛtɪˈmɑːlədʒi/",
     "british": "/ˌɛtɪˈmɒlədʒi/"
   },
-  "synonym": "derivation",
+  "synonym": "derivation, origin, root", // カンマ区切りで指定
   "formalityLevel": "フォーマル",
   "usageArea": "アメリカ",
   "isExist": true

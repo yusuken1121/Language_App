@@ -1,6 +1,5 @@
 import { getUserId } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { startOfDay } from "date-fns";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -40,11 +39,6 @@ export async function GET() {
       }),
     ]);
 
-    console.log({
-      total: allWords,
-      reviewToday: reviewWords,
-      completed: learnedWords,
-    });
     return NextResponse.json({
       stats: {
         total: allWords,

@@ -2,115 +2,90 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { BookOpen, Search, Settings, TrendingUp } from "lucide-react";
+import { BookOpen, LogOut, Search, Settings, TrendingUp } from "lucide-react";
 import Link from "next/link";
 
-import { auth } from "@clerk/nextjs/server";
+import { apiClientFetch } from "@/config/apiClient";
+import { SignOutButton } from "@clerk/nextjs";
 
 export default async function Dashboard() {
-  // In a real app, these would be fetched from an API or state management system
-  const userStats = {
-    wordsLearned: 150,
-    totalWords: 1000,
-    quizScore: 85,
-    streak: 7,
-  };
-  const { userId } = await auth();
+  // SSR
+  const { stats } = await apiClientFetch("dashboard");
+
+  if (!stats) {
+    console.error("Failed to fetch stats data");
+    return (
+      <div className="h-full flex items-center justify-center">
+        データの読み込みに失敗しました。
+      </div>
+    );
+  }
+
+  const { total, reviewToday, completed } = stats;
 
   return (
-    <div className="min-h-screen bg-[#181059] text-white p-6">
-      <header className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Welcome, User!</h1>
-        <Button variant="ghost" className="text-white hover:text-[#FECF00]">
-          <Settings className="mr-2 h-4 w-4" /> Settings
-        </Button>
-      </header>
-
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
-        <Card className="bg-white text-[#181059]">
+    <div className="h-full flex flex-col gap-2 bg-background text-white p-6">
+      <div className="grid gap-6">
+        {/* 学習した単語数 */}
+        <Card className="bg-white text-background">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Words Learned</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              学習済みの単語数
+            </CardTitle>
             <BookOpen className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {userStats.wordsLearned}/{userStats.totalWords}
+              {completed}/{total}
             </div>
-            <Progress
-              value={(userStats.wordsLearned / userStats.totalWords) * 100}
-              className="mt-2"
-            />
+            <Progress value={(completed / total) * 100} className="mt-2" />
           </CardContent>
         </Card>
-        <Card className="bg-white text-[#181059]">
+
+        {/* レビューすべき単語 */}
+        <Card className="bg-white text-background">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Quiz Performance
-            </CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{userStats.quizScore}%</div>
-            <p className="text-xs text-muted-foreground">Average score</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-white text-[#181059]">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Daily Streak</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{userStats.streak} days</div>
-            <p className="text-xs text-muted-foreground">Keep it up!</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-white text-[#181059]">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Words to Review
+              今日学習する単語数
             </CardTitle>
             <BookOpen className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">24</div>
+            <div className="text-2xl font-bold">{reviewToday}</div>
             <p className="text-xs text-muted-foreground">
-              Words due for review
+              今日復習が必要な単語
             </p>
           </CardContent>
         </Card>
-      </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="bg-white text-[#181059] col-span-2">
-          <CardHeader>
-            <CardTitle>Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2">
-              <li>Completed daily quiz - Score: 90%</li>
-              <li>Learned 5 new words</li>
-              <li>Reviewed 20 words</li>
-              <li>Achieved 7-day streak</li>
-            </ul>
-          </CardContent>
-        </Card>
-        <Card className="bg-white text-[#181059]">
-          <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Link href="/word-search" passHref>
-              <Button className="w-full bg-[#FECF00] text-[#181059] hover:bg-[#FECF00]/80">
-                <Search className="mr-2 h-4 w-4" /> Search Words
-              </Button>
-            </Link>
-            <Link href="/quiz" passHref>
-              <Button className="w-full bg-[#FECF00] text-[#181059] hover:bg-[#FECF00]/80">
-                <BookOpen className="mr-2 h-4 w-4" /> Start Quiz
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
+        {/* クイックアクション */}
+        <div className="grid gap-6">
+          <Card className="bg-white text-background">
+            <CardHeader>
+              <CardTitle>クイックアクション</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex flex-col gap-3">
+                <Link href="/word-search" passHref>
+                  <Button className="w-full bg-secondary text-background hover:bg-secondary/80">
+                    <Search className="mr-2 h-4 w-4" /> 単語を検索
+                  </Button>
+                </Link>
+                <Link href="/quiz" passHref>
+                  <Button className="w-full bg-secondary text-background hover:bg-secondary/80">
+                    <BookOpen className="mr-2 h-4 w-4" /> クイズを開始
+                  </Button>
+                </Link>
+                <SignOutButton>
+                  <Button className="w-full bg-secondary text-background hover:bg-secondary/80">
+                    <LogOut className="h-4 w-4" />
+                    <span>Logout</span>
+                  </Button>
+                </SignOutButton>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

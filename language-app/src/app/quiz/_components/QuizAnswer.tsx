@@ -6,7 +6,7 @@ import { QuizWord } from "../page";
 import { Check, Loader2 } from "lucide-react";
 import { Clock } from "lucide-react";
 import { X } from "lucide-react";
-
+import { motion } from "motion/react";
 const QuizAnswer = ({
   currentWord,
   nextWord,
@@ -54,9 +54,14 @@ const QuizAnswer = ({
         <div className="flex items-center justify-between w-full">
           <p>
             正解:{" "}
-            <span className="font-bold text-3xl text-primary">
+            <motion.span
+              className="font-bold text-3xl text-primary"
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1.2 }}
+              transition={{ type: "spring", duration: 0.5 }}
+            >
               {currentWord?.wordName}
-            </span>
+            </motion.span>
           </p>
         </div>
         <BasicInfoCard

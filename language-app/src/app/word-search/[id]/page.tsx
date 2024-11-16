@@ -128,8 +128,7 @@ export default function WordSearchPage() {
             {/* Progress Card */}
             <ProgressCard
               learningStatus={word?.learningStatus || 0}
-              correctCount={word?.correctCount || 0}
-              lastCorrectAt={formatDate(word?.lastCorrectAt || null)}
+              createdAt={formatDate(word?.lastCorrectAt || null)}
               nextReviewAt={formatDate(word?.nextReviewAt || null)}
             />
 

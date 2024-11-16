@@ -94,8 +94,7 @@ export async function PUT(request: Request) {
         newNextReviewAt = addDays(new Date(), 30);
         break;
       case 4:
-        newLearningStatus = 4;
-        newNextReviewAt = addDays(new Date(), 30);
+        newLearningStatus = 99;
         break;
       default:
         newLearningStatus = learningStatus;

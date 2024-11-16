@@ -4,14 +4,12 @@ import { Clock } from "lucide-react";
 
 export function ProgressCard({
   learningStatus,
-  correctCount,
-  lastCorrectAt,
   nextReviewAt,
+  createdAt,
 }: {
   learningStatus: number;
-  correctCount: number;
-  lastCorrectAt: string;
   nextReviewAt: string;
+  createdAt: string;
 }) {
   return (
     <Card className="bg-card text-card-foreground w-full">
@@ -25,12 +23,8 @@ export function ProgressCard({
           <p>{getLearningStatusText(learningStatus)}</p>
         </div>
         <div>
-          <h3 className="font-semibold">Correct Answers</h3>
-          <p>{correctCount} times</p>
-        </div>
-        <div>
           <h3 className="font-semibold">Last Correct Answer</h3>
-          <p>{lastCorrectAt}</p>
+          <p>{createdAt}</p>
         </div>
         <div>
           <h3 className="font-semibold">Next Review</h3>

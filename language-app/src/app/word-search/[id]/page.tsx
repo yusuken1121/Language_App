@@ -17,6 +17,7 @@ import { formatDate } from "@/lib/wordCard";
 import LottieLoading from "@/components/LottieLoading";
 
 import { DeleteDialog } from "./_components/DeleteDialog";
+import LottieNotFound from "@/components/LottieNotFound";
 
 export default function WordSearchPage() {
   const [word, setWord] = useState<Word>();
@@ -66,11 +67,30 @@ export default function WordSearchPage() {
     }
   };
 
-  return (
-    <div className="h-full p-6">
-      {isLoading ? (
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-4/5">
         <LottieLoading />
-      ) : (
+      </div>
+    );
+  }
+
+  if (!word) {
+    return (
+      <div className="flex flex-col items-center justify-center h-4/5">
+        <div>
+          <div className="text-2xl text-accent">
+            そのフレーズは登録されていません
+          </div>
+          <LottieNotFound />
+        </div>
+      </div>
+    );
+  }
+
+  if (word) {
+    return (
+      <div className="h-full p-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center mb-6">
             <Link href="/word-search">
@@ -136,7 +156,7 @@ export default function WordSearchPage() {
             <MemoCard memo={word?.memo || ""} id={params.id as string} />
           </div>
         </div>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 }

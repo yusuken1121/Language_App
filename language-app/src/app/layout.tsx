@@ -12,9 +12,7 @@ import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar, SidebarToggle } from "@/components/organisms/AppSidebar";
 import { Toaster } from "@/components/ui/sonner";
-import Link from "next/link";
-import { Book, CheckCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
 import Footer from "@/components/Footer";
 
 const geistSans = localFont({

@@ -71,20 +71,24 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
     );
   }
 
-  return wordList.length === 0 ? (
-    <div className="flex flex-col items-center justify-center h-4/5">
-      <div>
-        <div className="text-2xl">
-          フレーズを入力して
-          <br />
-          単語学習を始めましょう！
+  if (wordList.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center h-3/4">
+        <div>
+          <div className="text-2xl">
+            フレーズを入力して
+            <br />
+            単語学習を始めましょう！
+          </div>
+          <LottieNotFound />
         </div>
-        <LottieNotFound />
       </div>
-    </div>
-  ) : (
-    <>
-      <div className="flex flex-col gap-4 h-full">
+    );
+  }
+
+  if (wordList.length > 0) {
+    return (
+      <div className="flex flex-col gap-4 max-h-full">
         <SortBox setSort={setSort} />
         <Card className="bg-white text-background">
           <CardContent>
@@ -130,8 +134,8 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
           onPageChange={setCurrentPage}
         />
       </div>
-    </>
-  );
+    );
+  }
 };
 
 export default WordsList;

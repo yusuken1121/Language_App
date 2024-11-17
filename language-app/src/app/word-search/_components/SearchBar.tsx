@@ -29,10 +29,10 @@ const SearchBar = ({
       .string()
       .min(1, { message: "word is required" })
       .regex(/^[A-Za-z\s.,?!'";:-]+$/, {
-        message: "Only English letters and common punctuation are allowed",
+        message: "英字のみ入力可能です。",
       })
       .refine((value) => value.trim() !== "", {
-        message: "word is required",
+        message: "入力してください。",
       }),
   });
   const {

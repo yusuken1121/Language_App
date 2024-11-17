@@ -14,10 +14,17 @@ import LottieError from "@/components/LottieError";
 type WordsListProps = {
   isWordAdded: boolean;
   setIsWordAdded: (value: boolean) => void;
+  searchTerm: string;
+  setIsSearchLoading: (value: boolean) => void;
 };
 export type SortType = "latest" | "oldest" | "asc" | "desc";
 
-const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
+const WordsList = ({
+  isWordAdded,
+  setIsWordAdded,
+  searchTerm,
+  setIsSearchLoading,
+}: WordsListProps) => {
   const [wordList, setWordList] = useState<Word[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,7 +37,12 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
   useEffect(() => {
     const fetchWords = async (page: number) => {
       try {
-        const response = await fetch(`/api/words?page=${page}&sort=${sort}`, {
+        setIsLoading(true);
+        let url = `/api/words?page=${page}&sort=${sort}`;
+        if (searchTerm) {
+          url = url + `&search=${encodeURIComponent(searchTerm)}`;
+        }
+        const response = await fetch(url, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -44,13 +56,14 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
 
         const words = await response.json();
         setWordList(words.data);
-        setTotalPage(words.totalPages); // APIが総ページ数を返すと仮定
+        setTotalPage(words.totalPages);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching words:", error);
         setError("単語の取得に失敗しました");
       } finally {
         setIsLoading(false);
+        setIsSearchLoading(false);
       }
     };
 
@@ -58,11 +71,11 @@ const WordsList = ({ isWordAdded, setIsWordAdded }: WordsListProps) => {
       setIsWordAdded(false);
     }
     fetchWords(currentPage);
-  }, [isWordAdded, setIsWordAdded, currentPage, sort]);
+  }, [isWordAdded, setIsWordAdded, currentPage, sort, searchTerm]);
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center h-full">
+      <div className="flex flex-col items-center justify-center max-h-full">
         <div>
           {error}
           <LottieError />

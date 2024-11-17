@@ -41,11 +41,14 @@ const prompt = `JSON形式で単語「{word}」に関する情報を提供して
 export async function GET(request: NextRequest) {
   // pagination query
   const searchParams = request.nextUrl.searchParams;
-  const page = Number(searchParams.get("page"));
+  const page = Number(searchParams.get("page")) || 1;
   const pageSize = 10;
 
   // sort query
-  const sort = searchParams.get("sort");
+  const sort = searchParams.get("sort") || "latest";
+
+  // search word
+  const word = searchParams.get("search") || "";
 
   try {
     const userId = await getUserId();
@@ -82,7 +85,10 @@ export async function GET(request: NextRequest) {
     }
 
     const words = await prisma.word.findMany({
-      where: { userId },
+      where: {
+        userId,
+        wordName: { contains: word.trim(), mode: "insensitive" },
+      },
       skip: (page - 1) * pageSize,
       take: pageSize,
       orderBy: sortOrder,

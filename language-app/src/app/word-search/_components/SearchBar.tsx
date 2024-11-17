@@ -1,5 +1,5 @@
 "use client";
-import { Loader2, Plus } from "lucide-react";
+import { Loader2, Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
@@ -9,10 +9,21 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 interface SearchBarProps {
   setIsWordAdded: (value: boolean) => void;
+  setSearchTerm: (value: string) => void;
+  searchTerm: string;
+  setIsSearchLoading: (value: boolean) => void;
+  isSearchLoading: boolean;
 }
 
-const SearchBar = ({ setIsWordAdded }: SearchBarProps) => {
-  const [isLoading, setIsLoading] = useState(false);
+const SearchBar = ({
+  setIsWordAdded,
+  searchTerm,
+  setSearchTerm,
+  isSearchLoading,
+  setIsSearchLoading,
+}: SearchBarProps) => {
+  // const [isSearchLoading, setIsSearchLoading] = useState(false);
+  const [isAddLoading, setIsAddLoading] = useState(false);
   const formSchema = z.object({
     word: z
       .string()
@@ -31,32 +42,41 @@ const SearchBar = ({ setIsWordAdded }: SearchBarProps) => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(formSchema),
+    defaultValues: { word: searchTerm },
   });
-  const searchTerm = watch("word");
-  const searchWord = async (searchTerm: string) => {
-    const response = await fetch(`/api/words`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ searchTerm }),
-    });
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || "Failed to fetch data");
+
+  const onSubmit = async (data: { word: string }) => {
+    const action = document.activeElement?.getAttribute("name");
+    const word = data.word.trim();
+
+    if (action === "search") {
+      setIsSearchLoading(true);
+      setSearchTerm(word);
+      setIsWordAdded(false);
+    } else if (action === "add") {
+      await handleAdd(word);
     }
-    return await response.json();
   };
 
-  const handleSearch = async () => {
+  const handleAdd = async (word: string) => {
     try {
-      setIsLoading(true);
-      await searchWord(searchTerm);
+      setIsAddLoading(true);
+      const response = await fetch("api/words", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ searchTerm: word }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "単語の追加に失敗しました");
+      }
       toast.success("単語を追加しました", { position: "top-right" });
       setIsWordAdded(true);
     } catch (error) {
       console.error("Error during search:", error);
       toast.error("検索中にエラーが発生しました", { position: "top-right" });
     } finally {
-      setIsLoading(false);
+      setIsAddLoading(false);
     }
   };
 
@@ -64,16 +84,21 @@ const SearchBar = ({ setIsWordAdded }: SearchBarProps) => {
     <div>
       <h1 className="text-2xl font-bold mb-6">Word Search</h1>
 
-      <p className="text-sm text-accent mb-2">
-        フレーズを入力し、ボタンを押してください。AIが自動的に意味や関連情報を調べ、リストに追加します。
-      </p>
-      <form onSubmit={handleSubmit(handleSearch)} className="flex gap-4 mb-6">
+      <div className="flex flex-col gap-1 mb-2">
+        <p className="text-sm text-accent">
+          [プラスボタン]でAIが意味や関連情報を調べてリストに追加
+        </p>
+        <p className="text-sm text-accent">
+          [検索ボタン]で入力したフレーズを含むものを抽出
+        </p>
+      </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex gap-2 mb-6">
         <div className="flex flex-col gap-2 w-full">
           <Input
             {...register("word")}
-            placeholder="フレーズを追加"
+            placeholder="フレーズを検索・追加"
             type="text"
-            value={searchTerm}
+            // value={searchTerm}
             // onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full bg-accent text-background"
           />
@@ -84,10 +109,22 @@ const SearchBar = ({ setIsWordAdded }: SearchBarProps) => {
           </div>
         </div>
         <Button
-          className="bg-primary text-accent-foreground hover:bg-accent/80"
-          disabled={isLoading}
+          name="search"
+          className="bg-secondary text-accent-foreground hover:bg-accent/80"
+          disabled={isSearchLoading}
         >
-          {isLoading ? (
+          {isSearchLoading ? (
+            <Loader2 className="animate-spin" />
+          ) : (
+            <Search className="h-4 w-4" />
+          )}
+        </Button>
+        <Button
+          name="add"
+          className="bg-primary text-accent-foreground hover:bg-accent/80"
+          disabled={isAddLoading}
+        >
+          {isAddLoading ? (
             <Loader2 className="animate-spin" />
           ) : (
             <Plus className="h-4 w-4" />

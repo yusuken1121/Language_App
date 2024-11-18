@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
     // pagination
     // count of words
     const totalWords = await prisma.word.count({
-      where: { userId },
+      where: { userId, wordName: word },
     });
 
     // sort

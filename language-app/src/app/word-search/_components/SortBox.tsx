@@ -18,7 +18,7 @@ const SortBox = ({ setSort }: { setSort: (sort: SortType) => void }) => {
   return (
     <div className="w-[150px]">
       <Select onValueChange={(value) => setSort(value as SortType)}>
-        <SelectTrigger className="bg-secondary text-background">
+        <SelectTrigger className="bg-accent text-background">
           <SelectValue placeholder="並び替え" />
         </SelectTrigger>
         <SelectContent>

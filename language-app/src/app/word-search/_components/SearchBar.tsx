@@ -22,40 +22,36 @@ const SearchBar = ({
   isSearchLoading,
   setIsSearchLoading,
 }: SearchBarProps) => {
-  // const [isSearchLoading, setIsSearchLoading] = useState(false);
   const [isAddLoading, setIsAddLoading] = useState(false);
+
   const formSchema = z.object({
     word: z
       .string()
-      .min(1, { message: "word is required" })
+      .min(1, { message: "入力してください。" })
       .regex(/^[A-Za-z\s.,?!'";:-]+$/, {
         message: "英字のみ入力可能です。",
-      })
-      .refine((value) => value.trim() !== "", {
-        message: "入力してください。",
       }),
   });
+
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: { word: searchTerm },
   });
 
-  const onSubmit = async (data: { word: string }) => {
-    const action = document.activeElement?.getAttribute("name");
+  const onSearch = (data: { word: string }) => {
     const word = data.word.trim();
+    setIsSearchLoading(true);
+    setSearchTerm(word);
+    setIsWordAdded(false);
+  };
 
-    if (action === "search") {
-      setIsSearchLoading(true);
-      setSearchTerm(word);
-      setIsWordAdded(false);
-    } else if (action === "add") {
-      await handleAdd(word);
-    }
+  const onAdd = async (data: { word: string }) => {
+    const word = data.word.trim();
+    await handleAdd(word);
   };
 
   const handleAdd = async (word: string) => {
@@ -82,25 +78,17 @@ const SearchBar = ({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Word Search</h1>
-
-      <div className="flex flex-col gap-1 mb-2">
-        <p className="text-sm text-accent">
-          [プラスボタン]でAIが意味や関連情報を調べてリストに追加
-        </p>
-        <p className="text-sm text-accent">
-          [検索ボタン]で入力したフレーズを含むものを抽出
-        </p>
+      <div className="flex flex-col gap-2 text-accent mb-2">
+        <p>検索ボタンで入力したフレーズを含むものを抽出します。</p>
+        <p>プラスボタンでAIが意味や関連情報を調べてリストに追加</p>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex gap-2 mb-6">
+      <form className="flex gap-2 mb-6">
         <div className="flex flex-col gap-2 w-full">
           <Input
             {...register("word")}
             placeholder="フレーズを検索・追加"
             type="text"
-            // value={searchTerm}
-            // onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-accent text-background"
+            className="w-full bg-white text-background"
           />
           <div className="h-4">
             {errors.word && (
@@ -109,8 +97,9 @@ const SearchBar = ({
           </div>
         </div>
         <Button
-          name="search"
-          className="bg-secondary text-accent-foreground hover:bg-accent/80"
+          type="button"
+          onClick={handleSubmit(onSearch)}
+          className="bg-secondary text-accent-foreground hover:bg-secondary/80"
           disabled={isSearchLoading}
         >
           {isSearchLoading ? (
@@ -120,7 +109,8 @@ const SearchBar = ({
           )}
         </Button>
         <Button
-          name="add"
+          type="button"
+          onClick={handleSubmit(onAdd)}
           className="bg-primary text-accent-foreground hover:bg-accent/80"
           disabled={isAddLoading}
         >

@@ -78,7 +78,7 @@ const SearchBar = ({
 
   return (
     <div>
-      <div className="flex flex-col gap-2 text-accent mb-2">
+      <div className="flex flex-col gap-2 text-accent text-xs mb-2">
         <p>検索ボタンで入力したフレーズを含むものを抽出します。</p>
         <p>プラスボタンでAIが意味や関連情報を調べてリストに追加</p>
       </div>

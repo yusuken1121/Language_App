@@ -13,6 +13,7 @@ import LottieError from "@/components/LottieError";
 import FilterBox from "./FilterSort/FilterBox";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
+import { queryKeys } from "@/config/fitlerCategory";
 
 type WordsListProps = {
   isWordAdded: boolean;
@@ -39,7 +40,10 @@ const WordsList = ({
 
   const searchParams = useSearchParams();
 
-  const formalityParam = searchParams.get("formality") || "";
+  // filters
+  const formalityParam = searchParams.get(queryKeys[0]) || "";
+  const favoriteParam = searchParams.get(queryKeys[1]) || "";
+
   //無限レンダリングを防止
   const formalityFilters = useMemo(() => {
     return formalityParam.split("%").filter(Boolean);
@@ -58,8 +62,16 @@ const WordsList = ({
 
         // formality Level
         if (formalityFilters.length > 0) {
-          url += `&formality=${encodeURIComponent(formalityFilters.join(","))}`;
+          url += `&${queryKeys[0]}=${encodeURIComponent(
+            formalityFilters.join(",")
+          )}`;
         }
+
+        // favorite
+        if (favoriteParam) {
+          url += `&${queryKeys[1]}=${encodeURIComponent(favoriteParam)}`;
+        }
+
         const response = await fetch(url, {
           method: "GET",
           headers: {
@@ -96,6 +108,7 @@ const WordsList = ({
     sort,
     searchTerm,
     formalityFilters,
+    favoriteParam,
   ]);
 
   // エラー時

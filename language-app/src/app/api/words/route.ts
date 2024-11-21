@@ -1,5 +1,5 @@
 import { GEMINI_API_KEY } from "@/config/ENV";
-import { filterFormality } from "@/config/fitlerCategory";
+import { filterFormality, queryKeys } from "@/config/fitlerCategory";
 import { getUserId } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { GoogleGenerativeAI } from "@google/generative-ai";
@@ -39,12 +39,18 @@ const prompt = `JSON形式で単語「{word}」に関する情報を提供して
 }
 `;
 
+// フィルター追加方法
+// Filter[1]を更新
+// Filter[2]を更新
+// filter[3]を更新
+
 export async function GET(request: NextRequest) {
   // pagination query
   const searchParams = request.nextUrl.searchParams;
   const page = Number(searchParams.get("page")) || 1;
   const pageSize = 10;
 
+  // Filter[1]
   // sort query
   const sort = searchParams.get("sort") || "latest";
 
@@ -52,11 +58,15 @@ export async function GET(request: NextRequest) {
   const word = searchParams.get("search") || "";
 
   // formality level
-  const formalityParam = searchParams.get("formality") || "";
+  const formalityParam = searchParams.get(queryKeys[0]) || "";
   const formalityFilters = formalityParam
     .split(",")
     .map((item) => item.trim())
     .filter(Boolean); // 空の値を除外
+
+  // favorite
+  const favoriteParam = searchParams.get("favorite") || "";
+  const favoriteFilter = favoriteParam === "true"; // true の場合のみフィルタ適用
 
   try {
     const userId = await getUserId();
@@ -69,6 +79,7 @@ export async function GET(request: NextRequest) {
 
     // pagination
     // count of words
+    // Filter[2]
     const totalWords = await prisma.word.count({
       where: {
         userId,
@@ -76,6 +87,7 @@ export async function GET(request: NextRequest) {
         ...(formalityFilters.length > 0 && {
           formalityLevel: { in: formalityFilters },
         }),
+        ...(favoriteFilter && { favorite: favoriteFilter }),
       },
     });
 
@@ -98,6 +110,7 @@ export async function GET(request: NextRequest) {
         sortOrder = { createdAt: "desc" };
     }
 
+    // filter[3]
     const words = await prisma.word.findMany({
       where: {
         userId,
@@ -105,6 +118,7 @@ export async function GET(request: NextRequest) {
         ...(formalityFilters.length > 0 && {
           formalityLevel: { in: formalityFilters },
         }),
+        ...(favoriteFilter && { favorite: favoriteFilter }),
       },
       skip: (page - 1) * pageSize,
       take: pageSize,

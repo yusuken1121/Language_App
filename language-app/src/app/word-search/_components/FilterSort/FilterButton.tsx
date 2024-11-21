@@ -26,7 +26,7 @@ const FilterButton: FC<FilterButtonProps> = ({
             onClick={() => onFilterChange(queryKey, item.label)}
             className={cn(
               "bg-white text-background hover:bg-background/80 hover:text-white",
-              isActive && "bg-background text-white"
+              isActive && "bg-background hover:bg-background/80 text-white"
             )}
           >
             {item.name}

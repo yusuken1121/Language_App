@@ -1,4 +1,5 @@
 import { GEMINI_API_KEY } from "@/config/ENV";
+import { filterFormality } from "@/config/fitlerCategory";
 import { getUserId } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { GoogleGenerativeAI } from "@google/generative-ai";
@@ -50,6 +51,13 @@ export async function GET(request: NextRequest) {
   // search word
   const word = searchParams.get("search") || "";
 
+  // formality level
+  const formalityParam = searchParams.get("formality") || "";
+  const formalityFilters = formalityParam
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean); // 空の値を除外
+
   try {
     const userId = await getUserId();
     if (!userId) {
@@ -65,6 +73,9 @@ export async function GET(request: NextRequest) {
       where: {
         userId,
         wordName: { contains: word.trim(), mode: "insensitive" },
+        ...(formalityFilters.length > 0 && {
+          formalityLevel: { in: formalityFilters },
+        }),
       },
     });
 
@@ -91,6 +102,9 @@ export async function GET(request: NextRequest) {
       where: {
         userId,
         wordName: { contains: word.trim(), mode: "insensitive" },
+        ...(formalityFilters.length > 0 && {
+          formalityLevel: { in: formalityFilters },
+        }),
       },
       skip: (page - 1) * pageSize,
       take: pageSize,

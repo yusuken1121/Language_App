@@ -6,10 +6,13 @@ import { Word } from "@prisma/client";
 import LottieLoading from "@/components/LottieLoading";
 import { cn } from "@/lib/utils";
 import PaginationList from "./WordsListPagnination"; // PaginationList コンポーネントをインポート
-import SortBox from "./SortBox";
+import SortBox from "./FilterSort/SortBox";
 import { motion } from "motion/react";
 import LottieNotFound from "@/components/LottieNotFound";
 import LottieError from "@/components/LottieError";
+import FilterBox from "./FilterSort/FilterBox";
+import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 
 type WordsListProps = {
   isWordAdded: boolean;
@@ -34,13 +37,28 @@ const WordsList = ({
   // sort
   const [sort, setSort] = useState<SortType>("latest");
 
+  const searchParams = useSearchParams();
+
+  const formalityParam = searchParams.get("formality") || "";
+  //無限レンダリングを防止
+  const formalityFilters = useMemo(() => {
+    return formalityParam.split("%").filter(Boolean);
+  }, [formalityParam]);
+
   useEffect(() => {
     const fetchWords = async (page: number) => {
       try {
         setIsLoading(true);
         let url = `/api/words?page=${page}&sort=${sort}`;
+
+        // フレーズ検索
         if (searchTerm) {
-          url = url + `&search=${encodeURIComponent(searchTerm)}`;
+          url += `&search=${encodeURIComponent(searchTerm)}`;
+        }
+
+        // formality Level
+        if (formalityFilters.length > 0) {
+          url += `&formality=${encodeURIComponent(formalityFilters.join(","))}`;
         }
         const response = await fetch(url, {
           method: "GET",
@@ -71,8 +89,16 @@ const WordsList = ({
       setIsWordAdded(false);
     }
     fetchWords(currentPage);
-  }, [isWordAdded, setIsWordAdded, currentPage, sort, searchTerm]);
+  }, [
+    isWordAdded,
+    setIsWordAdded,
+    currentPage,
+    sort,
+    searchTerm,
+    formalityFilters,
+  ]);
 
+  // エラー時
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center max-h-full">
@@ -84,6 +110,7 @@ const WordsList = ({
     );
   }
 
+  // ローディング中
   if (isLoading) {
     return (
       <div className="h-4/5">
@@ -92,6 +119,7 @@ const WordsList = ({
     );
   }
 
+  // データが存在しない時
   if (wordList.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-3/4">
@@ -107,10 +135,15 @@ const WordsList = ({
     );
   }
 
+  // データが存在する時
   if (wordList.length > 0) {
     return (
       <div className="flex flex-col gap-4 max-h-full">
-        <SortBox setSort={setSort} />
+        <div className="flex items-center gap-2">
+          <SortBox setSort={setSort} />
+          <FilterBox />
+        </div>
+
         <Card className="bg-white text-background">
           <CardContent>
             <ul className="divide-y divide-gray-200">

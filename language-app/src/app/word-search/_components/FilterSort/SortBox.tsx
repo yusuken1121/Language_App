@@ -6,7 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import React from "react";
-import { SortType } from "./WordsList";
+import { SortType } from "../WordsList";
 
 export const sortTypeList: { label: string; value: SortType }[] = [
   { label: "最新順", value: "latest" },

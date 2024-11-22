@@ -14,6 +14,7 @@ import FilterBox from "./FilterSort/FilterBox";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { queryKeys } from "@/config/fitlerCategory";
+import ResetBox from "./FilterSort/ResetBox";
 
 type WordsListProps = {
   isWordAdded: boolean;
@@ -114,12 +115,15 @@ const WordsList = ({
   // エラー時
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center max-h-full">
-        <div>
-          {error}
-          <LottieError />
+      <>
+        <ResetBox />
+        <div className="flex flex-col items-center justify-center max-h-full">
+          <div>
+            {error}
+            <LottieError />
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -135,16 +139,19 @@ const WordsList = ({
   // データが存在しない時
   if (wordList.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-3/4">
-        <div>
-          <div className="text-2xl">
-            フレーズを入力して
-            <br />
-            単語学習を始めましょう！
+      <>
+        <ResetBox />
+        <div className="flex flex-col items-center justify-center h-3/4">
+          <div>
+            <div className="text-2xl">
+              フレーズを入力して
+              <br />
+              単語学習を始めましょう！
+            </div>
+            <LottieNotFound />
           </div>
-          <LottieNotFound />
         </div>
-      </div>
+      </>
     );
   }
 
@@ -152,11 +159,12 @@ const WordsList = ({
   if (wordList.length > 0) {
     return (
       <div className="flex flex-col gap-4 max-h-full">
+        {/* ソートフィルターボタン */}
         <div className="flex items-center gap-2">
           <SortBox setSort={setSort} />
           <FilterBox />
+          <ResetBox />
         </div>
-
         <Card className="bg-white text-background">
           <CardContent>
             <ul className="divide-y divide-gray-200">

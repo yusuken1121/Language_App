@@ -21,7 +21,6 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 const FilterBox = () => {
   const [open, setOpen] = useState(false);
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [formalityFilters, setFormalityFilters] = useState<string[]>([]);
   const [favoriteFilters, setFavoriteFilters] = useState<string[]>([]);
   const router = useRouter();

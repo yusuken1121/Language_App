@@ -104,7 +104,10 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   if (error) {
     return (
       <>
-        <ResetBox />
+        <div className="flex flex-col items-center justify-center gap-1">
+          <ResetBox />
+          <p className="text-xs text-accent">リセット</p>
+        </div>
         <div className="flex flex-col items-center justify-center max-h-full">
           <div>
             {error}
@@ -128,7 +131,10 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   if (wordList.length === 0) {
     return (
       <>
-        <ResetBox />
+        <div className="flex flex-col items-center justify-center gap-1">
+          <ResetBox />
+          <p className="text-xs text-accent">リセット</p>
+        </div>
         <div className="flex flex-col items-center justify-center h-3/4">
           <div>
             <div className="text-2xl">
@@ -149,9 +155,20 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
       <div className="flex flex-col gap-4 max-h-full">
         {/* ソートフィルターボタン */}
         <div className="flex items-center gap-2">
-          <SortBox />
-          <FilterBox />
-          <ResetBox />
+          <div className="flex flex-col items-center justify-center gap-1">
+            <SortBox />
+            <p className="text-xs text-accent">ソート</p>
+          </div>
+
+          <div className="flex flex-col items-center justify-center gap-1">
+            <FilterBox />
+            <p className="text-xs text-accent">フィルター</p>
+          </div>
+
+          <div className="flex flex-col items-center justify-center gap-1">
+            <ResetBox />
+            <p className="text-xs text-accent">リセット</p>
+          </div>
         </div>
         <Card className="bg-white text-background">
           <CardContent>

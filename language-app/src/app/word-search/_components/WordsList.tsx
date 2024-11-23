@@ -17,19 +17,11 @@ import { queryKeys } from "@/config/fitlerCategory";
 import ResetBox from "./FilterSort/ResetBox";
 
 type WordsListProps = {
-  isWordAdded: boolean;
-  setIsWordAdded: (value: boolean) => void;
-  searchTerm: string;
   setIsSearchLoading: (value: boolean) => void;
 };
 export type SortType = "latest" | "oldest" | "asc" | "desc";
 
-const WordsList = ({
-  isWordAdded,
-  setIsWordAdded,
-  searchTerm,
-  setIsSearchLoading,
-}: WordsListProps) => {
+const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   const [wordList, setWordList] = useState<Word[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,13 +29,15 @@ const WordsList = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   // sort
-  const [sort, setSort] = useState<SortType>("latest");
 
   const searchParams = useSearchParams();
+  const searchParamsString = searchParams.toString();
 
   // filters
   const formalityParam = searchParams.get(queryKeys[0]) || "";
   const favoriteParam = searchParams.get(queryKeys[1]) || "";
+  const searchWordParam = searchParams.get(queryKeys[2]) || "";
+  const sortParam = searchParams.get(queryKeys[3]) || "";
 
   //無限レンダリングを防止
   const formalityFilters = useMemo(() => {
@@ -54,11 +48,16 @@ const WordsList = ({
     const fetchWords = async (page: number) => {
       try {
         setIsLoading(true);
-        let url = `/api/words?page=${page}&sort=${sort}`;
+        let url = `/api/words?page=${page}`;
+
+        // ソート
+        if (sortParam) {
+          url += `&sort=${encodeURIComponent(sortParam)}`;
+        }
 
         // フレーズ検索
-        if (searchTerm) {
-          url += `&search=${encodeURIComponent(searchTerm)}`;
+        if (searchWordParam) {
+          url += `&search=${encodeURIComponent(searchWordParam)}`;
         }
 
         // formality Level
@@ -98,19 +97,8 @@ const WordsList = ({
       }
     };
 
-    if (isWordAdded) {
-      setIsWordAdded(false);
-    }
     fetchWords(currentPage);
-  }, [
-    isWordAdded,
-    setIsWordAdded,
-    currentPage,
-    sort,
-    searchTerm,
-    formalityFilters,
-    favoriteParam,
-  ]);
+  }, [currentPage, searchParamsString]);
 
   // エラー時
   if (error) {
@@ -161,7 +149,7 @@ const WordsList = ({
       <div className="flex flex-col gap-4 max-h-full">
         {/* ソートフィルターボタン */}
         <div className="flex items-center gap-2">
-          <SortBox setSort={setSort} />
+          <SortBox />
           <FilterBox />
           <ResetBox />
         </div>

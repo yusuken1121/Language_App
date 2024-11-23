@@ -7,6 +7,9 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter, useSearchParams } from "next/navigation";
+import { createQueryString } from "@/lib/createQueryString";
+import { queryKeys } from "@/config/fitlerCategory";
 interface SearchBarProps {
   setIsWordAdded: (value: boolean) => void;
   setSearchTerm: (value: string) => void;
@@ -16,13 +19,15 @@ interface SearchBarProps {
 }
 
 const SearchBar = ({
-  setIsWordAdded,
   searchTerm,
-  setSearchTerm,
   isSearchLoading,
   setIsSearchLoading,
 }: SearchBarProps) => {
   const [isAddLoading, setIsAddLoading] = useState(false);
+
+  // 追加
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const formSchema = z.object({
     word: z
@@ -44,9 +49,9 @@ const SearchBar = ({
 
   const onSearch = (data: { word: string }) => {
     const word = data.word.trim();
+    const query = createQueryString(searchParams, queryKeys[2], word);
+    router.push(`?${query}`, { scroll: false });
     setIsSearchLoading(true);
-    setSearchTerm(word);
-    setIsWordAdded(false);
   };
 
   const onAdd = async (data: { word: string }) => {
@@ -66,8 +71,10 @@ const SearchBar = ({
         const errorData = await response.json();
         throw new Error(errorData.error || "単語の追加に失敗しました");
       }
+      // 再レンダリングをさせるためにクエリを更新する
+      const query = createQueryString(searchParams, queryKeys[4], word);
+      router.push(`?${query}`, { scroll: false });
       toast.success("単語を追加しました", { position: "top-right" });
-      setIsWordAdded(true);
     } catch (error) {
       console.error("Error during search:", error);
       toast.error("検索中にエラーが発生しました", { position: "top-right" });

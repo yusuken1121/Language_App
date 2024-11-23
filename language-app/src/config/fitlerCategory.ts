@@ -4,7 +4,7 @@ export type FilterCategory = {
 };
 
 // フィルターのクエリ名を入れる
-export const queryKeys = ["formality", "favorite"];
+export const queryKeys = ["formality", "favorite", "search", "sort", "add"];
 
 // formality level
 export const filterFormality: FilterCategory[] = [

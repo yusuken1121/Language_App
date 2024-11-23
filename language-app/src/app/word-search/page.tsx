@@ -18,12 +18,7 @@ export default function WordSearch() {
           setIsSearchLoading={setIsSearchLoading}
           isSearchLoading={isSearchLoading}
         />
-        <WordsList
-          isWordAdded={isWordAdded}
-          searchTerm={searchTerm}
-          setIsWordAdded={setIsWordAdded}
-          setIsSearchLoading={setIsSearchLoading}
-        />
+        <WordsList setIsSearchLoading={setIsSearchLoading} />
       </div>
     </Suspense>
   );

@@ -9,7 +9,7 @@ const ResetBox = () => {
   const pathname = usePathname();
 
   const handleReset = () => {
-    router.replace(pathname);
+    router.push(pathname);
   };
 
   return (

@@ -85,7 +85,7 @@ const FilterBox = () => {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="flex items-center bg-primary justify-center w-12 h-12 rounded-full font-medium "
+          className="flex items-center bg-primary hover:bg-primary/90 justify-center w-12 h-12 rounded-full font-medium "
         >
           <SlidersHorizontal className="w-10 h-10 text-background" />
         </Button>

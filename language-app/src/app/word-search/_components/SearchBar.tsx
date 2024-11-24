@@ -11,7 +11,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { createQueryString } from "@/lib/createQueryString";
 import { queryKeys } from "@/config/fitlerCategory";
 interface SearchBarProps {
-  setIsWordAdded: (value: boolean) => void;
   setSearchTerm: (value: string) => void;
   searchTerm: string;
   setIsSearchLoading: (value: boolean) => void;

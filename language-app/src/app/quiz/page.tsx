@@ -14,6 +14,7 @@ import { Word } from "@prisma/client";
 
 import QuizAnswer from "./_components/QuizAnswer";
 import Link from "next/link";
+import LottieLoading from "@/components/LottieLoading";
 
 export type QuizWord = Pick<
   Word,
@@ -39,6 +40,7 @@ export default function Quiz() {
   const [quizEnded, setQuizEnded] = useState(false);
   const [triggerNextWord, setTriggerNextWord] = useState(false); // 新しいトリガーステート
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitLoading, setIsInitLoading] = useState(true);
 
   // Fetch quiz words
   useEffect(() => {
@@ -49,6 +51,8 @@ export default function Quiz() {
         setRemainingWords(data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsInitLoading(false);
       }
     };
     fetchQuiz();
@@ -120,6 +124,15 @@ export default function Quiz() {
       setQuizEnded(true);
     }
   };
+
+  // init loading
+  if (isInitLoading) {
+    return (
+      <div className="flex items-center justify-center h-4/5">
+        <LottieLoading />
+      </div>
+    );
+  }
 
   // Render quiz start page
   if (!quizStarted) {

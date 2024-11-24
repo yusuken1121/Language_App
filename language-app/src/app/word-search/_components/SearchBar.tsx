@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createQueryString } from "@/lib/createQueryString";
 import { queryKeys } from "@/config/fitlerCategory";
+import { getErrorMessage } from "@/lib/getErrorMessage";
 interface SearchBarProps {
   setSearchTerm: (value: string) => void;
   searchTerm: string;
@@ -76,12 +77,7 @@ const SearchBar = ({
       toast.success("単語を追加しました", { position: "top-right" });
     } catch (error) {
       console.error("Error during search:", error);
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : typeof error === "string"
-          ? error
-          : "予期せぬエラーが発生しました。";
+      const errorMessage = getErrorMessage(error);
       toast.error("検索中にエラーが発生しました", {
         description: errorMessage,
         position: "top-right",

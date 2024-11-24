@@ -26,7 +26,6 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   // pagination
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   // sort
 
@@ -38,6 +37,7 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   const favoriteParam = searchParams.get(queryKeys[1]) || "";
   const searchWordParam = searchParams.get(queryKeys[2]) || "";
   const sortParam = searchParams.get(queryKeys[3]) || "";
+  const pageParams = searchParams.get(queryKeys[4]) || "1";
 
   //無限レンダリングを防止
   const formalityFilters = useMemo(() => {
@@ -45,10 +45,15 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   }, [formalityParam]);
 
   useEffect(() => {
-    const fetchWords = async (page: number) => {
+    const fetchWords = async () => {
       try {
         setIsLoading(true);
-        let url = `/api/words?page=${page}`;
+        let url = `/api/words?`;
+
+        // ページ
+        if (pageParams) {
+          url += `&page=${encodeURIComponent(pageParams)}`;
+        }
 
         // ソート
         if (sortParam) {
@@ -97,8 +102,8 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
       }
     };
 
-    fetchWords(currentPage);
-  }, [currentPage, searchParamsString]);
+    fetchWords();
+  }, [searchParamsString]);
 
   // エラー時
   if (error) {
@@ -208,11 +213,7 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
             </ul>
           </CardContent>
         </Card>
-        <PaginationList
-          currentPage={currentPage}
-          totalPage={totalPage}
-          onPageChange={setCurrentPage}
-        />
+        <PaginationList totalPage={totalPage} />
       </div>
     );
   }

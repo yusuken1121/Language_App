@@ -44,7 +44,7 @@ const FilterBox = () => {
           // valueが含まれている場合は除外
           return prev.filter((v) => v !== value);
         } else {
-          // valueが含まれないときは追加a
+          // valueが含まれないときは追加
           return [...prev, value];
         }
       });
@@ -64,6 +64,7 @@ const FilterBox = () => {
 
   const handleApplyFilters = () => {
     const params = new URLSearchParams(searchParams.toString());
+
     if (formalityFilters.length === 0) {
       params.delete(queryKeys[0]);
     } else {
@@ -75,7 +76,9 @@ const FilterBox = () => {
     } else {
       params.set(queryKeys[1], favoriteFilters.join("%"));
     }
-    // router.push(pathname + "?" + decodeURIComponent(params.toString()));
+
+    // page = 1 にリセット
+    params.set("page", "1");
     router.push(pathname + "?" + params.toString());
     setOpen(false);
   };

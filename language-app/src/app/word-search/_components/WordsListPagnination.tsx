@@ -1,8 +1,6 @@
 "use client";
 type PaginationListType = {
-  currentPage: number;
   totalPage: number;
-  onPageChange: (page: number) => void;
 };
 
 import {
@@ -15,22 +13,18 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { createQueryString } from "@/lib/createQueryString";
-
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
 import { FC } from "react";
-const PaginationList: FC<PaginationListType> = ({
-  currentPage,
-  totalPage,
-  onPageChange,
-}) => {
+
+const PaginationList: FC<PaginationListType> = ({ totalPage }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
+  const currentPage = Number(searchParams.get("page") || 1);
+
   const handlePageChange = (page: number) => {
-    onPageChange(page);
-    router.replace(
+    router.push(
       pathname + "?" + createQueryString(searchParams, "page", String(page))
     );
   };

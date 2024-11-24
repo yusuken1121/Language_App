@@ -188,17 +188,11 @@ export default function Quiz() {
             <p className="text-xl mb-4">
               今日覚えた単語の数: {learnedWords.size}
             </p>
-            <Button
-              onClick={() => {
-                setQuizStarted(false);
-                setQuizEnded(false);
-                setLearnedWords(new Set());
-                setRemainingWords([]);
-              }}
-              className="bg-accent text-background hover:bg-accent/80"
-            >
-              もう一度挑戦する
-            </Button>
+            <Link href="/word-search">
+              <Button className="bg-accent text-background hover:bg-accent/80">
+                今日の学習を追加する
+              </Button>
+            </Link>
           </CardContent>
         </Card>
       </div>

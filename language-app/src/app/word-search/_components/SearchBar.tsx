@@ -76,7 +76,16 @@ const SearchBar = ({
       toast.success("単語を追加しました", { position: "top-right" });
     } catch (error) {
       console.error("Error during search:", error);
-      toast.error("検索中にエラーが発生しました", { position: "top-right" });
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : typeof error === "string"
+          ? error
+          : "予期せぬエラーが発生しました。";
+      toast.error("検索中にエラーが発生しました", {
+        description: errorMessage,
+        position: "top-right",
+      });
     } finally {
       setIsAddLoading(false);
     }

@@ -1,6 +1,5 @@
 import { getUserId } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 
@@ -13,7 +12,7 @@ export async function GET(
     const userId = await getUserId();
     if (!userId) {
       return NextResponse.json(
-        { error: "User not authenticated" },
+        { error: "ユーザーは認証されていません" },
         { status: 401 }
       );
     }
@@ -37,7 +36,7 @@ export async function PUT(
   const userId = await getUserId();
   if (!userId) {
     return NextResponse.json(
-      { error: "User not authenticated" },
+      { error: "ユーザーは認証されていません" },
       { status: 401 }
     );
   }
@@ -65,7 +64,7 @@ export async function DELETE(
   const userId = await getUserId();
   if (!userId) {
     return NextResponse.json(
-      { error: "User not authenticated" },
+      { error: "ユーザーは認証されていません" },
       { status: 401 }
     );
   }

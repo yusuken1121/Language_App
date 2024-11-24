@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
     const userId = await getUserId();
     if (!userId) {
       return NextResponse.json(
-        { error: "User not authenticated" },
+        { error: "ユーザーは認証されていません" },
         { status: 401 }
       );
     }
@@ -131,7 +131,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error("Error fetching words:", error);
     return NextResponse.json(
-      { error: error || "An error occurred" },
+      { error: error || "エラーが発生しました" },
       { status: 500 }
     );
   }
@@ -144,7 +144,7 @@ export async function POST(request: Request) {
     const { searchTerm } = await request.json();
     if (!searchTerm) {
       return NextResponse.json(
-        { error: "Search term is required" },
+        { error: "フレーズの入力をしてください" },
         { status: 400 }
       );
     }
@@ -152,7 +152,7 @@ export async function POST(request: Request) {
     const userId = await getUserId();
     if (!userId) {
       return NextResponse.json(
-        { error: "User not authenticated" },
+        { error: "ユーザーは認証されていません" },
         { status: 401 }
       );
     }
@@ -167,7 +167,10 @@ export async function POST(request: Request) {
       },
     });
     if (existingWord) {
-      return NextResponse.json({ error: "Already exists" }, { status: 400 });
+      return NextResponse.json(
+        { error: "その単語はすでに登録済みです" },
+        { status: 400 }
+      );
     }
 
     const run = async () => {
@@ -197,7 +200,7 @@ export async function POST(request: Request) {
     } = JSON.parse(text);
 
     if (isExist === false) {
-      throw new Error("Invalid word");
+      return NextResponse.json({ error: "そのフレーズはすでに存在しています" });
     }
 
     const word = await prisma.word.create({
@@ -227,7 +230,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Error creating word:", error);
     return NextResponse.json(
-      { error: error || "An error occurred" },
+      { error: error || "エラーが発生しました" },
       { status: 500 }
     );
   }

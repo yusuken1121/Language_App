@@ -9,7 +9,7 @@ export async function GET() {
     const userId = await getUserId();
     if (!userId) {
       return NextResponse.json(
-        { error: "User not authenticated" },
+        { error: "ユーザーは認証されていません" },
         { status: 401 }
       );
     }
@@ -51,7 +51,7 @@ export async function GET() {
   } catch (error) {
     console.error("Error fetching word statistics:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "サーバー内でエラーが起きました" },
       { status: 500 }
     );
   }

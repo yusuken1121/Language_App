@@ -7,7 +7,7 @@ export async function GET() {
   const userId = await getUserId();
   if (!userId) {
     return NextResponse.json(
-      { error: "User not authenticated" },
+      { error: "ユーザーは認証されていません" },
       { status: 401 }
     );
   }
@@ -38,7 +38,10 @@ export async function GET() {
       },
     });
     if (words.length === 0) {
-      return NextResponse.json({ error: "No quiz found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "クイズが見つかりませんでした" },
+        { status: 404 }
+      );
     }
     const randomQuiz = words
       .sort(() => Math.random() - 0.5) // ランダムな順序に並び替え
@@ -48,7 +51,7 @@ export async function GET() {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "サーバー内でエラーが起こりました" },
       { status: 500 }
     );
   }
@@ -58,7 +61,7 @@ export async function PUT(request: Request) {
   const userId = await getUserId();
   if (!userId) {
     return NextResponse.json(
-      { error: "User not authenticated" },
+      { error: "ユーザーは認証されていません" },
       { status: 401 }
     );
   }
@@ -66,7 +69,10 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const { id } = body;
     if (!id) {
-      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+      return NextResponse.json(
+        { error: "無効なリクエストです" },
+        { status: 400 }
+      );
     }
 
     // Fetch the word from the database
@@ -75,7 +81,10 @@ export async function PUT(request: Request) {
     });
 
     if (!word) {
-      return NextResponse.json({ error: "Word not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "フレーズが見つかりません" },
+        { status: 404 }
+      );
     }
     const { nextReviewAt, learningStatus } = word;
     let newLearningStatus;
@@ -112,7 +121,7 @@ export async function PUT(request: Request) {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "サーバー内でエラーが起こりました" },
       { status: 500 }
     );
   }

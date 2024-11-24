@@ -27,12 +27,10 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   const [isLoading, setIsLoading] = useState(true);
   // pagination
   const [totalPage, setTotalPage] = useState(1);
-  // sort
 
   const searchParams = useSearchParams();
-  const searchParamsString = searchParams.toString();
 
-  // filters
+  // filters & sort
   const formalityParam = searchParams.get(queryKeys[0]) || "";
   const favoriteParam = searchParams.get(queryKeys[1]) || "";
   const searchWordParam = searchParams.get(queryKeys[2]) || "";
@@ -103,7 +101,7 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
     };
 
     fetchWords();
-  }, [searchParamsString]);
+  }, [searchParams]);
 
   // エラー時
   if (error) {
@@ -124,13 +122,12 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   }
 
   // ローディング中
-  if (isLoading) {
+  if (isLoading)
     return (
       <div className="h-4/5">
         <LottieLoading />
       </div>
     );
-  }
 
   // データが存在しない時
   if (wordList.length === 0) {

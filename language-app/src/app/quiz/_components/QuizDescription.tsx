@@ -52,7 +52,7 @@ const QuizDescription = () => {
                 覚えた
               </p>
               <p className="col-span-2 text-left">
-                今やっているクイズには出題されなくなります。さらに、学習状況が更新され、今後の復習対象から外されます。
+                今やっているクイズには出題されなくなります。さらに、学習状況が更新されます
               </p>
             </div>
           </DialogDescription>

@@ -213,7 +213,7 @@ export default function Quiz() {
   }
 
   return (
-    <div className="h-full bg-background flex items-center justify-center px-2">
+    <div className="h-full w-full bg-background flex items-center justify-center px-2">
       <Card className="w-full max-w-2xl bg-white">
         <CardHeader>
           <CardTitle className="text-xl text-background">

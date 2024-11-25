@@ -7,6 +7,7 @@ import { Check, Loader2 } from "lucide-react";
 import { Clock } from "lucide-react";
 import { X } from "lucide-react";
 import { motion } from "motion/react";
+import QuizDescription from "./QuizDescription";
 const QuizAnswer = ({
   currentWord,
   nextWord,
@@ -63,6 +64,7 @@ const QuizAnswer = ({
               {currentWord?.wordName}
             </motion.span>
           </p>
+          <QuizDescription />
         </div>
         <BasicInfoCard
           meaning={currentWord?.meaning || ""}

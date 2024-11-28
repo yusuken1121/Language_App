@@ -2,6 +2,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import WordsList from "./_components/WordsList";
 import SearchBar from "./_components/SearchBar";
+import { Chatbot } from "./_components/Chatbot/Chatbot";
 
 export default function WordSearch() {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -17,6 +18,7 @@ export default function WordSearch() {
           isSearchLoading={isSearchLoading}
         />
         <WordsList setIsSearchLoading={setIsSearchLoading} />
+        <Chatbot />
       </div>
     </Suspense>
   );

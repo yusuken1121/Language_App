@@ -172,7 +172,7 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
             <p className="text-xs text-accent">リセット</p>
           </div>
         </div>
-        <Card className="bg-white text-background">
+        <Card className="bg-white text-background max-w-full">
           <CardContent>
             <ul className="divide-y divide-gray-200">
               {wordList.map((word) => (
@@ -187,11 +187,13 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
                     href={`/word-search/${word.id}`}
                     className="block hover:bg-gray-50"
                   >
-                    <div className="flex justify-between">
-                      <span className="font-bold">{word.wordName}</span>
+                    <div className="grid grid-cols-10 auto-rows-auto">
+                      <span className="col-span-7 font-bold break-words">
+                        {word.wordName}
+                      </span>
                       <span
                         className={cn(
-                          "text-sm px-2 py-1 rounded-md font-semibold border border-gray-200",
+                          "col-span-3 text-right flex max-h-[30px] max-w-[150px] items-center justify-self-end text-sm px-2 py-1 rounded-md font-semibold border border-gray-200 ",
                           word.formalityLevel === "フォーマル" &&
                             "bg-secondary text-background",
                           word.formalityLevel === "普通" &&

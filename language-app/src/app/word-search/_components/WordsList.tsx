@@ -35,7 +35,7 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   const favoriteParam = searchParams.get(queryKeys[1]) || "";
   const searchWordParam = searchParams.get(queryKeys[2]) || "";
   const sortParam = searchParams.get(queryKeys[3]) || "";
-  const pageParams = searchParams.get(queryKeys[4]) || "1";
+  const pageParams = searchParams.get(queryKeys[5]) || "1";
 
   //無限レンダリングを防止
   const formalityFilters = useMemo(() => {

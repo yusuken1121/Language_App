@@ -5,12 +5,12 @@ export type FilterCategory = {
 
 // フィルターのクエリ名を入れる
 export const queryKeys = [
-  "formality",
-  "favorite",
-  "search",
-  "sort",
-  "add",
-  "page",
+  "formality", //0
+  "favorite", //1
+  "search", //2
+  "sort", //3
+  "add", //4
+  "page", //5
 ];
 
 // formality level

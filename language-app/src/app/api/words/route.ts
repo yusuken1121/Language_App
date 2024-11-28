@@ -47,7 +47,10 @@ const prompt = `JSON形式で単語「{word}」に関する情報を提供して
 export async function GET(request: NextRequest) {
   // pagination query
   const searchParams = request.nextUrl.searchParams;
-  const page = Number(searchParams.get("page")) || 1;
+
+  // const page = Number(searchParams.get("page")) || 1;
+  const page = parseInt(searchParams.get("page") || "1", 10);
+
   const pageSize = 10;
 
   // Filter[1]

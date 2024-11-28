@@ -2,12 +2,19 @@
 
 import { useChat } from "ai/react";
 import Markdown from "react-markdown";
-import { MessageCircle, SendIcon, Sparkle, SquareIcon } from "lucide-react";
+import {
+  Loader2,
+  MessageCircle,
+  SendIcon,
+  Sparkle,
+  SquareIcon,
+} from "lucide-react";
 
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { motion } from "motion/react";
 
 export function Chatbot() {
   const { messages, input, handleInputChange, handleSubmit, isLoading, stop } =
@@ -18,9 +25,16 @@ export function Chatbot() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="fixed bottom-32 right-11 z-30 w-16 h-16 bg-secondary hover:bg-secondary/90 rounded-full">
-          <MessageCircle className="w-12 h-12 text-white" />
-        </Button>
+        <motion.div
+          className="fixed flex items-center justify-center bottom-32 right-11 z-30 w-14 h-14 bg-secondary hover:bg-secondary/90 rounded-full p-0"
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.8 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        >
+          <Button className="flex items-center justify-center w-full h-full bg-transparent p-0">
+            <MessageCircle className="w-8 h-8 text-white" />
+          </Button>
+        </motion.div>
       </DialogTrigger>
       <DialogContent className="flex flex-col w-full h-[500px] mx-auto bg-accent rounded-lg shadow-lg">
         <div className="flex-1 overflow-auto p-2">
@@ -80,9 +94,9 @@ export function Chatbot() {
                 type="submit"
                 size="icon"
                 disabled={!input || isLoading}
-                className="absolute bottom-3 right-3 rounded-full bg-secondary"
+                className="absolute flex items-center justify-center bottom-3 right-3 rounded-full bg-secondary hover:bg-secondary"
               >
-                <SendIcon className="w-5 h-5 text-background " />
+                <SendIcon className="h-4 w-4 text-background" />
                 <span className="sr-only">送信</span>
               </Button>
             ) : (
@@ -91,9 +105,9 @@ export function Chatbot() {
                 size="icon"
                 disabled={!isLoading}
                 onClick={stop}
-                className="absolute bottom-3 right-3 rounded-full"
+                className="absolute flex items-center justify-center bottom-3 right-3 rounded-full bg-secondary hover:bg-secondary"
               >
-                <SquareIcon className="w-5 h-5" fill="white" />
+                <Loader2 className="h-4 w-4 animate-spin bg-secondary text-background" />
                 <span className="sr-only">送信</span>
               </Button>
             )}

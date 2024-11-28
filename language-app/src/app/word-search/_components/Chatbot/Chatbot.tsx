@@ -31,7 +31,7 @@ export function Chatbot() {
           whileTap={{ scale: 0.8 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
-          <Button className="flex items-center justify-center w-full h-full bg-transparent p-0">
+          <Button className="flex items-center justify-center w-full h-full bg-transparent rounded-full p-0">
             <MessageCircle className="w-8 h-8 text-white" />
           </Button>
         </motion.div>

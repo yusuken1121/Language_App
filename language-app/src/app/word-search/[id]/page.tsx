@@ -102,8 +102,10 @@ export default function WordSearchPage() {
               </Button>
             </Link>
           </div>
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold">{word?.wordName}</h1>
+          <div className="flex items-center justify-between mb-8 ">
+            <h1 className="text-3xl font-bold break-words max-w-[250px] sm:max-w-full">
+              {word?.wordName}
+            </h1>
             <div className="flex items-center space-x-2">
               {/* 削除ボタン */}
               <DeleteDialog />

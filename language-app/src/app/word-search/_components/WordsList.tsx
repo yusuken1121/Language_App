@@ -193,7 +193,7 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
                       </span>
                       <span
                         className={cn(
-                          "col-span-3 text-right flex max-h-[30px] max-w-[150px] items-center justify-self-end text-sm px-2 py-1 rounded-md font-semibold border border-gray-200 ",
+                          "col-span-3 text-right flex max-h-[30px] max-w-[170px] items-center justify-self-end text-sm px-2 py-1 rounded-md font-semibold border border-gray-200 ",
                           word.formalityLevel === "フォーマル" &&
                             "bg-secondary text-background",
                           word.formalityLevel === "普通" &&

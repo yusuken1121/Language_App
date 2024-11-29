@@ -18,6 +18,7 @@ import LottieLoading from "@/components/LottieLoading";
 
 import { DeleteDialog } from "./_components/DeleteDialog";
 import LottieNotFound from "@/components/LottieNotFound";
+import TextToSpeechButton from "@/components/TextToSpeechButton";
 
 export default function WordSearchPage() {
   const [word, setWord] = useState<Word>();
@@ -103,7 +104,8 @@ export default function WordSearchPage() {
             </Link>
           </div>
           <div className="flex items-center justify-between mb-8 ">
-            <h1 className="text-3xl font-bold break-words max-w-[250px] sm:max-w-full">
+            <h1 className="flex items-center gap-2 text-3xl font-bold break-words max-w-[250px] sm:max-w-full">
+              <TextToSpeechButton text={word.wordName} />
               {word?.wordName}
             </h1>
             <div className="flex items-center space-x-2">

@@ -26,29 +26,28 @@ const QuizAnswer = ({
     {currentWord && (
       <div className="relative flex flex-col items-center justify-center gap-4 bg-background w-full p-2">
         {/* 追加: 忘れた, 後で復習, 覚えたボタン */}
-        <div className="sticky top-0 bg-background bg-opacity-80 w-full flex items-center justify-center gap-2 p-2 pb-5 z-10 text-sm">
+        <div className="sticky top-0 bg-background bg-opacity-80 w-full flex items-center justify-between gap-2 p-1 pb-5 z-10 text-sm w-full">
           <Button
             onClick={handleCross}
             className="bg-accent text-background hover:bg-accent/80 font-bold flex-1"
           >
-            <X className="mr-2 h-4 w-4" /> 忘れた
+            <X className="h-2 w-2" />
           </Button>
           <Button
             onClick={handleReviewLater}
             className="bg-primary hover:bg-primary/90 text-background font-bold flex-1"
           >
-            <Clock className="mr-2 h-4 w-4" /> 後で復習
+            <Clock className="h-2 w-2" />
           </Button>
           <Button
             onClick={handleCheck}
             className="bg-secondary hover:bg-secondary/80 text-background font-bold flex-1"
           >
             {isLoading ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="h-2 w-2 animate-spin" />
             ) : (
-              <Check className="mr-2 h-4 w-4" />
+              <Check className="h-2 w-2" />
             )}
-            覚えた
           </Button>
           <QuizDescription />
         </div>

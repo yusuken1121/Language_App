@@ -58,7 +58,7 @@ const Footer = () => {
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
           <CheckCircle className="w-6 h-6" />
-          <span className="text-xs">クイズ</span>
+          <span className="text-xs">記憶</span>
         </motion.div>
       </Link>
     </footer>

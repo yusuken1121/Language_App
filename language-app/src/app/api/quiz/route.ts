@@ -39,7 +39,7 @@ export async function GET() {
     });
     if (words.length === 0) {
       return NextResponse.json(
-        { error: "クイズが見つかりませんでした" },
+        { error: "確認カードが見つかりませんでした" },
         { status: 404 }
       );
     }

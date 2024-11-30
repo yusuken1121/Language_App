@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Volume2 } from "lucide-react";
+import { BookA } from "lucide-react";
 
 export function UsageInfoCard({
   usageArea,
@@ -13,7 +13,7 @@ export function UsageInfoCard({
   return (
     <Card className="bg-card text-card-foreground w-full">
       <CardHeader className="flex flex-row items-center space-x-2">
-        <Volume2 className="h-6 w-6" />
+        <BookA className="h-6 w-6" />
         <CardTitle>Usage Information</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">

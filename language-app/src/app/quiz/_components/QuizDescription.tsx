@@ -27,7 +27,7 @@ const QuizDescription = () => {
       <DialogContent className="w-full bg-white">
         <DialogHeader>
           <DialogTitle className="mb-3">
-            クイズのボタンの選択肢について
+            問題のボタンの選択肢について
           </DialogTitle>
           <DialogDescription className="flex flex-col">
             <div className="grid grid-cols-3 text-background items-center gap-9">
@@ -36,7 +36,7 @@ const QuizDescription = () => {
                 忘れた
               </p>
               <p className="col-span-2 text-left">
-                今やっているクイズにもう一度出題されます。ただし、学習状況には影響しません
+                今やっている問題にもう一度出題されます。ただし、学習状況には影響しません
               </p>
 
               {/* 次も復習*/}
@@ -44,7 +44,7 @@ const QuizDescription = () => {
                 後で復習
               </p>
               <p className="col-span-2 text-left">
-                今やっているクイズには出題されなくなります。ただし、学習状況には影響しません
+                今やっている問題には出題されなくなります。ただし、学習状況には影響しません
               </p>
 
               {/* 覚えた */}
@@ -52,7 +52,7 @@ const QuizDescription = () => {
                 覚えた
               </p>
               <p className="col-span-2 text-left">
-                今やっているクイズには出題されなくなります。さらに、学習状況が更新されます
+                今やっている問題には出題されなくなります。さらに、学習状況が更新されます
               </p>
             </div>
           </DialogDescription>

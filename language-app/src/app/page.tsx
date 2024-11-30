@@ -73,7 +73,7 @@ export default async function Dashboard() {
                 </Link>
                 <Link href="/quiz" passHref>
                   <Button className="w-full bg-secondary text-background hover:bg-secondary/80">
-                    <BookOpen className="mr-2 h-4 w-4" /> クイズを開始
+                    <BookOpen className="mr-2 h-4 w-4" /> フレーズの確認を開始
                   </Button>
                 </Link>
                 <SignOutButton>

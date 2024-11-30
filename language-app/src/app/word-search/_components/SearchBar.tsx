@@ -33,7 +33,7 @@ const SearchBar = ({
     word: z
       .string()
       .min(1, { message: "入力してください。" })
-      .regex(/^[A-Za-z\s.,?!'";:-]+$/, {
+      .regex(/^[A-Za-z\s.,?!'"’`;:-]+$/, {
         message: "英字のみ入力可能です。",
       }),
   });

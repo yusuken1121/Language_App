@@ -26,7 +26,7 @@ const QuizAnswer = ({
     {currentWord && (
       <div className="relative flex flex-col items-center justify-center gap-4 bg-background w-full p-2">
         {/* 追加: 忘れた, 後で復習, 覚えたボタン */}
-        <div className="sticky top-0 bg-background bg-opacity-80 w-full flex items-center justify-center gap-2 p-2 pb-5 z-10 ">
+        <div className="sticky top-0 bg-background bg-opacity-80 w-full flex items-center justify-center gap-2 p-2 pb-5 z-10 text-sm">
           <Button
             onClick={handleCross}
             className="bg-accent text-background hover:bg-accent/80 font-bold flex-1"

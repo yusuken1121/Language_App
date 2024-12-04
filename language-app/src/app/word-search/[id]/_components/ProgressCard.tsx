@@ -23,7 +23,7 @@ export function ProgressCard({
           <p>{getLearningStatusText(learningStatus)}</p>
         </div>
         <div>
-          <h3 className="font-semibold">Last Correct Answer</h3>
+          <h3 className="font-semibold">Registration Date</h3>
           <p>{createdAt}</p>
         </div>
         <div>

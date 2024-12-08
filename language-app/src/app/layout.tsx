@@ -30,9 +30,7 @@ export const metadata: Metadata = {
   title: "AI日英フレーズ学習アプリ",
   description:
     "AIを駆使して、英語学習を革新的に効率化するアプリです。留学中に感じた「こんな機能があれば助かるのに」というリアルなニーズを反映し、語学学習者が直面する課題を解決するために設計しました。また、モバイルでの直感的な操作性と快適なユーザー体験を徹底的に重視しています。",
-  icons: {
-    icon: "/favicon.ico",
-  },
+  icons: "./public/icon.png",
 };
 
 export default function RootLayout({

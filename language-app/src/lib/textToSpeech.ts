@@ -1,7 +1,12 @@
 import { toast } from "sonner";
 
 const synth = window.speechSynthesis;
-
+/**
+ * 指定されたテキストを音声として再生します。
+ *
+ * @param {string} text - 再生するテキスト。英語での発音が期待されます。
+ * @throws {Error} 音声合成がサポートされていない場合にエラーをスローします。
+ */
 export const textToSpeech = (text: string) => {
   if (!synth) {
     return toast.error("音声を再生できません");

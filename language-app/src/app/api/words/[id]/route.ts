@@ -1,4 +1,7 @@
+import { ERROR_MESSAGES } from "@/config/errorMessage";
 import { getUserId } from "@/lib/auth";
+import { createErrorResponse } from "@/lib/backend/createErrorResponse";
+import { getErrorMessage } from "@/lib/getErrorMessage";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
@@ -11,20 +14,15 @@ export async function GET(
   try {
     const userId = await getUserId();
     if (!userId) {
-      return NextResponse.json(
-        { error: "ユーザーは認証されていません" },
-        { status: 401 }
-      );
+      return createErrorResponse(ERROR_MESSAGES.BACKEND.AUTH.UNAUTHORIZED, 401);
     }
     const word = await prisma.word.findUnique({
       where: { id: Number(id), userId },
     });
     return NextResponse.json({ data: word });
   } catch (error) {
-    return NextResponse.json(
-      { error: `Internal server error: ${error}` },
-      { status: 500 }
-    );
+    const errorMessage = getErrorMessage(error);
+    return createErrorResponse(errorMessage, 500);
   }
 }
 
@@ -35,10 +33,7 @@ export async function PUT(
   const id = params.id;
   const userId = await getUserId();
   if (!userId) {
-    return NextResponse.json(
-      { error: "ユーザーは認証されていません" },
-      { status: 401 }
-    );
+    return createErrorResponse(ERROR_MESSAGES.BACKEND.AUTH.UNAUTHORIZED, 401);
   }
   const { memo, favorite } = await request.json();
 
@@ -49,10 +44,8 @@ export async function PUT(
     });
     return NextResponse.json({ data: word });
   } catch (error) {
-    return NextResponse.json(
-      { error: `Internal server error: ${error}` },
-      { status: 500 }
-    );
+    const errorMessage = getErrorMessage(error);
+    return createErrorResponse(errorMessage, 500);
   }
 }
 
@@ -63,10 +56,7 @@ export async function DELETE(
   const id = params.id;
   const userId = await getUserId();
   if (!userId) {
-    return NextResponse.json(
-      { error: "ユーザーは認証されていません" },
-      { status: 401 }
-    );
+    return createErrorResponse(ERROR_MESSAGES.BACKEND.AUTH.UNAUTHORIZED, 401);
   }
   try {
     const word = await prisma.word.delete({
@@ -74,9 +64,7 @@ export async function DELETE(
     });
     return NextResponse.json({ data: word });
   } catch (error) {
-    return NextResponse.json(
-      { error: `Internal server error: ${error}` },
-      { status: 500 }
-    );
+    const errorMessage = getErrorMessage(error);
+    return createErrorResponse(errorMessage, 500);
   }
 }

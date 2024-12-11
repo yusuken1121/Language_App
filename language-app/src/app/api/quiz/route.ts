@@ -1,4 +1,7 @@
+import { ERROR_MESSAGES } from "@/config/errorMessage";
 import { getUserId } from "@/lib/auth";
+import { createErrorResponse } from "@/lib/backend/createErrorResponse";
+import { getErrorMessage } from "@/lib/getErrorMessage";
 import prisma from "@/lib/prisma";
 import { addDays } from "date-fns";
 import { NextResponse } from "next/server";
@@ -6,10 +9,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const userId = await getUserId();
   if (!userId) {
-    return NextResponse.json(
-      { error: "ユーザーは認証されていません" },
-      { status: 401 }
-    );
+    return createErrorResponse(ERROR_MESSAGES.BACKEND.AUTH.UNAUTHORIZED, 401);
   }
   try {
     const words = await prisma.word.findMany({
@@ -38,10 +38,7 @@ export async function GET() {
       },
     });
     if (words.length === 0) {
-      return NextResponse.json(
-        { error: "確認カードが見つかりませんでした" },
-        { status: 404 }
-      );
+      return createErrorResponse(ERROR_MESSAGES.BACKEND.QUIZ.NOT_FOUND, 404);
     }
     const randomQuiz = words
       .sort(() => Math.random() - 0.5) // ランダムな順序に並び替え
@@ -50,29 +47,21 @@ export async function GET() {
     return NextResponse.json(randomQuiz);
   } catch (error) {
     console.error(error);
-    return NextResponse.json(
-      { error: "サーバー内でエラーが起こりました" },
-      { status: 500 }
-    );
+    const errorMessage = getErrorMessage(error);
+    return createErrorResponse(errorMessage, 500);
   }
 }
 
 export async function PUT(request: Request) {
   const userId = await getUserId();
   if (!userId) {
-    return NextResponse.json(
-      { error: "ユーザーは認証されていません" },
-      { status: 401 }
-    );
+    return createErrorResponse(ERROR_MESSAGES.BACKEND.AUTH.UNAUTHORIZED, 401);
   }
   try {
     const body = await request.json();
     const { id } = body;
     if (!id) {
-      return NextResponse.json(
-        { error: "無効なリクエストです" },
-        { status: 400 }
-      );
+      return createErrorResponse(ERROR_MESSAGES.BACKEND.API.INVALID, 400);
     }
 
     // Fetch the word from the database
@@ -81,10 +70,7 @@ export async function PUT(request: Request) {
     });
 
     if (!word) {
-      return NextResponse.json(
-        { error: "フレーズが見つかりません" },
-        { status: 404 }
-      );
+      return createErrorResponse(ERROR_MESSAGES.BACKEND.QUIZ.NOT_FOUND, 404);
     }
     const { nextReviewAt, learningStatus } = word;
     let newLearningStatus;
@@ -120,9 +106,7 @@ export async function PUT(request: Request) {
     return NextResponse.json(updatedWord);
   } catch (error) {
     console.error(error);
-    return NextResponse.json(
-      { error: "サーバー内でエラーが起こりました" },
-      { status: 500 }
-    );
+    const errorMessage = getErrorMessage(error);
+    return createErrorResponse(errorMessage, 500);
   }
 }

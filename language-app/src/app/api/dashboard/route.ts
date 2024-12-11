@@ -1,6 +1,9 @@
 export const dynamic = "force-dynamic";
 
+import { ERROR_MESSAGES } from "@/config/errorMessage";
 import { getUserId } from "@/lib/auth";
+import { createErrorResponse } from "@/lib/backend/createErrorResponse";
+import { getErrorMessage } from "@/lib/getErrorMessage";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -8,10 +11,7 @@ export async function GET() {
   try {
     const userId = await getUserId();
     if (!userId) {
-      return NextResponse.json(
-        { error: "ユーザーは認証されていません" },
-        { status: 401 }
-      );
+      return createErrorResponse(ERROR_MESSAGES.BACKEND.AUTH.UNAUTHORIZED, 401);
     }
 
     // 単語の統計を一括取得
@@ -50,9 +50,7 @@ export async function GET() {
     });
   } catch (error) {
     console.error("Error fetching word statistics:", error);
-    return NextResponse.json(
-      { error: "サーバー内でエラーが起きました" },
-      { status: 500 }
-    );
+    const errorMessage = getErrorMessage(error);
+    return createErrorResponse(errorMessage, 500);
   }
 }

@@ -1,7 +1,9 @@
 import { GEMINI_API_KEY } from "@/config/ENV";
-import { filterFormality } from "@/config/fitlerCategory";
+import { ERROR_MESSAGES } from "@/config/errorMessage";
 import { queryKeys } from "@/config/query";
 import { getUserId } from "@/lib/auth";
+import { createErrorResponse } from "@/lib/backend/createErrorResponse";
+import { getErrorMessage } from "@/lib/getErrorMessage";
 import prisma from "@/lib/prisma";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Prisma } from "@prisma/client";
@@ -50,16 +52,16 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
 
   // const page = Number(searchParams.get("page")) || 1;
-  const page = parseInt(searchParams.get("page") || "1", 10);
+  const page = parseInt(searchParams.get(queryKeys.PAGE) || "1", 10);
 
   const pageSize = 10;
 
   // Filter[1]
   // sort query
-  const sort = searchParams.get("sort") || "latest";
+  const sort = searchParams.get(queryKeys.SORT) || "latest";
 
   // search word
-  const word = searchParams.get("search") || "";
+  const word = searchParams.get(queryKeys.WORDSEARCH.SEARCH) || "";
 
   // formality level
   const formalityParam = searchParams.get(queryKeys.FILTER.FORMALITY) || "";
@@ -69,16 +71,13 @@ export async function GET(request: NextRequest) {
     .filter(Boolean); // 空の値を除外
 
   // favorite
-  const favoriteParam = searchParams.get("favorite") || "";
+  const favoriteParam = searchParams.get(queryKeys.FILTER.FAVORITE) || "";
   const favoriteFilter = favoriteParam === "true"; // true の場合のみフィルタ適用
 
   try {
     const userId = await getUserId();
     if (!userId) {
-      return NextResponse.json(
-        { error: "ユーザーは認証されていません" },
-        { status: 401 }
-      );
+      return createErrorResponse(ERROR_MESSAGES.BACKEND.AUTH.UNAUTHORIZED, 401);
     }
 
     // pagination
@@ -134,10 +133,8 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("Error fetching words:", error);
-    return NextResponse.json(
-      { error: error || "エラーが発生しました" },
-      { status: 500 }
-    );
+    const errorMessage = getErrorMessage(error);
+    return createErrorResponse(errorMessage, 500);
   }
 }
 
@@ -147,18 +144,12 @@ export async function POST(request: Request) {
   try {
     const { searchTerm } = await request.json();
     if (!searchTerm) {
-      return NextResponse.json(
-        { error: "フレーズの入力をしてください" },
-        { status: 400 }
-      );
+      return createErrorResponse(ERROR_MESSAGES.BACKEND.API.INVALID, 400);
     }
 
     const userId = await getUserId();
     if (!userId) {
-      return NextResponse.json(
-        { error: "ユーザーは認証されていません" },
-        { status: 401 }
-      );
+      return createErrorResponse(ERROR_MESSAGES.BACKEND.AUTH.UNAUTHORIZED, 401);
     }
 
     const existingWord = await prisma.word.findFirst({
@@ -171,10 +162,7 @@ export async function POST(request: Request) {
       },
     });
     if (existingWord) {
-      return NextResponse.json(
-        { error: "その単語はすでに登録済みです" },
-        { status: 400 }
-      );
+      return createErrorResponse(ERROR_MESSAGES.BACKEND.WORDS.DUPLICATE, 500);
     }
 
     const run = async () => {
@@ -204,7 +192,7 @@ export async function POST(request: Request) {
     } = JSON.parse(text);
 
     if (isExist === false) {
-      return NextResponse.json({ error: "そのフレーズはすでに存在しています" });
+      return createErrorResponse(ERROR_MESSAGES.BACKEND.WORDS.DUPLICATE, 500);
     }
 
     const word = await prisma.word.create({
@@ -233,9 +221,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ data: word });
   } catch (error) {
     console.error("Error creating word:", error);
-    return NextResponse.json(
-      { error: error || "エラーが発生しました" },
-      { status: 500 }
-    );
+    const errorMessage = getErrorMessage(error);
+    return createErrorResponse(errorMessage, 500);
   }
 }

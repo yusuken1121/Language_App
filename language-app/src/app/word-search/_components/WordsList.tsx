@@ -13,8 +13,8 @@ import LottieError from "@/components/LottieError";
 import FilterBox from "./FilterSort/FilterBox";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
-import { queryKeys } from "@/config/fitlerCategory";
 import ResetBox from "./FilterSort/ResetBox";
+import { queryKeys } from "@/config/query";
 
 type WordsListProps = {
   setIsSearchLoading: (value: boolean) => void;
@@ -31,11 +31,11 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   const searchParams = useSearchParams();
 
   // filters & sort
-  const formalityParam = searchParams.get(queryKeys[0]) || "";
-  const favoriteParam = searchParams.get(queryKeys[1]) || "";
-  const searchWordParam = searchParams.get(queryKeys[2]) || "";
-  const sortParam = searchParams.get(queryKeys[3]) || "";
-  const pageParams = searchParams.get(queryKeys[5]) || "1";
+  const formalityParam = searchParams.get(queryKeys.FILTER.FORMALITY) || "";
+  const favoriteParam = searchParams.get(queryKeys.FILTER.FAVORITE) || "";
+  const searchWordParam = searchParams.get(queryKeys.WORDSEARCH.SEARCH) || "";
+  const sortParam = searchParams.get(queryKeys.SORT) || "";
+  const pageParams = searchParams.get(queryKeys.PAGE) || "1";
 
   //無限レンダリングを防止
   const formalityFilters = useMemo(() => {
@@ -65,14 +65,16 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
 
         // formality Level
         if (formalityFilters.length > 0) {
-          url += `&${queryKeys[0]}=${encodeURIComponent(
+          url += `&${queryKeys.FILTER.FORMALITY}=${encodeURIComponent(
             formalityFilters.join(",")
           )}`;
         }
 
         // favorite
         if (favoriteParam) {
-          url += `&${queryKeys[1]}=${encodeURIComponent(favoriteParam)}`;
+          url += `&${queryKeys.FILTER.FAVORITE}=${encodeURIComponent(
+            favoriteParam
+          )}`;
         }
 
         const response = await fetch(url, {

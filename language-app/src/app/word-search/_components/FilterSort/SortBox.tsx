@@ -9,8 +9,7 @@ import React, { useState } from "react";
 import { SortType } from "../WordsList";
 import { createQueryString } from "@/lib/createQueryString";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { queryKeys } from "@/config/fitlerCategory";
-import { ArrowDown } from "lucide-react";
+import { queryKeys } from "@/config/query";
 
 export const sortTypeList: { label: string; value: SortType }[] = [
   { label: "最新順", value: "latest" },
@@ -23,7 +22,7 @@ const SortBox = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const handleSort = (value: string) => {
-    const newParams = createQueryString(searchParams, queryKeys[3], value);
+    const newParams = createQueryString(searchParams, queryKeys.SORT, value);
     router.push(pathname + "?" + newParams);
   };
   return (

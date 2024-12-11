@@ -9,8 +9,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createQueryString } from "@/lib/createQueryString";
-import { queryKeys } from "@/config/fitlerCategory";
+
 import { getErrorMessage } from "@/lib/getErrorMessage";
+import { queryKeys } from "@/config/query";
 interface SearchBarProps {
   setSearchTerm: (value: string) => void;
   searchTerm: string;
@@ -49,7 +50,11 @@ const SearchBar = ({
 
   const onSearch = (data: { word: string }) => {
     const word = data.word.trim();
-    const query = createQueryString(searchParams, queryKeys[2], word);
+    const query = createQueryString(
+      searchParams,
+      queryKeys.WORDSEARCH.SEARCH,
+      word
+    );
     router.push(`?${query}`, { scroll: false });
     setIsSearchLoading(true);
   };
@@ -72,7 +77,11 @@ const SearchBar = ({
         throw new Error(errorData.error || "単語の追加に失敗しました");
       }
       // 再レンダリングをさせるためにクエリを更新する
-      const query = createQueryString(searchParams, queryKeys[4], word);
+      const query = createQueryString(
+        searchParams,
+        queryKeys.WORDSEARCH.ADD,
+        word
+      );
       router.push(`?${query}`, { scroll: false });
       toast.success("単語を追加しました", { position: "top-right" });
     } catch (error) {

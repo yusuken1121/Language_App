@@ -9,15 +9,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  filterFavorite,
-  filterFormality,
-  queryKeys,
-} from "@/config/fitlerCategory";
+import { filterFavorite, filterFormality } from "@/config/fitlerCategory";
 import { SlidersHorizontal } from "lucide-react";
 import FilterButton from "./FilterButton";
 import { Separator } from "@/components/ui/separator";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { queryKeys } from "@/config/query";
 
 const FilterBox = () => {
   const [open, setOpen] = useState(false);
@@ -29,8 +26,8 @@ const FilterBox = () => {
 
   // 初期状態をクエリパラメータから取得
   useEffect(() => {
-    const formalityParam = searchParams.get(queryKeys[0]) || "";
-    const favoriteParam = searchParams.get(queryKeys[1]) || "";
+    const formalityParam = searchParams.get(queryKeys.FILTER.FORMALITY) || "";
+    const favoriteParam = searchParams.get(queryKeys.FILTER.FAVORITE) || "";
 
     setFormalityFilters(formalityParam.split("%").filter(Boolean));
     setFavoriteFilters(favoriteParam.split("%").filter(Boolean));
@@ -38,7 +35,7 @@ const FilterBox = () => {
 
   const handleFilterChange = (queryKey: string, value: string) => {
     // formality
-    if (queryKey === queryKeys[0]) {
+    if (queryKey === queryKeys.FILTER.FORMALITY) {
       setFormalityFilters((prev) => {
         if (prev.includes(value)) {
           // valueが含まれている場合は除外
@@ -51,7 +48,7 @@ const FilterBox = () => {
     }
 
     // favorite
-    if (queryKey === queryKeys[1]) {
+    if (queryKey === queryKeys.FILTER.FAVORITE) {
       setFavoriteFilters((prev) => {
         if (prev.includes(value)) {
           return prev.filter((v) => v !== value);
@@ -66,15 +63,15 @@ const FilterBox = () => {
     const params = new URLSearchParams(searchParams.toString());
 
     if (formalityFilters.length === 0) {
-      params.delete(queryKeys[0]);
+      params.delete(queryKeys.FILTER.FORMALITY);
     } else {
-      params.set(queryKeys[0], formalityFilters.join("%"));
+      params.set(queryKeys.FILTER.FORMALITY, formalityFilters.join("%"));
     }
 
     if (favoriteFilters.length === 0) {
-      params.delete(queryKeys[1]);
+      params.delete(queryKeys.FILTER.FAVORITE);
     } else {
-      params.set(queryKeys[1], favoriteFilters.join("%"));
+      params.set(queryKeys.FILTER.FAVORITE, favoriteFilters.join("%"));
     }
 
     // page = 1 にリセット
@@ -104,7 +101,7 @@ const FilterBox = () => {
         <div className="flex flex-col gap-2">
           <p>Formality Level</p>
           <FilterButton
-            queryKey={queryKeys[0]}
+            queryKey={queryKeys.FILTER.FORMALITY}
             filterItems={filterFormality}
             selectedFilters={formalityFilters}
             onFilterChange={handleFilterChange}
@@ -116,7 +113,7 @@ const FilterBox = () => {
         <div className="flex flex-col gap-2">
           <p>Favorite</p>
           <FilterButton
-            queryKey={queryKeys[1]}
+            queryKey={queryKeys.FILTER.FAVORITE}
             filterItems={filterFavorite}
             selectedFilters={favoriteFilters}
             onFilterChange={handleFilterChange}

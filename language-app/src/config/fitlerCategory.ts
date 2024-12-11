@@ -3,16 +3,6 @@ export type FilterCategory = {
   name: string; // Dialogの選択肢の名前
 };
 
-// フィルターのクエリ名を入れる
-export const queryKeys = [
-  "formality", //0
-  "favorite", //1
-  "search", //2
-  "sort", //3
-  "add", //4
-  "page", //5
-];
-
 // formality level
 export const filterFormality: FilterCategory[] = [
   { label: "カジュアル", name: "カジュアル" },

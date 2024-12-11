@@ -1,5 +1,6 @@
 import { GEMINI_API_KEY } from "@/config/ENV";
-import { filterFormality, queryKeys } from "@/config/fitlerCategory";
+import { filterFormality } from "@/config/fitlerCategory";
+import { queryKeys } from "@/config/query";
 import { getUserId } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { GoogleGenerativeAI } from "@google/generative-ai";
@@ -61,7 +62,7 @@ export async function GET(request: NextRequest) {
   const word = searchParams.get("search") || "";
 
   // formality level
-  const formalityParam = searchParams.get(queryKeys[0]) || "";
+  const formalityParam = searchParams.get(queryKeys.FILTER.FORMALITY) || "";
   const formalityFilters = formalityParam
     .split(",")
     .map((item) => item.trim())

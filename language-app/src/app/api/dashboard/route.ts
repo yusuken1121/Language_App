@@ -49,8 +49,8 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error("Error fetching word statistics:", error);
     const errorMessage = getErrorMessage(error);
-    return createErrorResponse(errorMessage, 500);
+    console.error("Error fetching word statistics:", errorMessage);
+    return createErrorResponse(ERROR_MESSAGES.BACKEND.GENERAL.UNEXPECTED, 500);
   }
 }

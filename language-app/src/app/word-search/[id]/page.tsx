@@ -37,7 +37,7 @@ export default function WordSearchPage() {
         setIsLoading(false);
       } catch (error) {
         console.error(error);
-        toast.error("Failed to fetch word details");
+        toast.error("フレーズの取得に失敗しました。");
       } finally {
         setIsLoading(false);
       }

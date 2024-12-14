@@ -22,7 +22,8 @@ export async function GET(
     return NextResponse.json({ data: word });
   } catch (error) {
     const errorMessage = getErrorMessage(error);
-    return createErrorResponse(errorMessage, 500);
+    console.error("Error:", errorMessage);
+    return createErrorResponse(ERROR_MESSAGES.BACKEND.GENERAL.UNEXPECTED, 500);
   }
 }
 
@@ -45,7 +46,8 @@ export async function PUT(
     return NextResponse.json({ data: word });
   } catch (error) {
     const errorMessage = getErrorMessage(error);
-    return createErrorResponse(errorMessage, 500);
+    console.error("Error:", errorMessage);
+    return createErrorResponse(ERROR_MESSAGES.BACKEND.GENERAL.UNEXPECTED, 500);
   }
 }
 
@@ -65,6 +67,7 @@ export async function DELETE(
     return NextResponse.json({ data: word });
   } catch (error) {
     const errorMessage = getErrorMessage(error);
-    return createErrorResponse(errorMessage, 500);
+    console.error("Error:", errorMessage);
+    return createErrorResponse(ERROR_MESSAGES.BACKEND.GENERAL.UNEXPECTED, 500);
   }
 }

@@ -132,9 +132,9 @@ export async function GET(request: NextRequest) {
       totalPages: Math.ceil(totalWords / pageSize),
     });
   } catch (error) {
-    console.error("Error fetching words:", error);
     const errorMessage = getErrorMessage(error);
-    return createErrorResponse(errorMessage, 500);
+    console.error("Error:", errorMessage);
+    return createErrorResponse(ERROR_MESSAGES.BACKEND.GENERAL.UNEXPECTED, 500);
   }
 }
 
@@ -220,8 +220,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ data: word });
   } catch (error) {
-    console.error("Error creating word:", error);
     const errorMessage = getErrorMessage(error);
-    return createErrorResponse(errorMessage, 500);
+    console.error("Error:", errorMessage);
+    return createErrorResponse(ERROR_MESSAGES.BACKEND.GENERAL.UNEXPECTED, 500);
   }
 }

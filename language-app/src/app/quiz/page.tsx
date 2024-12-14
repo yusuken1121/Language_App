@@ -15,6 +15,8 @@ import { Word } from "@prisma/client";
 import QuizAnswer from "./_components/QuizAnswer";
 import Link from "next/link";
 import LottieLoading from "@/components/LottieLoading";
+import { toast } from "sonner";
+import { ERROR_MESSAGES } from "@/config/errorMessage";
 
 export type QuizWord = Pick<
   Word,
@@ -51,6 +53,7 @@ export default function Quiz() {
         setRemainingWords(data);
       } catch (error) {
         console.error(error);
+        toast.error("クイズの取得に失敗しました。");
       } finally {
         setIsInitLoading(false);
       }
@@ -87,6 +90,7 @@ export default function Quiz() {
       });
     } catch (error) {
       console.error(error);
+      toast.error("クイズの出力に失敗しました。");
     } finally {
       setIsLoading(false);
     }

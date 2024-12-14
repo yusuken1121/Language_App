@@ -46,9 +46,9 @@ export async function GET() {
 
     return NextResponse.json(randomQuiz);
   } catch (error) {
-    console.error(error);
     const errorMessage = getErrorMessage(error);
-    return createErrorResponse(errorMessage, 500);
+    console.error("Error:", errorMessage);
+    return createErrorResponse(ERROR_MESSAGES.BACKEND.GENERAL.UNEXPECTED, 500);
   }
 }
 
@@ -105,8 +105,8 @@ export async function PUT(request: Request) {
     });
     return NextResponse.json(updatedWord);
   } catch (error) {
-    console.error(error);
     const errorMessage = getErrorMessage(error);
-    return createErrorResponse(errorMessage, 500);
+    console.error("Error:", errorMessage);
+    return createErrorResponse(ERROR_MESSAGES.BACKEND.GENERAL.UNEXPECTED, 500);
   }
 }

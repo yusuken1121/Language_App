@@ -95,7 +95,7 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching words:", error);
-        setError("単語の取得に失敗しました");
+        setError("フレーズの取得に失敗しました");
       } finally {
         setIsLoading(false);
         setIsSearchLoading(false);
@@ -144,7 +144,7 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
             <div className="text-2xl">
               フレーズを入力して
               <br />
-              単語学習を始めましょう！
+              フレーズ学習を始めましょう！
             </div>
             <LottieNotFound />
           </div>

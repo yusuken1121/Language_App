@@ -145,7 +145,7 @@ export default function Quiz() {
         <Card className="w-full max-w-md text-center bg-white">
           <CardHeader>
             <CardTitle className="text-2xl text-background">
-              英単語学習
+              英フレーズ学習
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -163,10 +163,10 @@ export default function Quiz() {
         <Card className="w-full max-w-md text-center bg-white">
           <CardHeader>
             <CardTitle className="text-2xl text-background">
-              英単語学習
+              英フレーズ学習
             </CardTitle>
           </CardHeader>
-          <CardContent>今日学習する単語はありません！</CardContent>
+          <CardContent>今日学習するフレーズはありません！</CardContent>
           <CardFooter className="flex justify-center">
             <Link href="/word-search">
               <Button className="bg-accent text-background hover:bg-accent/80">
@@ -190,7 +190,7 @@ export default function Quiz() {
           </CardHeader>
           <CardContent>
             <p className="text-xl mb-4">
-              今日覚えた単語の数: {learnedWords.size}
+              今日覚えたフレーズの数: {learnedWords.size}
             </p>
             <Link href="/word-search">
               <Button className="bg-accent text-background hover:bg-accent/80">

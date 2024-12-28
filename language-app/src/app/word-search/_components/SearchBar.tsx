@@ -74,7 +74,7 @@ const SearchBar = ({
       });
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "単語の追加に失敗しました");
+        throw new Error(errorData.error || "フレーズの追加に失敗しました");
       }
       // 再レンダリングをさせるためにクエリを更新する
       const query = createQueryString(
@@ -83,7 +83,7 @@ const SearchBar = ({
         word
       );
       router.push(`?${query}`, { scroll: false });
-      toast.success("単語を追加しました", { position: "top-right" });
+      toast.success("フレーズを追加しました", { position: "top-right" });
     } catch (error) {
       console.error("Error during search:", error);
       toast.error("検索中にエラーが発生しました", {

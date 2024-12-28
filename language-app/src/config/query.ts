@@ -9,7 +9,7 @@ export const queryKeys = {
   },
   WORDSEARCH: {
     SEARCH: "search", // 検索クエリ
-    ADD: "add", // 新しい単語の追加
+    ADD: "add", // 新しいフレーズの追加
   },
   SORT: "sort", // ソート順を指定するクエリ
   PAGE: "page", // ページを指定するクエリ

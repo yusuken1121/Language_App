@@ -26,11 +26,11 @@ export default async function Dashboard() {
   return (
     <div className="h-full flex flex-col gap-2 bg-background text-white p-6">
       <div className="grid gap-6">
-        {/* 学習した単語数 */}
+        {/* 学習したフレーズ数 */}
         <Card className="bg-white text-background">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              学習済みの単語数
+              学習済みのフレーズ数
             </CardTitle>
             <BookOpen className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -42,18 +42,18 @@ export default async function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* レビューすべき単語 */}
+        {/* レビューすべきフレーズ */}
         <Card className="bg-white text-background">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              今日学習する単語数
+              今日学習するフレーズ数
             </CardTitle>
             <BookOpen className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{reviewToday}</div>
             <p className="text-xs text-muted-foreground">
-              今日復習が必要な単語
+              今日復習が必要なフレーズ
             </p>
           </CardContent>
         </Card>
@@ -68,7 +68,7 @@ export default async function Dashboard() {
               <div className="flex flex-col gap-3">
                 <Link href="/word-search" passHref>
                   <Button className="w-full bg-secondary text-background hover:bg-secondary/80">
-                    <Search className="mr-2 h-4 w-4" /> 単語を検索
+                    <Search className="mr-2 h-4 w-4" /> フレーズを検索
                   </Button>
                 </Link>
                 <Link href="/quiz" passHref>

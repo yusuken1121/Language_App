@@ -21,11 +21,11 @@ export function DeleteDialog() {
   const handleDelete = async () => {
     try {
       await fetch(`/api/words/${params.id}`, { method: "DELETE" });
-      toast.success("単語を削除しました。", { position: "top-center" });
+      toast.success("フレーズを削除しました。", { position: "top-center" });
       router.push("/word-search");
     } catch (error) {
       console.error(error);
-      toast.error("単語を削除しませんでした。", { position: "top-center" });
+      toast.error("フレーズを削除しませんでした。", { position: "top-center" });
     }
   };
 
@@ -41,9 +41,9 @@ export function DeleteDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-md bg-accent">
         <DialogHeader>
-          <DialogTitle className="text-background">単語を削除</DialogTitle>
+          <DialogTitle className="text-background">フレーズを削除</DialogTitle>
           <DialogDescription className="text-background">
-            この単語を削除してもよろしいですか？
+            このフレーズを削除してもよろしいですか？
           </DialogDescription>
         </DialogHeader>
 

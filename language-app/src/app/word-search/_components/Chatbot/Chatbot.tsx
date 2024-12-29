@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { motion } from "motion/react";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 export function Chatbot() {
   const { messages, input, handleInputChange, handleSubmit, isLoading, stop } =
@@ -36,7 +37,11 @@ export function Chatbot() {
           </Button>
         </motion.div>
       </DialogTrigger>
-      <DialogContent className="flex flex-col w-full h-[500px] mx-auto bg-accent rounded-lg shadow-lg">
+      <DialogTitle className="hidden"></DialogTitle>
+      <DialogContent
+        className="flex flex-col w-full h-[500px] mx-auto bg-accent rounded-lg shadow-lg"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
         <div className="flex-1 overflow-auto p-2">
           {messages.length === 0 && (
             <div className="flex flex-col justify-center items-center h-full">
@@ -78,12 +83,12 @@ export function Chatbot() {
             event.preventDefault();
             handleSubmit();
           }}
-          className="bg-muted/50 px-4 py-3 flex items-center gap-2"
+          className="bg-white px-4 py-3 flex items-center gap-2"
         >
           <div className="relative flex-1">
             <Textarea
               placeholder="日本語で知りたいフレーズのみ入力してください..."
-              className="border border-accent focus:border-accent rounded-lg pr-12 text-background min-h-[64px]"
+              className="bg-white border border-accent focus:border-accent rounded-lg pr-12 text-background min-h-[64px]"
               rows={1}
               value={input}
               onChange={handleInputChange}

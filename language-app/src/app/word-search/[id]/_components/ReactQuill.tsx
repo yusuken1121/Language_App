@@ -1,11 +1,12 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Loader2, Save } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import "react-quill-new/dist/quill.snow.css";
-import ReactQuill from "react-quill-new";
-
+import dynamic from "next/dynamic";
+import { useDebouncedCallback } from "use-debounce";
+import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { Loader2, Save } from "lucide-react";
+import "react-quill-new/dist/quill.snow.css";
+const ReactQuill = dynamic(() => import("react-quill-new"));
 
 export default function ReactQuillComponent({
   memo,
@@ -16,6 +17,10 @@ export default function ReactQuillComponent({
 }) {
   const [value, setValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const debouncedSetValue = useDebouncedCallback((val) => {
+    setValue(val);
+  }, 300);
 
   useEffect(() => {
     setValue(memo);
@@ -42,7 +47,7 @@ export default function ReactQuillComponent({
       <ReactQuill
         theme="snow"
         value={value}
-        onChange={setValue}
+        onChange={debouncedSetValue}
         className="h-48"
       />
       <Button

@@ -2,8 +2,9 @@
 import { Button } from "@/components/ui/button";
 import { Loader2, Save } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import "react-quill-new/dist/quill.snow.css";
+import ReactQuill from "react-quill-new";
+
 import { toast } from "sonner";
 
 export default function ReactQuillComponent({

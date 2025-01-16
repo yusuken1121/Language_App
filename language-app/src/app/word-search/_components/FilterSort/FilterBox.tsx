@@ -17,7 +17,6 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { queryKeys } from "@/config/query";
 import ResetBox from "./ResetBox";
 import ButtonInner from "@/components/atoms/ButtonInner";
-
 import {
   Drawer,
   DrawerContent,
@@ -29,11 +28,13 @@ import {
 } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
+import SortBox from "./SortBox";
 
 const FilterBox = ({ className }: { className?: string }) => {
   const [open, setOpen] = useState(false);
   const [formalityFilters, setFormalityFilters] = useState<string[]>([]);
   const [favoriteFilters, setFavoriteFilters] = useState<string[]>([]);
+  const [currentSort, setCurrentSort] = useState<string>(""); // ソート用のstate
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -42,26 +43,24 @@ const FilterBox = ({ className }: { className?: string }) => {
   useEffect(() => {
     const formalityParam = searchParams.get(queryKeys.FILTER.FORMALITY) || "";
     const favoriteParam = searchParams.get(queryKeys.FILTER.FAVORITE) || "";
+    const sortParam = searchParams.get(queryKeys.SORT) || "";
 
     setFormalityFilters(formalityParam.split("%").filter(Boolean));
     setFavoriteFilters(favoriteParam.split("%").filter(Boolean));
+    setCurrentSort(sortParam);
   }, [searchParams]);
 
   const handleFilterChange = (queryKey: string, value: string) => {
-    // formality
     if (queryKey === queryKeys.FILTER.FORMALITY) {
       setFormalityFilters((prev) => {
         if (prev.includes(value)) {
-          // valueが含まれている場合は除外
           return prev.filter((v) => v !== value);
         } else {
-          // valueが含まれないときは追加
           return [...prev, value];
         }
       });
     }
 
-    // favorite
     if (queryKey === queryKeys.FILTER.FAVORITE) {
       setFavoriteFilters((prev) => {
         if (prev.includes(value)) {
@@ -71,6 +70,11 @@ const FilterBox = ({ className }: { className?: string }) => {
         }
       });
     }
+  };
+
+  // ソート用の関数
+  const handleSort = (value: string) => {
+    setCurrentSort(value);
   };
 
   const handleApplyFilters = () => {
@@ -88,8 +92,15 @@ const FilterBox = ({ className }: { className?: string }) => {
       params.set(queryKeys.FILTER.FAVORITE, favoriteFilters.join("%"));
     }
 
+    if (!currentSort) {
+      params.delete(queryKeys.SORT);
+    } else {
+      params.set(queryKeys.SORT, currentSort);
+    }
+
     // page = 1 にリセット
     params.set("page", "1");
+
     router.push(pathname + "?" + params.toString());
     setOpen(false);
   };
@@ -101,24 +112,34 @@ const FilterBox = ({ className }: { className?: string }) => {
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
           <Button
-            variant="accent_outline"
+            variant="default"
             className={cn(
-              "flex h-12 rounded-lg items-center justify-center gap-2",
+              "flex items-center justify-center gap-2 rounded-full",
               className
             )}
           >
-            <ButtonInner icon={SlidersHorizontal} label="フィルター" />
+            <ButtonInner icon={SlidersHorizontal} />
           </Button>
         </DrawerTrigger>
-        <DrawerContent className=" bg-accent">
+        <DrawerContent className="bg-white">
           <DrawerHeader>
             <DrawerTitle>フィルター</DrawerTitle>
             <DrawerDescription>
               フィルターをしたい項目を入力し、保存ボタンを押してください。
             </DrawerDescription>
           </DrawerHeader>
-          {/* Formality level */}
+
+          {/* フィルターとソート */}
           <div className="flex flex-col px-10 gap-2">
+            <div className="flex flex-col gap-2">
+              <p>Sort</p>
+              <SortBox
+                currentSort={currentSort}
+                handleSort={handleSort}
+                className="w-[180px]"
+              />
+            </div>
+
             <div className="flex flex-col gap-2">
               <p>Formality Level</p>
               <FilterButton
@@ -155,27 +176,38 @@ const FilterBox = ({ className }: { className?: string }) => {
       </Drawer>
     );
   }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          variant="accent_outline"
+          variant="default"
           className={cn(
-            "flex h-12 rounded-lg items-center justify-center gap-2",
+            "flex items-center justify-center gap-2 rounded-full",
             className
           )}
         >
-          <ButtonInner icon={SlidersHorizontal} label="フィルター" />
+          <ButtonInner icon={SlidersHorizontal} />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto bg-accent">
+      <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto bg-white">
         <DialogHeader>
           <DialogTitle>フィルター</DialogTitle>
           <DialogDescription>
             フィルターをしたい項目を入力し、保存ボタンを押してください。
           </DialogDescription>
         </DialogHeader>
-        {/* Formality level */}
+
+        {/* フィルターとソート */}
+        <div className="flex flex-col gap-2">
+          <p>Sort</p>
+          <SortBox
+            currentSort={currentSort}
+            handleSort={handleSort}
+            className="w-[180px]"
+          />
+        </div>
+
         <div className="flex flex-col gap-2">
           <p>Formality Level</p>
           <FilterButton

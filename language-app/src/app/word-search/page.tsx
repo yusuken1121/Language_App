@@ -10,15 +10,17 @@ export default function WordSearch() {
 
   return (
     <Suspense>
-      <div className="h-full p-6">
+      <div className="h-full">
         <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           setIsSearchLoading={setIsSearchLoading}
           isSearchLoading={isSearchLoading}
         />
-        <WordsList setIsSearchLoading={setIsSearchLoading} />
-        <Chatbot />
+        <div className="p-6">
+          <WordsList setIsSearchLoading={setIsSearchLoading} />
+          <Chatbot />
+        </div>
       </div>
     </Suspense>
   );

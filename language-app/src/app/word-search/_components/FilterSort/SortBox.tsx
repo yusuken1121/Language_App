@@ -1,15 +1,7 @@
-import {
-  Select,
-  SelectItem,
-  SelectContent,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import React, { useState } from "react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import React from "react";
 import { SortType } from "../WordsList";
-import { createQueryString } from "@/lib/createQueryString";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { queryKeys } from "@/config/query";
 import { cn } from "@/lib/utils";
 
 export const sortTypeList: { label: string; value: SortType }[] = [
@@ -18,27 +10,38 @@ export const sortTypeList: { label: string; value: SortType }[] = [
   { label: "昇順", value: "asc" },
   { label: "降順", value: "desc" },
 ];
-const SortBox = ({ className }: { className?: string }) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const handleSort = (value: string) => {
-    const newParams = createQueryString(searchParams, queryKeys.SORT, value);
-    router.push(pathname + "?" + newParams);
-  };
+
+const SortBox = ({
+  className,
+  currentSort,
+  handleSort,
+}: {
+  className?: string;
+  currentSort: string;
+  handleSort: (value: string) => void;
+}) => {
   return (
-    <Select onValueChange={(value) => handleSort(value)}>
-      <SelectTrigger
-        className={cn("bg-accent text-background", className)}
-      ></SelectTrigger>
-      <SelectContent>
-        {sortTypeList.map((item) => (
-          <SelectItem key={item.value} value={item.value}>
+    <RadioGroup
+      onValueChange={handleSort}
+      value={currentSort}
+      className={cn("flex flex-col space-y-1", className)}
+    >
+      {sortTypeList.map((item) => (
+        <div key={item.value} className="flex items-center space-x-2">
+          <RadioGroupItem
+            value={item.value}
+            id={item.value}
+            className="bg-white border-background text-background "
+          />
+          <Label
+            htmlFor={item.value}
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
             {item.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+          </Label>
+        </div>
+      ))}
+    </RadioGroup>
   );
 };
 

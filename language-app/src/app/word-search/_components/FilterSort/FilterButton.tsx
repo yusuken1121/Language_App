@@ -24,10 +24,8 @@ const FilterButton: FC<FilterButtonProps> = ({
           <Button
             key={item.label}
             onClick={() => onFilterChange(queryKey, item.label)}
-            className={cn(
-              "bg-white text-background hover:bg-background/80 hover:text-white",
-              isActive && "bg-background hover:bg-background/80 text-white"
-            )}
+            variant={isActive ? "default" : "outline"}
+            className={cn("rounded-full")}
           >
             {item.name}
           </Button>

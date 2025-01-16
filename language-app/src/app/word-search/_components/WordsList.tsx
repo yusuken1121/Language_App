@@ -160,21 +160,6 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   if (wordList.length > 0) {
     return (
       <div className="flex flex-col gap-4 max-h-full">
-        {/* ソートフィルターボタン */}
-
-        {isMobile && (
-          <div className="grid grid-cols-2 w-full items-center justify-end gap-2">
-            <SortBox />
-            <FilterBox />
-          </div>
-        )}
-        {!isMobile && (
-          <div className="flex items-center justify-end w-full gap-2">
-            <SortBox className="w-fit" />
-            <FilterBox />
-          </div>
-        )}
-
         <Card className="bg-white text-background max-w-full">
           <CardContent>
             <ul className="divide-y divide-gray-200">

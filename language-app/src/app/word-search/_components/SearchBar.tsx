@@ -1,17 +1,32 @@
 "use client";
-import { Loader2, Plus, Search } from "lucide-react";
+
+import { Loader2, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import React, { useState } from "react";
-import { toast } from "sonner";
-import { z } from "zod";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+} from "@/components/ui/card";
+import React from "react";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createQueryString } from "@/lib/createQueryString";
-
-import { getErrorMessage } from "@/lib/getErrorMessage";
 import { queryKeys } from "@/config/query";
+import FilterBox from "./FilterSort/FilterBox";
+import { CreateWordForm } from "./CreateWord/CreateWordForm";
+import { wordSchema } from "@/lib/schema";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+
 interface SearchBarProps {
   setSearchTerm: (value: string) => void;
   searchTerm: string;
@@ -19,32 +34,16 @@ interface SearchBarProps {
   isSearchLoading: boolean;
 }
 
-const SearchBar = ({
+export default function SearchBar({
   searchTerm,
   isSearchLoading,
   setIsSearchLoading,
-}: SearchBarProps) => {
-  const [isAddLoading, setIsAddLoading] = useState(false);
-
-  // 追加
+}: SearchBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const formSchema = z.object({
-    word: z
-      .string()
-      .min(1, { message: "入力してください。" })
-      .regex(/^[A-Za-z\s.,?!'"’`;:-]+$/, {
-        message: "英字のみ入力可能です。",
-      }),
-  });
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(formSchema),
+  const form = useForm({
+    resolver: zodResolver(wordSchema),
     defaultValues: { word: searchTerm },
   });
 
@@ -59,88 +58,59 @@ const SearchBar = ({
     setIsSearchLoading(true);
   };
 
-  const onAdd = async (data: { word: string }) => {
-    const word = data.word.trim();
-    await handleAdd(word);
-  };
-
-  const handleAdd = async (word: string) => {
-    try {
-      setIsAddLoading(true);
-      const response = await fetch("api/words", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ searchTerm: word }),
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "フレーズの追加に失敗しました");
-      }
-      // 再レンダリングをさせるためにクエリを更新する
-      const query = createQueryString(
-        searchParams,
-        queryKeys.WORDSEARCH.ADD,
-        word
-      );
-      router.push(`?${query}`, { scroll: false });
-      toast.success("フレーズを追加しました", { position: "top-right" });
-    } catch (error) {
-      console.error("Error during search:", error);
-      toast.error("検索中にエラーが発生しました", {
-        position: "top-right",
-      });
-    } finally {
-      setIsAddLoading(false);
-    }
-  };
-
   return (
-    <div>
-      <div className="flex flex-col gap-2 text-accent text-xs mb-2">
-        <p>検索ボタンで入力したフレーズを含むものを抽出します。</p>
-        <p>プラスボタンでAIが意味や関連情報を調べてリストに追加</p>
-      </div>
-      <form className="flex gap-2 mb-6">
-        <div className="flex flex-col gap-2 w-full">
-          <Input
-            {...register("word")}
-            placeholder="フレーズを検索・追加"
-            type="text"
-            className="w-full bg-white text-background"
-          />
-          <div className="h-4">
-            {errors.word && (
-              <p className="text-red-500">{errors.word.message as string}</p>
-            )}
-          </div>
-        </div>
-        <Button
-          type="button"
-          onClick={handleSubmit(onSearch)}
-          className="bg-secondary text-accent-foreground hover:bg-secondary/80"
-          disabled={isSearchLoading}
-        >
-          {isSearchLoading ? (
-            <Loader2 className="animate-spin" />
-          ) : (
-            <Search className="h-4 w-4" />
-          )}
-        </Button>
-        <Button
-          type="button"
-          onClick={handleSubmit(onAdd)}
-          className="bg-primary text-accent-foreground hover:bg-accent/80"
-          disabled={isAddLoading}
-        >
-          {isAddLoading ? (
-            <Loader2 className="animate-spin" />
-          ) : (
-            <Plus className="h-4 w-4" />
-          )}
-        </Button>
-      </form>
-    </div>
-  );
-};
+    <Card className="w-full bg-background text-white border-none shadow-lg pt-2 pb-3 rounded-none">
+      <CardHeader className="pb-2 px-0 pt-0">
+        <CardDescription className="hidden"></CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4 p-0">
+        {/* Search Form */}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSearch)}>
+            <FormField
+              control={form.control}
+              name="word"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="flex items-center">
+                      {/* フィルターとソート */}
+                      <FilterBox className="border-none" />
 
-export default SearchBar;
+                      {/* 登録ずみのフレーズの検索窓 */}
+                      <div className="relative flex-1">
+                        <div className="relative">
+                          <Input
+                            {...field}
+                            placeholder="登録済みフレーズを検索"
+                            className="pr-10 bg-white text-background rounded-full"
+                          />
+                          <FormMessage className="absolute -bottom-7" />
+                        </div>
+                        <Button
+                          type="submit"
+                          variant="secondary"
+                          className="absolute right-0 top-0 rounded-full"
+                          disabled={isSearchLoading}
+                        >
+                          {isSearchLoading ? (
+                            <Loader2 className="h-3 w-3 animate-spin" />
+                          ) : (
+                            <Search className="h-3 w-3" />
+                          )}
+                        </Button>
+                      </div>
+
+                      {/* フレーズの登録 */}
+                      <CreateWordForm searchTerm={searchTerm} />
+                    </div>
+                  </FormControl>
+                </FormItem>
+              )}
+            ></FormField>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
+  );
+}

@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import ButtonInner from "../atoms/ButtonInner";
 
 const Select = SelectPrimitive.Root;
 
@@ -25,14 +26,14 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-12 w-12 rounded-full items-center justify-center whitespace-nowrap border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+      "flex h-12 w-full rounded-lg items-center justify-center whitespace-nowrap bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
       className
     )}
     {...props}
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <ArrowDownWideNarrow className="h-10 w-10 text-background font-medium" />
+      <ButtonInner icon={ArrowDownWideNarrow} label="ソート" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ));

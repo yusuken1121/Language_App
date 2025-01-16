@@ -10,6 +10,7 @@ import { SortType } from "../WordsList";
 import { createQueryString } from "@/lib/createQueryString";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { queryKeys } from "@/config/query";
+import { cn } from "@/lib/utils";
 
 export const sortTypeList: { label: string; value: SortType }[] = [
   { label: "最新順", value: "latest" },
@@ -17,7 +18,7 @@ export const sortTypeList: { label: string; value: SortType }[] = [
   { label: "昇順", value: "asc" },
   { label: "降順", value: "desc" },
 ];
-const SortBox = () => {
+const SortBox = ({ className }: { className?: string }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -27,9 +28,9 @@ const SortBox = () => {
   };
   return (
     <Select onValueChange={(value) => handleSort(value)}>
-      <SelectTrigger className="bg-accent text-background">
-        {/* <SelectValue /> */}
-      </SelectTrigger>
+      <SelectTrigger
+        className={cn("bg-accent text-background", className)}
+      ></SelectTrigger>
       <SelectContent>
         {sortTypeList.map((item) => (
           <SelectItem key={item.value} value={item.value}>

@@ -1,10 +1,12 @@
 "use client";
+import ButtonInner from "@/components/atoms/ButtonInner";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { RotateCcw } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
-const ResetBox = () => {
+const ResetBox = ({ className }: { className?: string }) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -15,11 +17,11 @@ const ResetBox = () => {
   return (
     <Button
       variant="outline"
-      className="flex items-center bg-secondary hover:bg-secondary/90 justify-center w-12 h-12 rounded-full font-medium"
+      className={cn("flex items-center justify-center ", className)}
       onClick={handleReset}
       aria-label="Reset filters"
     >
-      <RotateCcw className="w-10 h-10 text-background" />
+      <ButtonInner icon={RotateCcw} label="リセット" />
     </Button>
   );
 };

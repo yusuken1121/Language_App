@@ -14,10 +14,10 @@ const buttonVariants = cva(
           "bg-white text-background border border-2 border-background shadow hover:bg-primary/90",
         secondary: "bg-secondary text-background shadow hover:bg-secondary/90",
         secondary_outline:
-          "bg-white text-background border border-2 border-secondary shadow hover:bg-secondary/10",
+          "bg-white text-background border border-2 border-secondary shadow hover:bg-secondary/90",
         accent: "bg-accent text-background shadow hover:bg-accent/90",
         accent_outline:
-          "bg-white text-background border border-2 border-accent shadow hover:bg-accent/10",
+          "bg-white text-background border border-2 border-accent shadow hover:bg-accent/90",
         default:
           "bg-background text-white border border-white shadow hover:bg-background/90",
         destructive:

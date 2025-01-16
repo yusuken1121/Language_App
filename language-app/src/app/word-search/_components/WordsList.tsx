@@ -15,6 +15,7 @@ import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import ResetBox from "./FilterSort/ResetBox";
 import { queryKeys } from "@/config/query";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type WordsListProps = {
   setIsSearchLoading: (value: boolean) => void;
@@ -41,6 +42,8 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   const formalityFilters = useMemo(() => {
     return formalityParam.split("%").filter(Boolean);
   }, [formalityParam]);
+
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const fetchWords = async () => {
@@ -158,22 +161,20 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
     return (
       <div className="flex flex-col gap-4 max-h-full">
         {/* ソートフィルターボタン */}
-        <div className="flex items-center gap-2">
-          <div className="flex flex-col items-center justify-center gap-1">
+
+        {isMobile && (
+          <div className="grid grid-cols-2 w-full items-center justify-end gap-2">
             <SortBox />
-            <p className="text-xs text-accent">ソート</p>
-          </div>
-
-          <div className="flex flex-col items-center justify-center gap-1">
             <FilterBox />
-            <p className="text-xs text-accent">フィルター</p>
           </div>
+        )}
+        {!isMobile && (
+          <div className="flex items-center justify-end w-full gap-2">
+            <SortBox className="w-fit" />
+            <FilterBox />
+          </div>
+        )}
 
-          <div className="flex flex-col items-center justify-center gap-1">
-            <ResetBox />
-            <p className="text-xs text-accent">リセット</p>
-          </div>
-        </div>
         <Card className="bg-white text-background max-w-full">
           <CardContent>
             <ul className="divide-y divide-gray-200">

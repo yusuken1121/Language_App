@@ -149,10 +149,7 @@ export default function Quiz() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <Button
-              onClick={startQuiz}
-              className="bg-accent text-background hover:bg-accent/80"
-            >
+            <Button onClick={startQuiz} variant="accent">
               フレーズの確認を開始
             </Button>
           </CardContent>
@@ -169,9 +166,7 @@ export default function Quiz() {
           <CardContent>今日学習するフレーズはありません！</CardContent>
           <CardFooter className="flex justify-center">
             <Link href="/word-search">
-              <Button className="bg-accent text-background hover:bg-accent/80">
-                今日の学習を追加する
-              </Button>
+              <Button variant="accent">今日の学習を追加する</Button>
             </Link>
           </CardFooter>
         </Card>
@@ -193,9 +188,7 @@ export default function Quiz() {
               今日覚えたフレーズの数: {learnedWords.size}
             </p>
             <Link href="/word-search">
-              <Button className="bg-accent text-background hover:bg-accent/80">
-                今日の学習を追加する
-              </Button>
+              <Button variant="accent">今日の学習を追加する</Button>
             </Link>
           </CardContent>
         </Card>
@@ -246,7 +239,8 @@ export default function Quiz() {
           <div className="flex flex-col w-full lg:flex-row justify-center gap-4">
             <Button
               onClick={handleExplanation}
-              className="w-full bg-secondary text-background hover:bg-secondary/80 font-bold"
+              variant="secondary"
+              className="w-full font-bold"
             >
               答えを見る
             </Button>

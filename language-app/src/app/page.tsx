@@ -67,17 +67,17 @@ export default async function Dashboard() {
             <CardContent className="space-y-4">
               <div className="flex flex-col gap-3">
                 <Link href="/word-search" passHref>
-                  <Button className="w-full bg-secondary text-background hover:bg-secondary/80">
+                  <Button variant="secondary" className="w-full">
                     <Search className="mr-2 h-4 w-4" /> フレーズを検索
                   </Button>
                 </Link>
                 <Link href="/quiz" passHref>
-                  <Button className="w-full bg-secondary text-background hover:bg-secondary/80">
+                  <Button variant="secondary" className="w-full">
                     <BookOpen className="mr-2 h-4 w-4" /> フレーズの確認を開始
                   </Button>
                 </Link>
                 <SignOutButton>
-                  <Button className="w-full bg-secondary text-background hover:bg-secondary/80">
+                  <Button variant="secondary" className="w-full">
                     <LogOut className="h-4 w-4" />
                     <span>Logout</span>
                   </Button>

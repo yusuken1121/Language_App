@@ -29,19 +29,22 @@ const QuizAnswer = ({
         <div className="sticky top-0 bg-background bg-opacity-80 w-full flex items-center justify-between gap-2 p-1 pb-5 z-10 text-sm w-full">
           <Button
             onClick={handleCross}
-            className="bg-accent text-background hover:bg-accent/80 font-bold flex-1"
+            variant="accent"
+            className="font-bold flex-1"
           >
             <X className="h-2 w-2" />
           </Button>
           <Button
             onClick={handleReviewLater}
-            className="bg-primary hover:bg-primary/90 text-background font-bold flex-1"
+            variant="primary"
+            className="font-bold flex-1"
           >
             <Clock className="h-2 w-2" />
           </Button>
           <Button
             onClick={handleCheck}
-            className="bg-secondary hover:bg-secondary/80 text-background font-bold flex-1"
+            variant="secondary"
+            className="font-bold flex-1"
           >
             {isLoading ? (
               <Loader2 className="h-2 w-2 animate-spin" />

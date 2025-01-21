@@ -24,10 +24,10 @@ export default async function Dashboard() {
   const { total, reviewToday, completed } = stats;
 
   return (
-    <div className="h-full flex flex-col gap-2 bg-background text-white p-6">
+    <div className="h-full flex flex-col gap-2 bg-background-secondary p-6">
       <div className="grid gap-6">
         {/* 学習したフレーズ数 */}
-        <Card className="bg-white text-background">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               学習済みのフレーズ数
@@ -43,7 +43,7 @@ export default async function Dashboard() {
         </Card>
 
         {/* レビューすべきフレーズ */}
-        <Card className="bg-white text-background">
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               今日学習するフレーズ数
@@ -60,7 +60,7 @@ export default async function Dashboard() {
 
         {/* クイックアクション */}
         <div className="grid gap-6">
-          <Card className="bg-white text-background">
+          <Card>
             <CardHeader>
               <CardTitle>クイックアクション</CardTitle>
             </CardHeader>

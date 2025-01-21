@@ -112,7 +112,7 @@ const FilterBox = ({ className }: { className?: string }) => {
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
           <Button
-            variant="default"
+            variant="background"
             className={cn(
               "flex items-center justify-center gap-2 rounded-full",
               className

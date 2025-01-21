@@ -160,7 +160,7 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   if (wordList.length > 0) {
     return (
       <div className="flex flex-col gap-4 max-h-full">
-        <Card className="bg-white text-background max-w-full">
+        <Card className="max-w-full">
           <CardContent>
             <ul className="divide-y divide-gray-200">
               {wordList.map((word) => (

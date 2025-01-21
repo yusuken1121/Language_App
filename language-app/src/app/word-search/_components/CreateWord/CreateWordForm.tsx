@@ -76,7 +76,7 @@ export function CreateWordForm({ searchTerm }: { searchTerm: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default" className="rounded-full border-none w-fit">
+        <Button variant="background" className="rounded-full border-none w-fit">
           <FilePlus2 />
         </Button>
       </DialogTrigger>

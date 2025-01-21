@@ -17,7 +17,7 @@ export default function WordSearch() {
           setIsSearchLoading={setIsSearchLoading}
           isSearchLoading={isSearchLoading}
         />
-        <div className="p-6">
+        <div className="bg-background-secondary p-6">
           <WordsList setIsSearchLoading={setIsSearchLoading} />
           <Chatbot />
         </div>

@@ -21,7 +21,7 @@ function ButtonInner({
         className
       )}
     >
-      {Icon && <Icon className="h-6 w-6 text-white font-medium" />}
+      {Icon && <Icon className="h-6 w-6 text-primary-background font-medium" />}
       {label && <span className="text-background text-md">{label}</span>}
       {children}
     </div>

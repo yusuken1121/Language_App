@@ -141,12 +141,10 @@ export default function Quiz() {
   // Render quiz start page
   if (!quizStarted) {
     return remainingWords.length > 0 ? (
-      <div className="h-full bg-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-md text-center bg-white">
+      <div className="h-full bg-background-secondary flex items-center justify-center p-4">
+        <Card className="w-full max-w-md text-center">
           <CardHeader>
-            <CardTitle className="text-2xl text-background">
-              英フレーズ学習
-            </CardTitle>
+            <CardTitle className="text-2xl">英フレーズ学習</CardTitle>
           </CardHeader>
           <CardContent>
             <Button onClick={startQuiz} variant="accent">
@@ -156,12 +154,10 @@ export default function Quiz() {
         </Card>
       </div>
     ) : (
-      <div className="h-full bg-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-md text-center bg-white">
+      <div className="h-full bg-background-secondary flex items-center justify-center p-4">
+        <Card className="w-full max-w-md text-center">
           <CardHeader>
-            <CardTitle className="text-2xl text-background">
-              英フレーズ学習
-            </CardTitle>
+            <CardTitle className="text-2xl">英フレーズ学習</CardTitle>
           </CardHeader>
           <CardContent>今日学習するフレーズはありません！</CardContent>
           <CardFooter className="flex justify-center">
@@ -176,12 +172,10 @@ export default function Quiz() {
 
   if (quizEnded) {
     return (
-      <div className="h-full bg-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-md text-center bg-white">
+      <div className="h-full bg-background-secondary flex items-center justify-center p-4">
+        <Card className="w-full max-w-md text-center">
           <CardHeader>
-            <CardTitle className="text-2xl text-background">
-              フレーズ確認終了
-            </CardTitle>
+            <CardTitle className="text-2xl">フレーズ確認終了</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-xl mb-4">
@@ -210,10 +204,10 @@ export default function Quiz() {
   }
 
   return (
-    <div className="h-full w-full bg-background flex items-center justify-center px-2">
-      <Card className="w-full max-w-2xl bg-white">
+    <div className="h-full w-full bg-background-secondary flex items-center justify-center px-2">
+      <Card className="w-full max-w-2xl">
         <CardHeader>
-          <CardTitle className="text-xl text-background">
+          <CardTitle className="text-xl">
             進捗: {learnedWords.size} /{" "}
             {learnedWords.size + remainingWords.length}
           </CardTitle>
@@ -230,7 +224,7 @@ export default function Quiz() {
         <CardContent className="flex flex-col items-center">
           <Card className="w-full mb-6">
             <CardContent className="p-6">
-              <h2 className="text-2xl text-center text-background font-bold">
+              <h2 className="text-2xl text-center font-bold">
                 {currentWord?.meaning}
               </h2>
             </CardContent>

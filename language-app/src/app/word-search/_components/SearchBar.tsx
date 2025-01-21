@@ -59,7 +59,7 @@ export default function SearchBar({
   };
 
   return (
-    <Card className="w-full bg-background text-white border-none shadow-lg pt-2 pb-3 rounded-none">
+    <Card className="w-full bg-primary border-none shadow-lg pt-2 pb-3 rounded-none">
       <CardHeader className="pb-2 px-0 pt-0">
         <CardDescription className="hidden"></CardDescription>
       </CardHeader>
@@ -83,14 +83,14 @@ export default function SearchBar({
                           <Input
                             {...field}
                             placeholder="登録済みフレーズを検索"
-                            className="pr-10 bg-white text-background rounded-full"
+                            className="bg-background pr-10 rounded-full"
                           />
                           <FormMessage className="absolute -bottom-7" />
                         </div>
                         <Button
                           type="submit"
                           variant="secondary"
-                          className="absolute right-0 top-0 rounded-full"
+                          className="absolute right-0 top-0 rounded-full "
                           disabled={isSearchLoading}
                         >
                           {isSearchLoading ? (

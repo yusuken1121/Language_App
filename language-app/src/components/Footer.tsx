@@ -13,7 +13,7 @@ const Footer = () => {
       <Link
         href="/"
         className={cn(
-          "flex flex-col items-center text-muted-foreground flex-1",
+          "flex flex-col items-center text-muted-secondary flex-1",
           pathname === "/" && "text-background font-bold"
         )}
       >
@@ -30,7 +30,7 @@ const Footer = () => {
       <Link
         href="/word-search"
         className={cn(
-          "text-muted-foreground flex-1",
+          "text-muted-secondary flex-1",
           pathname === "/word-search" && "text-background font-bold"
         )}
       >
@@ -47,7 +47,7 @@ const Footer = () => {
       <Link
         href="/quiz"
         className={cn(
-          "flex flex-col items-center text-muted-foreground flex-1",
+          "flex flex-col items-center text-muted-secondary flex-1",
           pathname === "/quiz" && "text-background font-bold"
         )}
       >

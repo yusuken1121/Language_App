@@ -160,46 +160,42 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   if (wordList.length > 0) {
     return (
       <div className="flex flex-col gap-4 max-h-full">
-        <Card className="bg-white text-background max-w-full">
-          <CardContent>
-            <ul className="divide-y divide-gray-200">
-              {wordList.map((word) => (
-                <motion.li
-                  key={word.id}
-                  className="py-4"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 1.1 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        {wordList.map((word) => (
+          <Card key={word.id} className="text-background max-w-full">
+            <CardContent>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                <Link
+                  href={`/word-search/${word.id}`}
+                  className="block hover:bg-gray-50"
                 >
-                  <Link
-                    href={`/word-search/${word.id}`}
-                    className="block hover:bg-gray-50"
-                  >
-                    <div className="grid grid-cols-10 auto-rows-auto">
-                      <span className="col-span-7 font-bold break-words">
-                        {word.wordName}
-                      </span>
-                      <span
-                        className={cn(
-                          "col-span-3 col-start-8 flex max-h-[30px] sm:min-w-[100px] items-center justify-center sm:justify-self-end text-sm px-2 py-1 rounded-md font-semibold border border-gray-200 ",
-                          word.formalityLevel === "フォーマル" &&
-                            "bg-secondary text-background",
-                          word.formalityLevel === "普通" &&
-                            "bg-primary text-background",
-                          word.formalityLevel === "カジュアル" &&
-                            "bg-accent text-background"
-                        )}
-                      >
-                        {word.formalityLevel}
-                      </span>
-                    </div>
-                    <p className="mt-1 text-sm text-gray-600">{word.meaning}</p>
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+                  <div className="grid grid-cols-10 auto-rows-auto">
+                    <span className="col-span-7 font-bold break-words">
+                      {word.wordName}
+                    </span>
+                    <span
+                      className={cn(
+                        "col-span-3 col-start-8 flex max-h-[30px] sm:min-w-[100px] items-center justify-center sm:justify-self-end text-xs px-2 py-1 rounded-md font-semibold border border-gray-200",
+                        word.formalityLevel === "フォーマル" &&
+                          "bg-secondary text-background",
+                        word.formalityLevel === "普通" &&
+                          "bg-primary text-background",
+                        word.formalityLevel === "カジュアル" &&
+                          "bg-accent text-background"
+                      )}
+                    >
+                      {word.formalityLevel}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm text-gray-600">{word.meaning}</p>
+                </Link>
+              </motion.div>
+            </CardContent>
+          </Card>
+        ))}
         <PaginationList totalPage={totalPage} />
       </div>
     );

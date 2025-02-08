@@ -23,6 +23,7 @@ body {
     --primary: 60 100% 96%; /* #FFADE yellow */
     --primary-foreground: 210 20% 98%;
     --secondary: 252 90% 80%; /* #9D7BF7 purple */
+    --secondary-background: 0, 0%, 100%; /* white */
     --secondary-foreground: 0, 0%, 100%; /* white */
     --muted: 220 14.3% 95.9%;
     --muted-foreground: 220 8.9% 46.1%;

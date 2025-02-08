@@ -112,7 +112,10 @@ export function CreateWordForm({
                 <FormItem>
                   <FormControl>
                     <div className="flex flex-col gap-5">
-                      <Input {...field} placeholder="新しいフレーズを入力" />
+                      <Input
+                        {...field}
+                        placeholder="英語で入力してください。"
+                      />
                       <FormMessage />
                       <Button
                         type="submit"

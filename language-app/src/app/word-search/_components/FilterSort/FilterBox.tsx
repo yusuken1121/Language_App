@@ -121,7 +121,7 @@ const FilterBox = ({ className }: { className?: string }) => {
             <ButtonInner icon={SlidersHorizontal} />
           </Button>
         </DrawerTrigger>
-        <DrawerContent className="bg-secondary-background h-[95vh]">
+        <DrawerContent className="bg-secondary-background h-[80vh]">
           <DrawerHeader>
             <DrawerTitle>フィルター</DrawerTitle>
             <DrawerDescription>

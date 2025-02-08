@@ -2,13 +2,7 @@
 
 import { useChat } from "ai/react";
 import Markdown from "react-markdown";
-import {
-  Loader2,
-  MessageCircle,
-  SendIcon,
-  Sparkle,
-  SquareIcon,
-} from "lucide-react";
+import { Loader2, MessageCircle, SendIcon, Sparkle } from "lucide-react";
 
 import React from "react";
 import { Button } from "@/components/ui/button";
@@ -39,7 +33,7 @@ export function Chatbot() {
       </DialogTrigger>
       <DialogTitle className="hidden"></DialogTitle>
       <DialogContent
-        className="flex flex-col w-full h-[500px] mx-auto bg-accent rounded-lg shadow-lg"
+        className="flex flex-col w-full h-[500px] mx-auto bg-gray-50 rounded-lg shadow-lg"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <div className="flex-1 overflow-auto p-2">
@@ -50,28 +44,28 @@ export function Chatbot() {
               </p>
             </div>
           )}
+          {/* メッセージボックス */}
           <div className="flex flex-col gap-4">
             {messages.map((message) =>
+              // AIからのメッセージ
               message.role === "assistant" ? (
-                <div
-                  key={message.id}
-                  className="flex items-start gap-3 text-background"
-                >
+                <div key={message.id} className="flex items-start gap-3">
                   <div className="flex flex-col gap-2">
-                    <div className="flex items-center justify-center p-2 w-6 h-6 border border-muted rounded-full bg-secondary">
-                      <Sparkle className="h-4 w-4 rounded-full text-background" />
+                    <div className="flex items-center justify-center p-2 w-6 h-6 border border-muted rounded-full bg-background">
+                      <Sparkle className="h-4 w-4 rounded-full text-secondary-foreground" />
                     </div>
-                    <div className="bg-muted rounded-lg p-3 max-w-[90%]">
-                      <Markdown className="text-sm text-muted-foreground">
-                        {message.content}
-                      </Markdown>
+                    <div className="bg-secondary text-background rounded-lg p-3 max-w-[90%]">
+                      <Markdown className="text-sm">{message.content}</Markdown>
                     </div>
                   </div>
                 </div>
               ) : (
+                // ユーザーからのメッセージ
                 <div key={message.id} className="flex justify-end">
-                  <div className="bg-primary rounded-lg p-3 max-w-[70%]">
-                    <p className="text-sm text-background">{message.content}</p>
+                  <div className="bg-background rounded-lg p-3 max-w-[70%]">
+                    <p className="text-sm text-secondary-foreground">
+                      {message.content}
+                    </p>
                   </div>
                 </div>
               )
@@ -83,12 +77,12 @@ export function Chatbot() {
             event.preventDefault();
             handleSubmit();
           }}
-          className="bg-white px-4 py-3 flex items-center gap-2"
+          className="bg-secondary-background px-4 py-3 flex items-center gap-2 shadow-lg"
         >
           <div className="relative flex-1">
             <Textarea
               placeholder="日本語で知りたいフレーズのみ入力してください..."
-              className="bg-white border border-accent focus:border-accent rounded-lg pr-12 text-background min-h-[64px]"
+              className="bg-secondary-background border border-background focus:border-accent rounded-lg pr-12 text-background min-h-[64px]"
               rows={1}
               value={input}
               onChange={handleInputChange}
@@ -99,9 +93,9 @@ export function Chatbot() {
                 type="submit"
                 size="icon"
                 disabled={!input || isLoading}
-                className="absolute flex items-center justify-center bottom-3 right-3 rounded-full bg-secondary hover:bg-secondary"
+                className="absolute flex items-center justify-center bottom-3 right-3 rounded-full bg-background hover:bg-secondary"
               >
-                <SendIcon className="h-4 w-4 text-background" />
+                <SendIcon className="h-4 w-4 text-secondary-foreground" />
                 <span className="sr-only">送信</span>
               </Button>
             ) : (
@@ -110,9 +104,9 @@ export function Chatbot() {
                 size="icon"
                 disabled={!isLoading}
                 onClick={stop}
-                className="absolute flex items-center justify-center bottom-3 right-3 rounded-full bg-secondary hover:bg-secondary"
+                className="absolute flex items-center justify-center bottom-3 right-3 rounded-full bg-background hover:bg-background/80"
               >
-                <Loader2 className="h-4 w-4 animate-spin bg-secondary text-background" />
+                <Loader2 className="h-4 w-4 animate-spin bg-background text-secondary-foreground" />
                 <span className="sr-only">送信</span>
               </Button>
             )}

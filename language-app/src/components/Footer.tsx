@@ -9,7 +9,7 @@ import { motion } from "motion/react";
 const Footer = () => {
   const pathname = usePathname();
   return (
-    <footer className="sticky bottom-0 w-full h-[75px] flex items-center justify-around bg-primary mx-auto xl:hidden">
+    <footer className="sticky bottom-0 w-full h-[75px] flex items-center justify-around bg-primary shadow-shadow-top mx-auto xl:hidden">
       <Link
         href="/"
         className={cn(

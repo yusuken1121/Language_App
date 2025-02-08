@@ -16,9 +16,19 @@ export default function ActionCards({ className }: { className?: string }) {
                 <CardHeader className="hidden">
                   <CardTitle>{action.label}</CardTitle>
                 </CardHeader>
-                <CardContent className="flex flex-col items-center justify-center gap-2">
-                  <span className="text-xs">{action.label}</span>
-                  <span className="">{action.icon}</span>
+                <CardContent className="relative h-full">
+                  {/* Icon: absolutely centered */}
+                  <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    {action.icon}
+                  </div>
+                  {/* Label: absolutely positioned above the icon */}
+                  {/* Adjust the bottom value according to your icon height; here we assume the icon is 24px tall */}
+                  <div
+                    className="absolute left-1/2 transform -translate-x-1/2"
+                    style={{ bottom: "calc(50% + 24px)" }}
+                  >
+                    <span className="text-xs">{action.label}</span>
+                  </div>
                 </CardContent>
               </Card>
             </Link>

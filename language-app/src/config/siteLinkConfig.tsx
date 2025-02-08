@@ -5,7 +5,7 @@ export const quickActions = [
   {
     type: "link",
     href: "/word-search",
-    label: "フレーズを検索",
+    label: "検索",
     icon: <Search className="w-full h-full" />,
   },
   {

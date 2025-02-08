@@ -2,8 +2,8 @@
 
 import { Word } from "@prisma/client";
 import React, { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
-import { Bookmark, Star, StarOff, Trash } from "lucide-react";
+import { useParams } from "next/navigation";
+import { Star, StarOff } from "lucide-react";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";

@@ -1,12 +1,8 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { BookOpen, LogOut, Search, Settings, TrendingUp } from "lucide-react";
-import Link from "next/link";
-
+import { BookOpen } from "lucide-react";
 import { apiClientFetch } from "@/config/apiClient";
-import { SignOutButton } from "@clerk/nextjs";
 import ActionCards from "./_components/ActionCards";
 
 export default async function Dashboard() {

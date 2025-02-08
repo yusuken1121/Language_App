@@ -6,16 +6,13 @@ import { Word } from "@prisma/client";
 import LottieLoading from "@/components/LottieLoading";
 import { cn } from "@/lib/utils";
 import PaginationList from "./WordsListPagnination"; // PaginationList コンポーネントをインポート
-import SortBox from "./FilterSort/SortBox";
 import { motion } from "motion/react";
 import LottieNotFound from "@/components/LottieNotFound";
 import LottieError from "@/components/LottieError";
-import FilterBox from "./FilterSort/FilterBox";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import ResetBox from "./FilterSort/ResetBox";
 import { queryKeys } from "@/config/query";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 type WordsListProps = {
   setIsSearchLoading: (value: boolean) => void;
@@ -42,8 +39,6 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   const formalityFilters = useMemo(() => {
     return formalityParam.split("%").filter(Boolean);
   }, [formalityParam]);
-
-  const isMobile = useIsMobile();
 
   useEffect(() => {
     const fetchWords = async () => {

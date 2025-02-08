@@ -59,24 +59,24 @@ export default function SearchBar({
   };
 
   return (
-    <Card className="w-full bg-background text-white border-none shadow-lg pt-2 pb-3 rounded-none">
+    <Card className="w-full bg-background text-secondary-foreground border-none shadow-lg pt-2 pb-3 rounded-none">
       <CardHeader className="pb-2 px-0 pt-0">
         <CardDescription className="hidden"></CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 p-0">
-        {/* Search Form */}
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSearch)}>
-            <FormField
-              control={form.control}
-              name="word"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <div className="flex items-center">
-                      {/* フィルターとソート */}
-                      <FilterBox className="border-none" />
+        <div className="flex items-center w-full space-x-4">
+          {/* フィルターとソート */}
+          <FilterBox className="border-none" />
 
+          {/* Search Form */}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSearch)} className="flex-1">
+              <FormField
+                control={form.control}
+                name="word"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
                       {/* 登録ずみのフレーズの検索窓 */}
                       <div className="relative flex-1">
                         <div className="relative">
@@ -100,16 +100,16 @@ export default function SearchBar({
                           )}
                         </Button>
                       </div>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Form>
 
-                      {/* フレーズの登録 */}
-                      <CreateWordForm searchTerm={searchTerm} />
-                    </div>
-                  </FormControl>
-                </FormItem>
-              )}
-            ></FormField>
-          </form>
-        </Form>
+          {/* フレーズの登録 */}
+          <CreateWordForm />
+        </div>
       </CardContent>
     </Card>
   );

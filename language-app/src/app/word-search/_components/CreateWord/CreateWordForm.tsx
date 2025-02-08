@@ -19,7 +19,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { queryKeys } from "@/config/query";
 import { createQueryString } from "@/lib/createQueryString";
-import { wordSchema } from "@/lib/schema";
+import { newPhraseSchema } from "@/lib/schema";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FilePlus2, Loader2, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -29,24 +30,30 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-export function CreateWordForm({ searchTerm }: { searchTerm: string }) {
+export function CreateWordForm({
+  dialogButtonClassName,
+}: {
+  dialogButtonClassName?: string;
+}) {
   const [open, setOpen] = useState(false);
   const [isAddLoading, setIsAddLoading] = useState(false);
-  const form = useForm<z.infer<typeof wordSchema>>({
-    resolver: zodResolver(wordSchema),
-    defaultValues: { word: searchTerm },
+
+  // Create a schema for the word
+  const form = useForm<z.infer<typeof newPhraseSchema>>({
+    resolver: zodResolver(newPhraseSchema),
+    defaultValues: { createPhrase: "" },
   });
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const onAdd = async (data: { word: string }) => {
-    const word = data.word.trim();
+  const onAdd = async (data: { createPhrase: string }) => {
+    const createPhrase = data.createPhrase.trim();
     try {
       setIsAddLoading(true);
       const response = await fetch("api/words", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ searchTerm: word }),
+        body: JSON.stringify({ searchTerm: createPhrase }),
       });
 
       if (!response.ok) {
@@ -57,7 +64,7 @@ export function CreateWordForm({ searchTerm }: { searchTerm: string }) {
       const query = createQueryString(
         searchParams,
         queryKeys.WORDSEARCH.ADD,
-        word
+        createPhrase
       );
       router.push(`?${query}`, { scroll: false });
       toast.success("フレーズを追加しました", { position: "top-right" });
@@ -76,11 +83,20 @@ export function CreateWordForm({ searchTerm }: { searchTerm: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default" className="rounded-full border-none w-fit">
+        <Button
+          variant="default"
+          className={cn(
+            "rounded-full border-none w-fit",
+            dialogButtonClassName
+          )}
+        >
           <FilePlus2 />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-white">
+      <DialogContent
+        className="sm:max-w-[425px] bg-secondary-background"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle>新しいフレーズを追加</DialogTitle>
           <DialogDescription>
@@ -91,7 +107,7 @@ export function CreateWordForm({ searchTerm }: { searchTerm: string }) {
           <form onSubmit={form.handleSubmit(onAdd)}>
             <FormField
               control={form.control}
-              name="word"
+              name="createPhrase"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>

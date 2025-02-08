@@ -6,12 +6,21 @@ import { RotateCcw } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
-const ResetBox = ({ className }: { className?: string }) => {
+const ResetBox = ({
+  setOpen,
+  className,
+  innerIconClassName,
+}: {
+  setOpen: (value: boolean) => void;
+  className?: string;
+  innerIconClassName?: string;
+}) => {
   const router = useRouter();
   const pathname = usePathname();
 
   const handleReset = () => {
     router.push(pathname);
+    setOpen(false);
   };
 
   return (
@@ -21,7 +30,11 @@ const ResetBox = ({ className }: { className?: string }) => {
       onClick={handleReset}
       aria-label="Reset filters"
     >
-      <ButtonInner icon={RotateCcw} label="リセット" />
+      <ButtonInner
+        icon={RotateCcw}
+        label="リセット"
+        innerIconClassName={innerIconClassName}
+      />
     </Button>
   );
 };

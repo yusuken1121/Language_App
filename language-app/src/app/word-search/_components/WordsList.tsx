@@ -107,10 +107,6 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   if (error) {
     return (
       <>
-        <div className="flex flex-col items-center justify-center gap-1">
-          <ResetBox />
-          <p className="text-xs text-accent">リセット</p>
-        </div>
         <div className="flex flex-col items-center justify-center max-h-full">
           <div>
             {error}
@@ -133,10 +129,6 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   if (wordList.length === 0) {
     return (
       <>
-        <div className="flex flex-col items-center justify-center gap-1">
-          <ResetBox />
-          <p className="text-xs text-accent">リセット</p>
-        </div>
         <div className="flex flex-col items-center justify-center h-3/4">
           <div>
             <div className="text-2xl">

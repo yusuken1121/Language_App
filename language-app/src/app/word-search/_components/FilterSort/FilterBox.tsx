@@ -121,18 +121,19 @@ const FilterBox = ({ className }: { className?: string }) => {
             <ButtonInner icon={SlidersHorizontal} />
           </Button>
         </DrawerTrigger>
-        <DrawerContent className="bg-white">
+        <DrawerContent className="bg-secondary-background h-[95vh]">
           <DrawerHeader>
             <DrawerTitle>フィルター</DrawerTitle>
             <DrawerDescription>
               フィルターをしたい項目を入力し、保存ボタンを押してください。
             </DrawerDescription>
+            <Separator />
           </DrawerHeader>
 
           {/* フィルターとソート */}
-          <div className="flex flex-col px-10 gap-2">
+          <div className="flex flex-col px-5 gap-6">
             <div className="flex flex-col gap-2">
-              <p>Sort</p>
+              <p className="font-bold">Sort</p>
               <SortBox
                 currentSort={currentSort}
                 handleSort={handleSort}
@@ -140,8 +141,10 @@ const FilterBox = ({ className }: { className?: string }) => {
               />
             </div>
 
+            <Separator />
+
             <div className="flex flex-col gap-2">
-              <p>Formality Level</p>
+              <p className="font-bold">Formality Level</p>
               <FilterButton
                 queryKey={queryKeys.FILTER.FORMALITY}
                 filterItems={filterFormality}
@@ -150,8 +153,10 @@ const FilterBox = ({ className }: { className?: string }) => {
               />
             </div>
 
+            <Separator />
+
             <div className="flex flex-col gap-2">
-              <p>Favorite</p>
+              <p className="font-bold">Favorite</p>
               <FilterButton
                 queryKey={queryKeys.FILTER.FAVORITE}
                 filterItems={filterFavorite}
@@ -161,7 +166,7 @@ const FilterBox = ({ className }: { className?: string }) => {
             </div>
           </div>
 
-          <DrawerFooter className="sticky bottom-0 flex items-center justify-center w-full py-2 bg-opacity-90 z-50">
+          <DrawerFooter className="sticky bottom-0 flex items-center justify-center w-full py-2 bg-opacity-90 shadow-shadow-top z-50">
             <div className="flex gap-2 mt-2">
               <Button
                 className="bg-background hover:bg-secondary/90"
@@ -169,7 +174,10 @@ const FilterBox = ({ className }: { className?: string }) => {
               >
                 適用
               </Button>
-              <ResetBox />
+              <ResetBox
+                innerIconClassName="text-foreground"
+                setOpen={setOpen}
+              />
             </div>
           </DrawerFooter>
         </DrawerContent>
@@ -190,7 +198,7 @@ const FilterBox = ({ className }: { className?: string }) => {
           <ButtonInner icon={SlidersHorizontal} />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto bg-white">
+      <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto bg-secondary-background">
         <DialogHeader>
           <DialogTitle>フィルター</DialogTitle>
           <DialogDescription>
@@ -199,8 +207,8 @@ const FilterBox = ({ className }: { className?: string }) => {
         </DialogHeader>
 
         {/* フィルターとソート */}
-        <div className="flex flex-col gap-2">
-          <p>Sort</p>
+        <div className="flex flex-col gap-6">
+          <p className="font-bold">Sort</p>
           <SortBox
             currentSort={currentSort}
             handleSort={handleSort}
@@ -208,8 +216,10 @@ const FilterBox = ({ className }: { className?: string }) => {
           />
         </div>
 
+        <Separator />
+
         <div className="flex flex-col gap-2">
-          <p>Formality Level</p>
+          <p className="font-bold">Formality Level</p>
           <FilterButton
             queryKey={queryKeys.FILTER.FORMALITY}
             filterItems={filterFormality}
@@ -218,10 +228,10 @@ const FilterBox = ({ className }: { className?: string }) => {
           />
         </div>
 
-        <Separator className="bg-secondary" />
+        <Separator />
 
         <div className="flex flex-col gap-2">
-          <p>Favorite</p>
+          <p className="font-bold">Favorite</p>
           <FilterButton
             queryKey={queryKeys.FILTER.FAVORITE}
             filterItems={filterFavorite}
@@ -239,7 +249,7 @@ const FilterBox = ({ className }: { className?: string }) => {
             >
               適用
             </Button>
-            <ResetBox />
+            <ResetBox innerIconClassName="text-foreground" setOpen={setOpen} />
           </div>
         </DialogFooter>
       </DialogContent>

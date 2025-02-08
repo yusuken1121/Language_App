@@ -54,7 +54,7 @@ const QuizAccordionDescription = () => {
       </AccordionItem>
 
       <AccordionItem value="quiz-explanation2">
-        <AccordionTrigger>進め方について</AccordionTrigger>
+        <AccordionTrigger>更新ボタンについて</AccordionTrigger>
         <AccordionContent>
           <QuizButtonsDescription />
         </AccordionContent>

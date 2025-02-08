@@ -7,6 +7,7 @@ import Link from "next/link";
 
 import { apiClientFetch } from "@/config/apiClient";
 import { SignOutButton } from "@clerk/nextjs";
+import ActionCards from "./_components/ActionCards";
 
 export default async function Dashboard() {
   // SSR
@@ -58,31 +59,14 @@ export default async function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* クイックアクション */}
+        {/* アクション */}
         <div className="grid gap-6">
-          <Card className="bg-white text-background">
+          <Card className="text-background">
             <CardHeader>
-              <CardTitle>クイックアクション</CardTitle>
+              <CardTitle>アクション</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex flex-col gap-3">
-                <Link href="/word-search" passHref>
-                  <Button variant="secondary" className="w-full">
-                    <Search className="mr-2 h-4 w-4" /> フレーズを検索
-                  </Button>
-                </Link>
-                <Link href="/quiz" passHref>
-                  <Button variant="secondary" className="w-full">
-                    <BookOpen className="mr-2 h-4 w-4" /> フレーズの確認を開始
-                  </Button>
-                </Link>
-                <SignOutButton>
-                  <Button variant="secondary" className="w-full">
-                    <LogOut className="h-4 w-4" />
-                    <span>Logout</span>
-                  </Button>
-                </SignOutButton>
-              </div>
+            <CardContent className="flex items-center justify-center">
+              <ActionCards className="grid grid-cols-2 md:flex md:flex-wrap items-center justify-center gap-2 flex-wrap" />
             </CardContent>
           </Card>
         </div>

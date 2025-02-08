@@ -17,6 +17,7 @@ import Link from "next/link";
 import LottieLoading from "@/components/LottieLoading";
 import { toast } from "sonner";
 import { ERROR_MESSAGES } from "@/config/errorMessage";
+import QuizStartDescription from "./_components/organisms/QuizStartDescription";
 
 export type QuizWord = Pick<
   Word,
@@ -141,8 +142,8 @@ export default function Quiz() {
   // Render quiz start page
   if (!quizStarted) {
     return remainingWords.length > 0 ? (
-      <div className="h-full bg-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-md text-center bg-white">
+      <div className="h-full bg-background flex flex-col items-center justify-center p-4 gap-10">
+        <Card className="w-full max-w-md text-center ">
           <CardHeader>
             <CardTitle className="text-2xl text-background">
               英フレーズ学習
@@ -150,14 +151,17 @@ export default function Quiz() {
           </CardHeader>
           <CardContent>
             <Button onClick={startQuiz} variant="accent">
-              フレーズの確認を開始
+              フレーズの練習を開始
             </Button>
           </CardContent>
         </Card>
+
+        {/* クイズの説明 */}
+        <QuizStartDescription />
       </div>
     ) : (
       <div className="h-full bg-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-md text-center bg-white">
+        <Card className="w-full max-w-md text-center ">
           <CardHeader>
             <CardTitle className="text-2xl text-background">
               英フレーズ学習
@@ -177,7 +181,7 @@ export default function Quiz() {
   if (quizEnded) {
     return (
       <div className="h-full bg-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-md text-center bg-white">
+        <Card className="w-full max-w-md text-center ">
           <CardHeader>
             <CardTitle className="text-2xl text-background">
               フレーズ確認終了
@@ -211,7 +215,7 @@ export default function Quiz() {
 
   return (
     <div className="h-full w-full bg-background flex items-center justify-center px-2">
-      <Card className="w-full max-w-2xl bg-white">
+      <Card className="w-full max-w-2xl ">
         <CardHeader>
           <CardTitle className="text-xl text-background">
             進捗: {learnedWords.size} /{" "}

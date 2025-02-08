@@ -14,7 +14,7 @@ body {
 
 @layer base {
   :root {
-    --background: 248 70% 20%; /* #190F57 Navy */
+    --background: 248, 70%, 20%; /* #190F57 Navy */
     --foreground: 224 71.4% 4.1%;
     --card: 0 0% 100%; /* white */
     --card-foreground: 248 70% 20%;

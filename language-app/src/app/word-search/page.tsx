@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useState } from "react";
 import WordsList from "./_components/WordsList";
 import SearchBar from "./_components/SearchBar";
 import { Chatbot } from "./_components/Chatbot/Chatbot";
@@ -10,14 +10,15 @@ export default function WordSearch() {
 
   return (
     <Suspense>
-      <div className="h-full">
+      <div className="flex flex-col h-full">
         <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           setIsSearchLoading={setIsSearchLoading}
           isSearchLoading={isSearchLoading}
         />
-        <div className="p-6">
+
+        <div className="flex-1 p-6">
           <WordsList setIsSearchLoading={setIsSearchLoading} />
           <Chatbot />
         </div>

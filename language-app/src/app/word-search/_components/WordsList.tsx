@@ -107,7 +107,7 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   if (error) {
     return (
       <>
-        <div className="flex flex-col items-center justify-center max-h-full">
+        <div className="flex flex-col items-center justify-center">
           <div>
             {error}
             <LottieError />
@@ -118,28 +118,19 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   }
 
   // ローディング中
-  if (isLoading)
-    return (
-      <div className="h-4/5">
-        <LottieLoading />
-      </div>
-    );
+  if (isLoading) return <LottieLoading />;
 
   // データが存在しない時
   if (wordList.length === 0) {
     return (
-      <>
-        <div className="flex flex-col items-center justify-center h-3/4">
-          <div>
-            <div className="text-2xl">
-              フレーズを入力して
-              <br />
-              フレーズ学習を始めましょう！
-            </div>
-            <LottieNotFound />
-          </div>
+      <div className="flex flex-col items-center justify-center">
+        <div className="text-2xl">
+          フレーズを入力して
+          <br />
+          フレーズ学習を始めましょう！
         </div>
-      </>
+        <LottieNotFound />
+      </div>
     );
   }
 

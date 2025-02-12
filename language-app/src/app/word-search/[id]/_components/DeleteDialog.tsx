@@ -13,6 +13,7 @@ import {
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/dist/client/components/navigation";
+import { ERROR_MESSAGES } from "@/config/errorMessage";
 
 export function DeleteDialog() {
   const params = useParams();
@@ -25,7 +26,13 @@ export function DeleteDialog() {
       router.push("/word-search");
     } catch (error) {
       console.error(error);
-      toast.error("フレーズを削除しませんでした。", { position: "top-center" });
+      if (error instanceof Error) {
+        toast.error(error.message, { position: "top-center" });
+      } else {
+        toast.error(ERROR_MESSAGES.FRONTEND.GENERAL.UNEXPECTED, {
+          position: "top-center",
+        });
+      }
     }
   };
 

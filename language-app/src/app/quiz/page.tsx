@@ -53,8 +53,11 @@ export default function Quiz() {
         const data: QuizWord[] = await response.json();
         setRemainingWords(data);
       } catch (error) {
-        console.error(error);
-        toast.error("クイズの取得に失敗しました。");
+        if (error instanceof Error) {
+          toast.error(error.message);
+        } else {
+          toast.error(ERROR_MESSAGES.FRONTEND.GENERAL.UNEXPECTED);
+        }
       } finally {
         setIsInitLoading(false);
       }
@@ -90,8 +93,11 @@ export default function Quiz() {
         body: JSON.stringify({ id: currentWord?.id }),
       });
     } catch (error) {
-      console.error(error);
-      toast.error("クイズの出力に失敗しました。");
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error(ERROR_MESSAGES.FRONTEND.GENERAL.UNEXPECTED);
+      }
     } finally {
       setIsLoading(false);
     }

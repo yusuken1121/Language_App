@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Loader2, Save } from "lucide-react";
 import "react-quill-new/dist/quill.snow.css";
+import { ERROR_MESSAGES } from "@/config/errorMessage";
 const ReactQuill = dynamic(() => import("react-quill-new"));
 
 export default function ReactQuillComponent({
@@ -35,8 +36,11 @@ export default function ReactQuillComponent({
       });
       toast.success("メモを更新しました。");
     } catch (error) {
-      console.error(error);
-      toast.error("メモの更新に失敗しました。");
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error(ERROR_MESSAGES.FRONTEND.GENERAL.UNEXPECTED);
+      }
     } finally {
       setIsLoading(false);
     }

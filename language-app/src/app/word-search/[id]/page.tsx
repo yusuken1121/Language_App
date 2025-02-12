@@ -19,6 +19,7 @@ import LottieLoading from "@/components/LottieLoading";
 import { DeleteDialog } from "./_components/DeleteDialog";
 import LottieNotFound from "@/components/LottieNotFound";
 import TextToSpeechButton from "@/components/TextToSpeechButton";
+import { ERROR_MESSAGES } from "@/config/errorMessage";
 
 export default function WordSearchPage() {
   const [word, setWord] = useState<Word>();
@@ -36,8 +37,11 @@ export default function WordSearchPage() {
         setWord(wordData.data);
         setIsLoading(false);
       } catch (error) {
-        console.error(error);
-        toast.error("フレーズの取得に失敗しました。");
+        if (error instanceof Error) {
+          toast.error(error.message);
+        } else {
+          toast.error(ERROR_MESSAGES.FRONTEND.GENERAL.UNEXPECTED);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -63,8 +67,13 @@ export default function WordSearchPage() {
         { position: "top-center" }
       );
     } catch (error) {
-      console.error(error);
-      toast.error("お気に入り登録に失敗しました。", { position: "top-center" });
+      if (error instanceof Error) {
+        toast.error(error.message, { position: "top-center" });
+      } else {
+        toast.error(ERROR_MESSAGES.FRONTEND.GENERAL.UNEXPECTED, {
+          position: "top-center",
+        });
+      }
     }
   };
 

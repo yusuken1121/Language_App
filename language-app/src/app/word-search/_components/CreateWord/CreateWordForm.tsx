@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { ERROR_MESSAGES } from "@/config/errorMessage";
 import { queryKeys } from "@/config/query";
 import { createQueryString } from "@/lib/createQueryString";
 import { newPhraseSchema } from "@/lib/schema";
@@ -71,10 +72,13 @@ export function CreateWordForm({
       form.reset();
       setOpen(false);
     } catch (error) {
-      console.error("Error during add:", error);
-      toast.error("フレーズの追加中にエラーが発生しました", {
-        position: "top-right",
-      });
+      if (error instanceof Error) {
+        toast.error(error.message, { position: "top-right" });
+      } else {
+        toast.error(ERROR_MESSAGES.FRONTEND.GENERAL.UNEXPECTED, {
+          position: "top-right",
+        });
+      }
     } finally {
       setIsAddLoading(false);
     }

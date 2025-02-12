@@ -10,37 +10,51 @@ import { Prisma } from "@prisma/client";
 
 import { NextRequest, NextResponse } from "next/server"; // Next.jsの場合に使用
 
-const prompt = `JSON形式で単語「{word}」に関する情報を提供してください。以下の項目を厳密なJSON形式で出力してください。
+const prompt = `以下のルールに従って、単語「{word}」に関する情報を厳密なJSON形式で出力してください。
 
-* **etymology:** 語源（日本語）: 単語の由来
-* **meaning:** 意味（日本語）: 単語を別の言葉で言い換え、その単語自体を含めないで説明
-  * **例:** "etymology" の場合、"単語の由来" や "語源学" のように説明する
-* **exampleSentence:** 例文（英語）: 単語を使った例文
-* **contextLearning:** 使用状況（日本語）: 単語が使用される文脈
-* **pronunciation:** 発音
-  * **american:** アメリカ英語の発音（国際音声記号）
-  * **british:** イギリス英語の発音（国際音声記号）
-* **synonym:** 同義語（英語）: 単語の同義語 (カンマ区切りで指定)
-* **formalityLevel:** 使用レベル (フォーマル, 普通, カジュアル)
-* **usageArea:** 使用場所（英語）: 単語が使用される場所 (アメリカ、イギリス、オーストラリア、カナダ、世界共通、その他)
-* **isExist:** 単語が存在するかどうか (true, false)
+【ルール】
+1. 単語が正しく存在し、かつタイポがない場合は、以下の全項目を必ず出力してください。
+   - "etymology": 語源（日本語） – 単語の由来
+   - "meaning": 意味（日本語） – 単語を別の言葉で言い換えて説明（単語自体は含めない）
+   - "exampleSentence": 例文（英語） – 単語を使った例文
+   - "contextLearning": 使用状況（日本語） – 単語が使われる文脈の説明
+   - "pronunciation": 発音情報。下記のサブ項目を含むオブジェクトとする。
+       - "american": アメリカ英語の発音（国際音声記号）
+       - "british": イギリス英語の発音（国際音声記号）
+   - "synonym": 同義語（英語） – カンマ区切りで指定
+   - "formalityLevel": 使用レベル（"フォーマル", "普通", "カジュアル"）
+   - "usageArea": 使用場所（英語） – 例：アメリカ、イギリス、オーストラリア、カナダ、世界共通、その他
+   - "isExist": 単語が正しく存在する場合は true
 
-**出力例:**
+2. もし、入力された単語にタイポがある場合、またはその単語が存在しない場合は、上記の詳細情報は一切出力せず、以下の形式のみ出力してください。
+{
+  "isExist": false
+}
+
+【出力例】
+
+＜単語が存在し、タイポもない場合＞
 {
   "etymology": "ギリシャ語の～から派生",
   "meaning": "単語の起源や由来を研究する学問",
-  "exampleSentence": "The etymology...",
-  "contextLearning": "Etymologyは何かを説明するときによく使われます。~",
+  "exampleSentence": "The etymology of the word...",
+  "contextLearning": "この単語は何かを説明するときに使われます。",
   "pronunciation": {
     "american": "/ˌɛtɪˈmɑːlədʒi/",
     "british": "/ˌɛtɪˈmɒlədʒi/"
   },
-  "synonym": "derivation, origin, root", // カンマ区切りで指定
+  "synonym": "derivation, origin, root",
   "formalityLevel": "フォーマル",
   "usageArea": "アメリカ",
   "isExist": true
 }
-`;
+
+＜タイポや存在しない単語の場合＞
+{
+  "isExist": false
+}
+
+上記のルールに従って、単語「{word}」に関する情報を出力してください。`;
 
 // フィルター追加方法
 // Filter[1]を更新
@@ -161,6 +175,7 @@ export async function POST(request: Request) {
         },
       },
     });
+
     if (existingWord) {
       return createErrorResponse(ERROR_MESSAGES.BACKEND.WORDS.DUPLICATE, 500);
     }
@@ -191,8 +206,9 @@ export async function POST(request: Request) {
       isExist,
     } = JSON.parse(text);
 
+    // AIが存在しないフレーズを返した場合
     if (isExist === false) {
-      return createErrorResponse(ERROR_MESSAGES.BACKEND.WORDS.DUPLICATE, 500);
+      return createErrorResponse(ERROR_MESSAGES.BACKEND.WORDS.NOT_EXIST, 500);
     }
 
     const word = await prisma.word.create({

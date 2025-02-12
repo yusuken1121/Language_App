@@ -27,6 +27,8 @@ export const ERROR_MESSAGES = {
     },
     WORDS: {
       DUPLICATE: "すでにそのフレーズは存在します。",
+      NOT_EXIST:
+        "入力されたフレーズは存在しないか、誤入力（タイポ）の可能性があります。",
     },
     API: {
       INVALID: "無効なリクエストです。",
@@ -44,6 +46,9 @@ export const ERROR_MESSAGES = {
     UI: {
       LOADING_FAILED: (componentName: string) =>
         `${componentName}の読み込みに失敗しました。`,
+    },
+    GENERAL: {
+      UNEXPECTED: "予期しないエラーが発生しました。",
     },
   },
 } as const;

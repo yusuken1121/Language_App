@@ -7,12 +7,12 @@ import LottieLoading from "@/components/LottieLoading";
 import { cn } from "@/lib/utils";
 import PaginationList from "./WordsListPagnination"; // PaginationList コンポーネントをインポート
 import { motion } from "motion/react";
-import LottieNotFound from "@/components/LottieNotFound";
 import LottieError from "@/components/LottieError";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
-import ResetBox from "./FilterSort/ResetBox";
 import { queryKeys } from "@/config/query";
+import { FilePlus2 } from "lucide-react";
+import { ERROR_MESSAGES } from "@/config/errorMessage";
 
 type WordsListProps = {
   setIsSearchLoading: (value: boolean) => void;
@@ -92,8 +92,11 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
         setTotalPage(words.totalPages);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching words:", error);
-        setError("フレーズの取得に失敗しました");
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError(ERROR_MESSAGES.FRONTEND.GENERAL.UNEXPECTED);
+        }
       } finally {
         setIsLoading(false);
         setIsSearchLoading(false);
@@ -107,7 +110,7 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   if (error) {
     return (
       <>
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center h-full">
           <div>
             {error}
             <LottieError />
@@ -123,13 +126,15 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   // データが存在しない時
   if (wordList.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center h-full">
         <div className="text-2xl">
-          フレーズを入力して
+          <span className="flex items-center gap-1">
+            右の <FilePlus2 /> から
+          </span>
           <br />
-          フレーズ学習を始めましょう！
+          フレーズを追加しましょう！
+          <LottieError />
         </div>
-        <LottieNotFound />
       </div>
     );
   }

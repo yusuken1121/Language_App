@@ -1,3 +1,4 @@
+"use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { quickActions } from "@/config/siteLinkConfig";
 import { cn } from "@/lib/utils";
@@ -33,16 +34,33 @@ export default function ActionCards({ className }: { className?: string }) {
               </Card>
             </Link>
           );
-        } else if (action.type === "button") {
+        } else if (action.type === "logout") {
           return (
             <SignOutButton key={index}>
               <Card className="cursor-pointer hover:shadow-lg w-[125px] h-[125px] bg-secondary font-bold">
                 <CardContent className="flex flex-col items-center justify-center gap-2">
                   <span className="text-xs">{action.label}</span>
-                  <span className="">{action.icon}</span>
+                  <span>{action.icon}</span>
                 </CardContent>
               </Card>
             </SignOutButton>
+          );
+        } else if (action.type === "button") {
+          return (
+            <Card
+              key={index}
+              className="cursor-pointer hover:shadow-lg w-[125px] h-[125px] bg-secondary font-bold"
+            >
+              <CardContent>
+                <button
+                  onClick={action.onClick}
+                  className="flex flex-col items-center justify-center gap-2"
+                >
+                  <span className="text-xs">{action.label}</span>
+                  <span className="">{action.icon}</span>
+                </button>
+              </CardContent>
+            </Card>
           );
         }
         return null;

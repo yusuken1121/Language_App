@@ -1,4 +1,5 @@
-import { BookOpen, LogOut, Search } from "lucide-react";
+import { handleExportCSV } from "@/lib/handleExportCsv";
+import { BookOpen, Download, LogOut, Search } from "lucide-react";
 
 // クイックアクションのオブジェクト配列
 export const quickActions = [
@@ -16,6 +17,12 @@ export const quickActions = [
   },
   {
     type: "button",
+    label: "エクスポート",
+    icon: <Download className="w-full h-full" />,
+    onClick: handleExportCSV,
+  },
+  {
+    type: "logout",
     // ボタンの場合は href ではなく action タイプにする
     label: "ログアウト",
     icon: <LogOut className="w-full h-full" />,

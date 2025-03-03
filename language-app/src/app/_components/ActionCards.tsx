@@ -1,9 +1,20 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { quickActions } from "@/config/siteLinkConfig";
+import { quickActions, IconType } from "@/config/siteLinkConfig";
 import { cn } from "@/lib/utils";
 import { SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
+import React from "react";
+
+// Helper function to render icon correctly whether it's a component or React node
+const renderIcon = (icon: IconType | React.ReactNode): React.ReactNode => {
+  if (React.isValidElement(icon)) {
+    return icon;
+  }
+  // If it's an IconType (React component), render it
+  const IconComponent = icon as IconType;
+  return <IconComponent className="w-full h-full" />;
+};
 
 export default function ActionCards({ className }: { className?: string }) {
   return (
@@ -20,7 +31,7 @@ export default function ActionCards({ className }: { className?: string }) {
                 <CardContent className="relative h-full">
                   {/* Icon: absolutely centered */}
                   <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    {action.icon}
+                    {renderIcon(action.icon)}
                   </div>
                   {/* Label: absolutely positioned above the icon */}
                   {/* Adjust the bottom value according to your icon height; here we assume the icon is 24px tall */}
@@ -40,7 +51,7 @@ export default function ActionCards({ className }: { className?: string }) {
               <Card className="cursor-pointer hover:shadow-lg w-[125px] h-[125px] bg-secondary font-bold">
                 <CardContent className="flex flex-col items-center justify-center gap-2">
                   <span className="text-xs">{action.label}</span>
-                  <span>{action.icon}</span>
+                  <span>{renderIcon(action.icon)}</span>
                 </CardContent>
               </Card>
             </SignOutButton>
@@ -57,7 +68,7 @@ export default function ActionCards({ className }: { className?: string }) {
                   className="flex flex-col items-center justify-center gap-2"
                 >
                   <span className="text-xs">{action.label}</span>
-                  <span className="">{action.icon}</span>
+                  <span className="">{renderIcon(action.icon)}</span>
                 </button>
               </CardContent>
             </Card>

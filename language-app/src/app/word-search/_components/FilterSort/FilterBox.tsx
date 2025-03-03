@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { filterFavorite, filterFormality } from "@/config/fitlerCategory";
+import { filterFavorite, filterFormality } from "@/config/filterCategory";
 import { SlidersHorizontal } from "lucide-react";
 import FilterButton from "./FilterButton";
 import { Separator } from "@/components/ui/separator";

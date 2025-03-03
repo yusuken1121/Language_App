@@ -1,19 +1,21 @@
 import { cn } from "@/lib/utils";
-import React, { ReactNode } from "react";
+import React, { memo, ReactNode } from "react";
 
 type ButtonInnerProps = {
   children?: ReactNode;
-  icon?: React.ComponentType<{ className?: string }>; // or typeof React.Component
+  icon?: React.ComponentType<{ className?: string }>;
   label?: string;
   innerIconClassName?: string;
+  textClassName?: string;
   className?: string;
 };
 
-function ButtonInner({
+const ButtonInner = memo(function ButtonInner({
   children,
   icon: Icon,
   label,
   innerIconClassName,
+  textClassName,
   className,
 }: ButtonInnerProps): JSX.Element {
   return (
@@ -29,12 +31,19 @@ function ButtonInner({
             "h-6 w-6 text-secondary-foreground font-medium",
             innerIconClassName
           )}
+          aria-hidden="true"
         />
       )}
-      {label && <span className="text-background text-md">{label}</span>}
+      {label && (
+        <span className={cn("text-background text-md", textClassName)}>
+          {label}
+        </span>
+      )}
       {children}
     </div>
   );
-}
+});
+
+ButtonInner.displayName = "ButtonInner";
 
 export default ButtonInner;

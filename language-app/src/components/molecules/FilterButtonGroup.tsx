@@ -3,7 +3,7 @@ import { FilterCategory } from "@/config/filterCategory";
 import { cn } from "@/lib/utils";
 import React, { FC, memo } from "react";
 
-type FilterButtonProps = {
+type FilterButtonGroupProps = {
   queryKey: string;
   filterItems: FilterCategory[];
   selectedFilters: string[];
@@ -11,7 +11,7 @@ type FilterButtonProps = {
   className?: string;
 };
 
-const FilterButton: FC<FilterButtonProps> = memo(
+const FilterButtonGroup: FC<FilterButtonGroupProps> = memo(
   ({ queryKey, filterItems, selectedFilters, onFilterChange, className }) => {
     return (
       <div className={cn("flex items-center gap-2 flex-wrap", className)}>
@@ -33,6 +33,6 @@ const FilterButton: FC<FilterButtonProps> = memo(
   }
 );
 
-FilterButton.displayName = "FilterButton";
+FilterButtonGroup.displayName = "FilterButtonGroup";
 
-export default FilterButton;
+export default FilterButtonGroup;

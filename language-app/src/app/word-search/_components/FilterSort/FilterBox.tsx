@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dialog";
 import { filterFavorite, filterFormality } from "@/config/filterCategory";
 import { SlidersHorizontal } from "lucide-react";
-import FilterButton from "./FilterButton";
 import { Separator } from "@/components/ui/separator";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { queryKeys } from "@/config/query";
@@ -29,6 +28,7 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import SortBox from "./SortBox";
+import FilterButtonGroup from "@/components/molecules/FilterButtonGroup";
 
 const FilterBox = ({ className }: { className?: string }) => {
   const [open, setOpen] = useState(false);
@@ -145,7 +145,7 @@ const FilterBox = ({ className }: { className?: string }) => {
 
             <div className="flex flex-col gap-2">
               <p className="font-bold">Formality Level</p>
-              <FilterButton
+              <FilterButtonGroup
                 queryKey={queryKeys.FILTER.FORMALITY}
                 filterItems={filterFormality}
                 selectedFilters={formalityFilters}
@@ -157,7 +157,7 @@ const FilterBox = ({ className }: { className?: string }) => {
 
             <div className="flex flex-col gap-2">
               <p className="font-bold">Favorite</p>
-              <FilterButton
+              <FilterButtonGroup
                 queryKey={queryKeys.FILTER.FAVORITE}
                 filterItems={filterFavorite}
                 selectedFilters={favoriteFilters}
@@ -215,31 +215,26 @@ const FilterBox = ({ className }: { className?: string }) => {
             className="w-[180px]"
           />
         </div>
-
         <Separator />
-
         <div className="flex flex-col gap-2">
           <p className="font-bold">Formality Level</p>
-          <FilterButton
+          <FilterButtonGroup
             queryKey={queryKeys.FILTER.FORMALITY}
             filterItems={filterFormality}
             selectedFilters={formalityFilters}
             onFilterChange={handleFilterChange}
           />
         </div>
-
         <Separator />
-
         <div className="flex flex-col gap-2">
           <p className="font-bold">Favorite</p>
-          <FilterButton
+          <FilterButtonGroup
             queryKey={queryKeys.FILTER.FAVORITE}
             filterItems={filterFavorite}
             selectedFilters={favoriteFilters}
             onFilterChange={handleFilterChange}
           />
         </div>
-
         <DialogFooter className="sticky bottom-0 flex items-center justify-center w-full py-2 bg-opacity-90 z-50">
           <div className="flex gap-2 mt-2">
             <Button

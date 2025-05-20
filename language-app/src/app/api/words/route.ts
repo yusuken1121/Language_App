@@ -182,7 +182,7 @@ export async function POST(request: Request) {
 
     const run = async () => {
       const model = genAI.getGenerativeModel({
-        model: "gemini-1.5-flash-latest",
+        model: "gemini-2.0-flash",
         generationConfig: { responseMimeType: "application/json" },
       });
       const promptWithWord = prompt.replace("{word}", searchTerm);

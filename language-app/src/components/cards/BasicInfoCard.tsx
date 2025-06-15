@@ -1,16 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen } from "lucide-react";
-import { PronunciationType } from "@/types";
+import { BasicInfoCardProps, PronunciationType } from "@/types";
 
 export function BasicInfoCard({
   meaning,
   etymology,
   pronunciation,
-}: {
-  meaning: string;
-  etymology: string;
-  pronunciation: string;
-}) {
+}: BasicInfoCardProps) {
   const pronunciationData: PronunciationType = pronunciation
     ? JSON.parse(pronunciation)
     : {

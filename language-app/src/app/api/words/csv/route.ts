@@ -2,7 +2,7 @@ import { ERROR_MESSAGES } from "@/config/errorMessage";
 import { createErrorResponse } from "@/lib/backend/createErrorResponse";
 import { getErrorMessage } from "@/lib/getErrorMessage";
 import prisma from "@/lib/prisma";
-import { Word } from "@prisma/client";
+import { Word } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {

@@ -1,10 +1,4 @@
-/**
- * 単一のクエリパラメータを更新するためのインターフェース
- */
-interface QueryParam {
-  name: string;
-  value: string | number | boolean | null | undefined;
-}
+import { QueryParam } from "@/types";
 
 /**
  * 指定された検索パラメータに新しいパラメータを追加または削除して、クエリ文字列を生成します。

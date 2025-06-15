@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Word } from "@prisma/client";
+import { QuizWord } from "@/types";
 
 import QuizAnswer from "./_components/QuizAnswer";
 import Link from "next/link";
@@ -18,21 +18,6 @@ import LottieLoading from "@/components/LottieLoading";
 import { toast } from "sonner";
 import { ERROR_MESSAGES } from "@/config/errorMessage";
 import QuizStartDescription from "./_components/organisms/QuizStartDescription";
-
-export type QuizWord = Pick<
-  Word,
-  | "id"
-  | "wordName"
-  | "meaning"
-  | "exampleSentence"
-  | "contextLearning"
-  | "etymology"
-  | "synonym"
-  | "formalityLevel"
-  | "pronunciation"
-  | "usageArea"
-  | "learningStatus"
->;
 
 export default function Quiz() {
   const [quizStarted, setQuizStarted] = useState(false);

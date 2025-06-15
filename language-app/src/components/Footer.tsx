@@ -5,12 +5,9 @@ import { usePathname } from "next/navigation";
 import React, { memo } from "react";
 import { motion } from "motion/react";
 import { mainNavigation } from "@/config/siteLinkConfig";
+import { FooterProps } from "@/types";
 
-interface Props {
-  className?: string;
-}
-
-const Footer = memo(function Footer({ className }: Props) {
+const Footer = memo(function Footer({ className }: FooterProps) {
   const pathname = usePathname();
 
   return (

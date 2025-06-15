@@ -1,15 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { FilterCategory } from "@/config/filterCategory";
+import { FilterButtonGroupProps } from "@/types";
 import { cn } from "@/lib/utils";
 import React, { FC, memo } from "react";
-
-type FilterButtonGroupProps = {
-  queryKey: string;
-  filterItems: FilterCategory[];
-  selectedFilters: string[];
-  onFilterChange: (queryKey: string, value: string) => void;
-  className?: string;
-};
 
 const FilterButtonGroup: FC<FilterButtonGroupProps> = memo(
   ({ queryKey, filterItems, selectedFilters, onFilterChange, className }) => {

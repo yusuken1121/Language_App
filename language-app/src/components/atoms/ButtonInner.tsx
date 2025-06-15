@@ -1,14 +1,6 @@
 import { cn } from "@/lib/utils";
-import React, { memo, ReactNode } from "react";
-
-type ButtonInnerProps = {
-  children?: ReactNode;
-  icon?: React.ComponentType<{ className?: string }>;
-  label?: string;
-  innerIconClassName?: string;
-  textClassName?: string;
-  className?: string;
-};
+import React, { memo } from "react";
+import { ButtonInnerProps } from "@/types";
 
 const ButtonInner = memo(function ButtonInner({
   children,

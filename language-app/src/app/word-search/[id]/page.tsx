@@ -1,6 +1,6 @@
 "use client";
 
-import { Word } from "@prisma/client";
+import { Word } from "@/types";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Star, StarOff } from "lucide-react";

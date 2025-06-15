@@ -4,28 +4,27 @@ import { Loader2, Volume2 } from "lucide-react";
 import { textToSpeech } from "@/lib/textToSpeech";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { TextToSpeechButtonProps } from "@/types";
 
-type TextToSpeechButtonProps = {
-  text: string;
-  className?: string;
-};
-
-const TextToSpeechButton = memo(function TextToSpeechButton({ 
-  text, 
-  className 
+const TextToSpeechButton = memo(function TextToSpeechButton({
+  text,
+  className,
 }: TextToSpeechButtonProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-  
+
   const handleSpeak = async () => {
     if (isPlaying) return;
-    
+
     setIsPlaying(true);
     await textToSpeech(text, () => setIsPlaying(false));
   };
-  
+
   return (
     <motion.div
-      className={cn("flex items-center justify-center z-30 w-10 h-10", className)}
+      className={cn(
+        "flex items-center justify-center z-30 w-10 h-10",
+        className
+      )}
       whileHover={{ scale: 1.2 }}
       whileTap={{ scale: 0.9 }}
       transition={{ type: "spring", stiffness: 400, damping: 10 }}

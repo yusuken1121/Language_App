@@ -1,7 +1,4 @@
-export type FilterCategory = {
-  label: string; // クエリに入る名前
-  name: string; // Dialogの選択肢の名前
-};
+import { FilterCategory } from "@/types";
 
 // formality level
 export const filterFormality: FilterCategory[] = [

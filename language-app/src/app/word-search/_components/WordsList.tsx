@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
-import { Word } from "@prisma/client";
+import { Word } from "@/types";
 import LottieLoading from "@/components/LottieLoading";
 import { cn } from "@/lib/utils";
 import PaginationList from "./WordsListPagnination"; // PaginationList コンポーネントをインポート

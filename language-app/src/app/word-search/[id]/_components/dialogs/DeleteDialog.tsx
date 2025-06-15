@@ -1,4 +1,4 @@
-import { Copy, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

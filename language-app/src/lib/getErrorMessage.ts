@@ -1,12 +1,5 @@
 import { ERROR_MESSAGES } from "@/config/errorMessage";
-
-// APIレスポンスエラー形式の型定義
-interface ApiErrorResponse {
-  message?: string;
-  error?: string;
-  statusCode?: number;
-  code?: string;
-}
+import { ApiErrorResponse } from "@/types";
 
 /**
  * エラーメッセージを取得する関数

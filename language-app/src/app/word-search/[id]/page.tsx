@@ -8,7 +8,7 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { toast } from "sonner";
-import { BasicInfoCard } from "./_components/BasicInfoCard";
+import { BasicInfoCard } from "./_components/cards/BasicInfoCard";
 import { UsageInfoCard } from "./_components/UsageInfoCard";
 import { LearningContextCard } from "./_components/LearningContextCard";
 import { ProgressCard } from "./_components/ProgressCard";
@@ -16,7 +16,7 @@ import { MemoCard } from "./_components/MemoCard";
 import { formatDate } from "@/lib/wordCard";
 import LottieLoading from "@/components/LottieLoading";
 
-import { DeleteDialog } from "./_components/DeleteDialog";
+import { DeleteDialog } from "./_components/dialogs/DeleteDialog";
 import LottieNotFound from "@/components/LottieNotFound";
 import TextToSpeechButton from "@/components/TextToSpeechButton";
 import { ERROR_MESSAGES } from "@/config/errorMessage";

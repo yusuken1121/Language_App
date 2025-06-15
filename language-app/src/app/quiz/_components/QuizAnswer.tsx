@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { BasicInfoCard } from "../../word-search/[id]/_components/BasicInfoCard";
+import { BasicInfoCard } from "../../word-search/[id]/_components/cards/BasicInfoCard";
 import { LearningContextCard } from "../../word-search/[id]/_components/LearningContextCard";
 import { UsageInfoCard } from "../../word-search/[id]/_components/UsageInfoCard";
 import { QuizWord } from "../page";

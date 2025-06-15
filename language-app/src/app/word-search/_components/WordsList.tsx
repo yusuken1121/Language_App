@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Word } from "@/types";
 import LottieLoading from "@/components/LottieLoading";
 import { cn } from "@/lib/utils";
-import PaginationList from "./WordsListPagnination"; // PaginationList コンポーネントをインポート
+import PaginationList from "@/app/word-search/_components/WordsListPagnination"; // PaginationList コンポーネントをインポート
 import { motion } from "motion/react";
 import LottieError from "@/components/LottieError";
 import { useSearchParams } from "next/navigation";

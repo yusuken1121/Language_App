@@ -1,7 +1,8 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { quickActions, IconType } from "@/config/siteLinkConfig";
+import { quickActions } from "@/config/siteLinkConfig";
 import { cn } from "@/lib/utils";
+import { IconType } from "@/types";
 import { SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 import React from "react";

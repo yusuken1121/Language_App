@@ -16,8 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createQueryString } from "@/lib/createQueryString";
 import { queryKeys } from "@/config/query";
-import FilterBox from "./FilterSort/FilterBox";
-import { CreateWordForm } from "./CreateWord/CreateWordForm";
+import FilterBox from "@/app/word-search/_components/FilterSort/FilterBox";
+import { CreateWordForm } from "@/app/word-search/_components/CreateWord/CreateWordForm";
 import { wordSchema } from "@/lib/schema";
 import {
   Form,

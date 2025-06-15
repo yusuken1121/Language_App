@@ -12,12 +12,12 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { QuizWord } from "@/types";
 
-import QuizAnswer from "./_components/QuizAnswer";
+import QuizAnswer from "@/app/quiz/_components/QuizAnswer";
 import Link from "next/link";
 import LottieLoading from "@/components/LottieLoading";
 import { toast } from "sonner";
 import { ERROR_MESSAGES } from "@/config/errorMessage";
-import QuizStartDescription from "./_components/organisms/QuizStartDescription";
+import QuizStartDescription from "@/app/quiz/_components/organisms/QuizStartDescription";
 
 export default function Quiz() {
   const [quizStarted, setQuizStarted] = useState(false);

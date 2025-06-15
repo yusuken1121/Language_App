@@ -1,8 +1,8 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import React from "react";
-import { SortType } from "../WordsList";
 import { cn } from "@/lib/utils";
+import { SortType } from "@/types";
 
 export const sortTypeList: { label: string; value: SortType }[] = [
   { label: "最新順", value: "latest" },

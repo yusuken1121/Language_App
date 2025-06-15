@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Book } from "lucide-react";
-import ReactQuillComponent from "./ReactQuill";
+import ReactQuillComponent from "@/app/word-search/[id]/_components/editors/ReactQuill";
 
 export function MemoCard({ memo, id }: { memo: string; id: string }) {
   return (

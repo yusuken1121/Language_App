@@ -1,8 +1,8 @@
 "use client";
 import React, { Suspense, useState } from "react";
-import WordsList from "./_components/WordsList";
-import SearchBar from "./_components/SearchBar";
-import { Chatbot } from "./_components/Chatbot/Chatbot";
+import WordsList from "@/app/word-search/_components/WordsList";
+import SearchBar from "@/app/word-search/_components/SearchBar";
+import { Chatbot } from "@/app/word-search/_components/Chatbot/Chatbot";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function WordSearch() {

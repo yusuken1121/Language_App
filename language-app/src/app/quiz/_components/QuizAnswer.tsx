@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { BasicInfoCard } from "../../word-search/[id]/_components/cards/BasicInfoCard";
-import { LearningContextCard } from "../../word-search/[id]/_components/LearningContextCard";
-import { UsageInfoCard } from "../../word-search/[id]/_components/UsageInfoCard";
+import { LearningContextCard } from "../../word-search/[id]/_components/cards/LearningContextCard";
+import { UsageInfoCard } from "../../word-search/[id]/_components/cards/UsageInfoCard";
 import { QuizWord } from "../page";
 import { Check, Loader2 } from "lucide-react";
 import { Clock } from "lucide-react";

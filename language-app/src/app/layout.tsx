@@ -56,7 +56,7 @@ export default function RootLayout({
               <main className="flex-1 flex flex-col bg-background text-white">
                 <div className="flex-1">{children}</div>
               </main>
-              <Footer />
+              <Footer className="h-[75px] md:hidden flex" />
               <Toaster
                 toastOptions={{
                   duration: 5000,

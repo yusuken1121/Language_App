@@ -6,11 +6,20 @@ import React, { memo } from "react";
 import { motion } from "motion/react";
 import { mainNavigation } from "@/config/siteLinkConfig";
 
-const Footer = memo(function Footer() {
+interface Props {
+  className?: string;
+}
+
+const Footer = memo(function Footer({ className }: Props) {
   const pathname = usePathname();
 
   return (
-    <footer className="sticky bottom-0 w-full h-[75px] flex items-center justify-around bg-primary shadow-shadow-top mx-auto xl:hidden">
+    <footer
+      className={cn(
+        "sticky bottom-0 w-full  flex items-center justify-around bg-primary shadow-shadow-top mx-auto xl:hidden",
+        className
+      )}
+    >
       {mainNavigation.map((item) => {
         const isActive = pathname === item.href;
         const Icon = item.icon as React.FC<{ className?: string }>;

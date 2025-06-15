@@ -3,6 +3,7 @@ import React, { Suspense, useState } from "react";
 import WordsList from "./_components/WordsList";
 import SearchBar from "./_components/SearchBar";
 import { Chatbot } from "./_components/Chatbot/Chatbot";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function WordSearch() {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -10,18 +11,19 @@ export default function WordSearch() {
 
   return (
     <Suspense>
-      <div className="flex flex-col h-full">
+      <div className="grid grid-rows-[auto_1fr] h-full">
         <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           setIsSearchLoading={setIsSearchLoading}
           isSearchLoading={isSearchLoading}
+          className="h-[64px]"
         />
 
-        <div className="flex-1 p-6">
+        <ScrollArea className="h-[calc(100vh-64px)] px-6 pb-6">
           <WordsList setIsSearchLoading={setIsSearchLoading} />
           <Chatbot />
-        </div>
+        </ScrollArea>
       </div>
     </Suspense>
   );

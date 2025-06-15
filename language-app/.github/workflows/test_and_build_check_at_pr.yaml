@@ -1,0 +1,51 @@
+name: test_and_build_check_at_pr
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Node.js環境をセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+
+      - name: 依存関係をインストール
+        run: npm ci # package-lock.jsonに基づいて依存関係をクリーンインストール
+
+      - name: ビルド確認
+        run: npm run build
+
+  reviewdog:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./front
+    permissions:
+      contents: read # リポジトリの内容を読み取り可能にする
+      pull-requests: write # プルリクエストのコメントを追加できるようにする
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Node.js環境をセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+
+      - name: 依存関係をインストール
+        run: npm ci # package-lock.jsonに基づいて依存関係をクリーンインストール
+
+      - name: ESLintを実行
+        uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review # GitHub PRレビューとしてコメントを追加
+          eslint_flags: "src/"

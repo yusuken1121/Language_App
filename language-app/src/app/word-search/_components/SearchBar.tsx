@@ -26,19 +26,22 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { cn } from "@/lib/utils";
 
-interface SearchBarProps {
+interface Props {
   setSearchTerm: (value: string) => void;
   searchTerm: string;
   setIsSearchLoading: (value: boolean) => void;
   isSearchLoading: boolean;
+  className?: string;
 }
 
 export default function SearchBar({
   searchTerm,
   isSearchLoading,
   setIsSearchLoading,
-}: SearchBarProps) {
+  className,
+}: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -59,7 +62,12 @@ export default function SearchBar({
   };
 
   return (
-    <Card className="w-full bg-background text-secondary-foreground border-none shadow-lg pt-2 pb-3 rounded-none">
+    <Card
+      className={cn(
+        "w-full bg-background text-secondary-foreground border-none shadow-lg pt-2 pb-2 rounded-none",
+        className
+      )}
+    >
       <CardHeader className="pb-2 px-0 pt-0">
         <CardDescription className="hidden"></CardDescription>
       </CardHeader>

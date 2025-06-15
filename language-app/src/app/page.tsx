@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { BookOpen } from "lucide-react";
 import { apiClientFetch } from "@/config/apiClient";
-import ActionCards from "./_components/ActionCards";
+import ActionCards from "@/app/_components/ActionCards";
 
 export default async function Dashboard() {
   // SSR

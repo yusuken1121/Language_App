@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { BasicInfoCard } from "../../word-search/[id]/_components/cards/BasicInfoCard";
-import { LearningContextCard } from "../../word-search/[id]/_components/cards/LearningContextCard";
-import { UsageInfoCard } from "../../word-search/[id]/_components/cards/UsageInfoCard";
+import { BasicInfoCard } from "@/app/word-search/[id]/_components/cards/BasicInfoCard";
+import { LearningContextCard } from "@/app/word-search/[id]/_components/cards/LearningContextCard";
+import { UsageInfoCard } from "@/app/word-search/[id]/_components/cards/UsageInfoCard";
 import { QuizWord } from "../page";
 import { Check, Loader2 } from "lucide-react";
 import { Clock } from "lucide-react";
 import { X } from "lucide-react";
 import { motion } from "motion/react";
-import QuizDescription from "./organisms/QuizDescriptionDialog";
+import QuizDescription from "@/app/quiz/_components/organisms/QuizDescriptionDialog";
 const QuizAnswer = ({
   currentWord,
   handleCross,

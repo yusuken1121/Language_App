@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import React from "react";
-import QuizAccordionDescription from "../molecules/QuizAccordionDescription";
+import QuizAccordionDescription from "@/app/quiz/_components/molecules/QuizAccordionDescription";
 
 const QuizStartDescription = () => {
   return (

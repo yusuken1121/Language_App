@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import React from "react";
-import QuizButtonsDescription from "../atoms/QuizButtonsDescription";
+import QuizButtonsDescription from "@/app/quiz/_components/atoms/QuizButtonsDescription";
 
 const QuizAccordionDescription = () => {
   return (

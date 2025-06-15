@@ -8,7 +8,7 @@ import {
 import { CircleHelp } from "lucide-react";
 import React from "react";
 import { motion } from "motion/react";
-import QuizAccordionDescription from "../molecules/QuizAccordionDescription";
+import QuizAccordionDescription from "@/app/quiz/_components/molecules/QuizAccordionDescription";
 
 const QuizDescriptionDialog = () => {
   return (

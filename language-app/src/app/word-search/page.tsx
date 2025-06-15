@@ -11,16 +11,16 @@ export default function WordSearch() {
 
   return (
     <Suspense>
-      <div className="grid grid-rows-[auto_1fr] h-full">
+      <div className="grid grid-rows-[auto_1fr] h-[calc(100vh-75px)]">
         <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           setIsSearchLoading={setIsSearchLoading}
           isSearchLoading={isSearchLoading}
-          className="h-[64px]"
+          className="h-[64px] z-10"
         />
 
-        <ScrollArea className="h-[calc(100vh-64px)] px-6 pb-6">
+        <ScrollArea className="px-6 pb-6 max-h-[calc(100vh-75px-64px)]">
           <WordsList setIsSearchLoading={setIsSearchLoading} />
           <Chatbot />
         </ScrollArea>

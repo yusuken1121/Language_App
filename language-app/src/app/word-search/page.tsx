@@ -20,8 +20,13 @@ export default function WordSearch() {
           className="h-[64px] z-10"
         />
 
-        <ScrollArea className="px-6 pb-6 max-h-[calc(100vh-75px-64px)]">
-          <WordsList setIsSearchLoading={setIsSearchLoading} />
+        <ScrollArea className="h-[calc(100vh-75px-64px)] px-6 pb-6">
+          <WordsList
+            setIsSearchLoading={setIsSearchLoading}
+            errorClassName="h-full flex items-center justify-center"
+            className="flex flex-col gap-4"
+          />
+
           <Chatbot />
         </ScrollArea>
       </div>

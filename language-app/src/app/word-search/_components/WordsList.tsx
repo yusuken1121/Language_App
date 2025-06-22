@@ -6,12 +6,19 @@ import LottieError from "@/components/LottieError";
 import { FilePlus2 } from "lucide-react";
 import { useWords } from "@/hooks/useWords"; // 作成したカスタムフックをインポート
 import { WordCard } from "@/app/word-search/_components/WordCard";
+import { cn } from "@/lib/utils";
 
-type WordsListProps = {
+type Props = {
   setIsSearchLoading: (value: boolean) => void;
+  errorClassName?: string;
+  className?: string;
 };
 
-const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
+const WordsList = ({
+  setIsSearchLoading,
+  errorClassName,
+  className,
+}: Props) => {
   const { wordList, isLoading, error, totalPage } = useWords();
 
   // 親コンポーネントにローディング状態を伝える
@@ -22,7 +29,7 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   // エラー時
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center h-full">
+      <div className={cn(errorClassName)}>
         <div>
           {error}
           <LottieError />
@@ -34,7 +41,7 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   // ローディング中
   if (isLoading)
     return (
-      <div className="flex flex-col items-center justify-center h-full">
+      <div className={cn(errorClassName)}>
         <LottieLoading />
       </div>
     );
@@ -42,7 +49,7 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
   // データが存在しない時
   if (wordList.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-full">
+      <div className={cn(errorClassName)}>
         <div className="text-2xl">
           <span className="flex items-center gap-1">
             右の <FilePlus2 /> から
@@ -57,10 +64,12 @@ const WordsList = ({ setIsSearchLoading }: WordsListProps) => {
 
   // データが存在する時
   return (
-    <div className="flex flex-col gap-4">
-      {wordList.map((word) => (
-        <WordCard key={word.id} word={word} />
-      ))}
+    <div className={cn(className)}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {wordList.map((word) => (
+          <WordCard key={word.id} word={word} />
+        ))}
+      </div>
       <PaginationList totalPage={totalPage} />
     </div>
   );

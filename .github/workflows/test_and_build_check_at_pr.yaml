@@ -8,6 +8,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./language-app
+
     steps:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
@@ -25,12 +30,15 @@ jobs:
 
   reviewdog:
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: ./language-app
+
     permissions:
       contents: read # リポジトリの内容を読み取り可能にする
       pull-requests: write # プルリクエストのコメントを追加できるようにする
+
     steps:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4

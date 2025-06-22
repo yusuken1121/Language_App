@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./front
+        working-directory: ./language-app
     permissions:
       contents: read # リポジトリの内容を読み取り可能にする
       pull-requests: write # プルリクエストのコメントを追加できるようにする

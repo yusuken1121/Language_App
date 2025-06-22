@@ -57,3 +57,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review # GitHub PRレビューとしてコメントを追加
           eslint_flags: "src/"
+          workdir: ./language-app
